@@ -9,13 +9,12 @@
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
-    "build": "cd client && npm run build",
+    "build": "cd client && npm install && npm run build",
     "heroku-postbuild": "npm run build"
   },
   "engines": {
     "node": "12.10.x",
-    "npm": "6.11.x",
-    "yarn": "1.19.x"
+    "npm": "6.11.x"
   },
   "author": "Alper Gokcehan",
   "license": "MIT",

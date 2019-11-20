@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router';
 import { Button, Form, Input } from 'semantic-ui-react';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
@@ -12,7 +13,8 @@ class Login extends Component {
         
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            redirect: false
         }
     }
 
@@ -25,7 +27,6 @@ class Login extends Component {
 
     login = event => {
         event.preventDefault();
-        console.log('test')
         let { email, password } = this.state;
         API.login({
           email: email,
@@ -34,14 +35,23 @@ class Login extends Component {
         .then(res => {
             if(res.data.success){
                 cookies.set('jwt', res.data.token, { path: '/' });
-                this.props.authHandler();
+                console.log('success');
+                // need to add success alert before redirect
+                let that = this;
+                setTimeout(function(){ 
+                    that.setState({ redirect: true });
+                }, 1000);
             } else (
+                // add error alert 
                 console.log(res.data.msg)
             )
         })
     }
 
     render(){
+        if (this.state.redirect) {
+            return <Redirect push to="/impact" />;
+        }
         return (
             <div>
                 <ThemeHeader text='Login' />

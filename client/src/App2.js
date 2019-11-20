@@ -39,12 +39,7 @@ class App extends Component {
     event.preventDefault();
     let { name, email, password, password2 } = this.state;
     console.log(name, email, password, password2);
-    API.register({
-      name,
-      email,
-      password,
-      password2
-    })
+    API.register({ name, email, password, password2 })
       .then(res => {
         if (res.data.errors) {
           console.log(res.data.errors)
