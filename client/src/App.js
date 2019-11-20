@@ -31,6 +31,7 @@ class App extends Component {
             <Route exact path="/login">
               <Login authHandler={this.authHandler} />
             </Route>
+            
             <Route exact path="/create" component={CreateAccount} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/impact" component={Impact} />
