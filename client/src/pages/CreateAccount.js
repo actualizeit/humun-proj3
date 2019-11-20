@@ -3,8 +3,6 @@ import { Grid, Header, Button, Form, Input } from 'semantic-ui-react';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 
-
-
 class CreateAccount extends Component {
     constructor(props){
         super(props);
@@ -51,7 +49,7 @@ class CreateAccount extends Component {
                             placeholder='******'
                             required
                         />
-                        <Button type='submit' onClick={this.handleCreate}>Submit</Button>
+                        <Button type='submit' onClick={this.handleCreate} primary fluid>Submit</Button>
                     </Form>
                 </ThemeBody>
             </div>
