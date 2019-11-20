@@ -4,16 +4,23 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "aphrodite": "^2.4.0",
     "axios": "^0.19.0",
+    "craco": "0.0.3",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
+<<<<<<< HEAD
+    "universal-cookie": "^4.0.2"
+=======
     "universal-cookie": "^4.0.2",
     "aphrodite": "^2.4.0",
     "react-router-dom": "^5.1.2",
     "react-semantic-ui-range": "^0.7.0"
+>>>>>>> d0f82b7553610d5d3d91919c3e8198a54dd9f8df
   },
   "devDependencies": {
     "@craco/craco": "^5.6.2",
