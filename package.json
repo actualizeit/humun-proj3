@@ -19,10 +19,10 @@
   "author": "Alper Gokcehan",
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^5.0.0",
     "nodemon": "^1.19.4"
   },
   "dependencies": {
+    "concurrently": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
     "csv-parser": "^2.3.2",
