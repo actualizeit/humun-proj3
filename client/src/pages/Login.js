@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Header, Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input } from 'semantic-ui-react';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 

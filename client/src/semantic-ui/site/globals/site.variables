@@ -18,3 +18,21 @@
 @brown          : #A52A2A;
 @grey           : #A0A0A0;
 @black          : #000000;
+
+/*-------------------
+       Fonts
+--------------------*/
+
+@fontSmoothing     : antialiased;
+
+@headerFont        : 'Monserrat', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@pageFont          : 'Open Sans', Arial, Helvetica, sans-serif;
+
+@googleFontFamily  : 'Open+Sans:400italic,400|Monserrat:700';
+@bold              : bold;
+@normal            : normal;
+
+/* 4px @ default em */
+@relativeBorderRadius: 0.2857em;
+@absoluteBorderRadius: 0.2857rem;
+@defaultBorderRadius: @absoluteBorderRadius;
