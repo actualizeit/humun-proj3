@@ -11,12 +11,6 @@ import Review from "./pages/Review";
 import Splash from "./pages/Splash";
 import NoMatch from "./pages/NoMatch";
 
-const fixedMenuStyle = {
-  backgroundColor: '#ececec',
-  border: '1px solid #ddd',
-  boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)'
-};
-
 class App extends Component {
   state = {
     auth: false

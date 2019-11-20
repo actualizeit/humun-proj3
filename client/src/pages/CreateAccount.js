@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Grid, Header, Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 
@@ -8,16 +9,33 @@ class CreateAccount extends Component {
         super(props);
         
         this.state = {
+            redirect: false
         }
     }
 
     handleCreate = () => {
         console.log('clicked');
+
+        // if successfully created redirect to impacts page
+        this.setRedirect();
+    }
+
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to='/impact' />
+        }
     }
 
     render(){
         return (
             <div>
+                { this.renderRedirect() }
                 <ThemeHeader text='Create an Account' />
                 <ThemeBody>
                     <Form>
@@ -26,28 +44,28 @@ class CreateAccount extends Component {
                             control={Input}
                             label='First name'
                             placeholder='First name'
-                            required
+                            // required
                         />
                         <Form.Field
                             id='form-input-control-last-name'
                             control={Input}
                             label='Last name'
                             placeholder='Last name'
-                            required
+                            // required
                         />
                         <Form.Field
                             id='form-input-control-email'
                             control={Input}
                             label='Email'
                             placeholder='name@example.com'
-                            required
+                            // required
                         />
                          <Form.Field
                             id='form-input-control-pw'
                             control={Input}
                             label='Password'
                             placeholder='******'
-                            required
+                            // required
                         />
                         <Button type='submit' onClick={this.handleCreate} primary fluid>Submit</Button>
                     </Form>
