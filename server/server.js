@@ -8,8 +8,14 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const routes = require('./routes');
+const passport = require('passport');
+const flash = require('connect-flash');
+const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Passport Config
+require('./config/passport')(passport);
 
 // Connect to the Mongo DB
 require('./db');
@@ -18,6 +24,21 @@ require('./db');
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
+
+// Below code for login authentication
+// Express session
+app.use(
+	session({
+	  secret: 'secret',
+	  resave: true,
+	  saveUninitialized: true
+	})
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // If its production environment!
 if (process.env.NODE_ENV === 'production') {

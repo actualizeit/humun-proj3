@@ -1,3 +1,7 @@
+import axios from "axios";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -21,5 +25,14 @@ export default {
     .then(checkStatus)
     .then(parseJSON)
     .then(cb);
+  },
+  register: function(userData) {
+    return axios.post("/api/users/register", userData);
+  },
+  login: function(userData) {
+    return axios.post("/api/users/login", userData);
+  },
+  test: function() {
+    return axios.get("/api/users/test", { 'headers': { 'Authorization': cookies.get('jwt') }});
   }
 };
