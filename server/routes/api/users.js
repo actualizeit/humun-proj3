@@ -10,10 +10,10 @@ const { User } = require('../../models/');
 
 // Register
 router.post('/register', (req, res) => {
-  const { name, email, password, password2 } = req.body;
+  const { firstName, lastName, email, password, password2 } = req.body;
   let errors = [];
 
-  if (!name || !email || !password || !password2) {
+  if (!firstName || !lastName || !email || !password || !password2) {
     errors.push({ msg: 'Please enter all fields' });
   }
 
@@ -29,7 +29,8 @@ router.post('/register', (req, res) => {
     res.send( {
       success: false,
       errors,
-      name,
+      firstName,
+      lastName,
       email,
       password,
       password2
@@ -41,14 +42,16 @@ router.post('/register', (req, res) => {
         res.send( {
           success: false,
           errors,
-          name,
+          firstName,
+          lastName,
           email,
           password,
           password2
         });
       } else {
         const newUser = new User({
-          name,
+          firstName,
+          lastName,
           email,
           password
         });
@@ -95,7 +98,8 @@ router.post('/login', (req, res, next) => {
           token: 'JWT ' + token,
           user: {
             id: user._id,
-            name: user.name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email
           }
         })
