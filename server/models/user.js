@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+// Save a reference to the Schema constructor
+var Schema = mongoose.Schema;
+
 const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
@@ -14,6 +17,12 @@ const UserSchema = new mongoose.Schema({
     education: { type: Number },
     globalHealth: { type: Number },
     zipCode: { type: Number },
+    transaction: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Transactions"
+        }
+    ]
 });
 
 const User = mongoose.model('User', UserSchema);
