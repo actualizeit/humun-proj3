@@ -16,7 +16,7 @@ function ThemeSlider() {
 
     return (
         <div>
-            <Slider value={value} color="red" settings={settings} />
+            <Slider value={value} color="blue" settings={settings} />
         </div>
     );
 };
