@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 import API from "../utils/Api";
+import ModalBasicExample from "../components/modal/modal"
 
 class CreateAccount extends Component {
     constructor(props){
@@ -122,6 +123,7 @@ class CreateAccount extends Component {
                         <Button type='submit' onClick={this.handleCreate} primary fluid>Submit</Button>
                     </Form>
                 </ThemeBody>
+                <ModalBasicExample />
             </div>
         );
     }

@@ -19,9 +19,9 @@
   "author": "Alper Gokcehan",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^1.19.4"
   },
   "dependencies": {
+    "nodemon": "^1.19.4",
     "concurrently": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
