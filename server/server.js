@@ -28,17 +28,9 @@ app.use(express.json());
 
 // Below code for login authentication
 // Express session
-app.use(
-	session({
-	  secret: 'secret',
-	  resave: true,
-	  saveUninitialized: true
-	})
-);
 
 // Passport middleware
 app.use(passport.initialize());
-app.use(passport.session());
 
 // If its production environment!
 if (process.env.NODE_ENV === 'production') {
