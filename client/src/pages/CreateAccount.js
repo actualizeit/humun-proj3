@@ -109,7 +109,7 @@ class CreateAccount extends Component {
                             // required
                         />
                         <Form.Field
-                            id='form-input-control-pw'
+                            id='form-input-control-pw2'
                             control={Input}
                             label='Confirm Password'
                             placeholder='******'

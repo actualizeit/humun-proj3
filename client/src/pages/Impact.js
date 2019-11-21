@@ -50,7 +50,7 @@ class Impact extends Component {
                         <Segment>
                             Is it more important to have smaller effects in the near-term or larger uncertain effects in the long-term?
                             <ThemeSlider />
-
+                            
                         </Segment>
                         <Button type='submit' onClick={this.handleImpacts} primary fluid>Submit</Button>
                     </Form>

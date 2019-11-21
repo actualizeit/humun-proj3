@@ -50,7 +50,7 @@ class Login extends Component {
 
     render(){
         if (this.state.redirect) {
-            return <Redirect push to="/impact" />;
+            return <Redirect push to="/profile" />;
         }
         return (
             <div>
