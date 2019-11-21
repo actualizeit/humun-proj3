@@ -43,7 +43,7 @@ class OrgMatches extends Component {
                         We’ve matched you to these organizations:
                     </Header>
           
-                    <Button onClick={() => this.handleOrgMatches('/profile')} primary fluid>To Profile</Button>
+                    <Button onClick={() => this.handleOrgMatches('/login')} primary fluid>To Profile</Button>
                 </ThemeBody>
             </div>
         );

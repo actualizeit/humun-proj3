@@ -32,6 +32,7 @@ class CreateAccount extends Component {
             } else if(res.data.success){
                 console.log('success')
                 this.setRedirect();
+                // this.props.history.push('/impact')
             } else {
               console.log(res.data)
             }

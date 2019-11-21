@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Review from "./pages/Review";
 import Splash from "./pages/Splash";
 import NoMatch from "./pages/NoMatch";
+import AUTH from './utils/Api';
 
 class App extends Component {
   state = {
@@ -27,13 +28,22 @@ class App extends Component {
       <Router>
         <div>
           <Switch>
+            {/*After we create logout ability, we can use the code below to render the splash page only if the user is logged out*/}
+            {/* { AUTH.test() && <Route exact path="/" component={Profile} /> }
+            { !AUTH.test() && <Route exact path="/" component={Splash} /> } */}
+
+            {/* Get rid of route below, uncomment routes above after we create logout ability */}
             <Route exact path="/" component={Splash} />
+
             <Route exact path="/login">
               <Login authHandler={this.authHandler} />
             </Route>
             
             <Route exact path="/create" component={CreateAccount} />
-            <Route exact path="/profile" component={Profile} />
+
+            {/* Test authentication before rendering profile */}
+            { AUTH.test() && <Route exact path="/profile" component={Profile} /> }
+            
             <Route exact path="/impact" component={Impact} />
             <Route exact path="/donation" component={Donation} />
             <Route exact path="/matches" component={OrgMatches} />
