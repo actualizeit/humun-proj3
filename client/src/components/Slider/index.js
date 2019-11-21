@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Slider } from "react-semantic-ui-range";
 
-function ThemeSlider() {
+function ThemeSlider(props) {
     const [value, setValue] = useState(5);
 
     const settings = {
@@ -16,6 +16,7 @@ function ThemeSlider() {
 
     return (
         <div>
+            <label htmlFor={props.id}>{props.label}</label>
             <Slider value={value} color="blue" settings={settings} />
         </div>
     );
