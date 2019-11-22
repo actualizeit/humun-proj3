@@ -48,6 +48,22 @@ class Login extends Component {
         })
     }
 
+    getdata = event => {
+        event.preventDefault();
+        API.getdata()
+        .then(res => {
+            console.log(res)
+        })
+    }
+
+    savedata = event => {
+        event.preventDefault();
+        API.savedata()
+        .then(res => {
+            console.log(res)
+        })
+    }
+
     render(){
         if (this.state.redirect) {
             return <Redirect push to="/impact" />;
