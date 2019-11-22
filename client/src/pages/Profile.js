@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, css } from 'aphrodite';
 import { Header, Segment, Icon, Grid, Button } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 import ThemeBody from './../components/ThemeBody';
 import API from './../utils/Api';
 const { Row, Column } = Grid;
@@ -8,15 +9,35 @@ const { Row, Column } = Grid;
 class Profile extends Component {
     constructor(props){
         super(props);
-        
+        this.logout = this.logout.bind(this);
         this.state = {
+            redirect: false
         }
     }
     
+    componentDidMount() {
+        this.checkLogin();
+    }
 
+    checkLogin() {
+        API.test()
+        .then(res=> {
+            console.log('loggedin');
+        })
+        .catch(err => {
+            this.setState({redirect: true});
+        })
+    }
+
+    logout() {
+        API.logout();
+        this.checkLogin();
+    }
 
     render(){
-
+        if (this.state.redirect) {
+            return <Redirect push to="/" />;
+        }
         return (
             <div>
                 <Grid textAlign='center'>
@@ -52,7 +73,7 @@ class Profile extends Component {
                     <Segment attached='bottom'>
                         <p>Donations Here</p>
                     </Segment>
-                    <Button fluid onClick={() => API.logout()}>Logout</Button>
+                    <Button fluid onClick={this.logout}>Logout</Button>
 
                 </ThemeBody>
             </div>
