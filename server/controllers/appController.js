@@ -10,14 +10,23 @@ module.exports = {
         const { firstName, lastName, email, password, password2 } = req.body;
         let errors = [];
       
-        if (!firstName || !lastName || !email || !password || !password2) {
-          errors.push({ msg: 'Please enter all fields' });
+        if(!firstName) {
+            errors.push({ firstName: 'Please enter your first name.' });
+        }
+        if(!lastName) {
+            errors.push({ lastName: 'Please enter your last name.' });
+        }
+        if(!email) {
+            errors.push({ email: 'Please enter a valid email.' });
+        }
+        if(!password) {
+            errors.push({ password: 'Password cannot be empty.' });
         }
         if (password != password2) {
-          errors.push({ msg: 'Passwords do not match' });
+          errors.push({ password2: 'Passwords do not match' });
         }
         if (password.length < 6) {
-          errors.push({ msg: 'Password must be at least 6 characters' });
+          errors.push({ password: 'Password must be at least 6 characters' });
         }
         if (errors.length > 0) {
           res.send( {
@@ -27,7 +36,7 @@ module.exports = {
         } else {
           User.findOne({ email: email }).then(user => {
             if (user) {
-              errors.push({ msg: 'Email already exists' });
+              errors.push({ email: 'Email already exists' });
               res.send( {
                 success: false,
                 errors
