@@ -9,8 +9,6 @@ const express = require('express');
 const morgan = require('morgan');
 const routes = require('./routes');
 const passport = require('passport');
-const flash = require('connect-flash');
-const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
