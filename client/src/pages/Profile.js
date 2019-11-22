@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Header, Segment, Icon } from 'semantic-ui-react';
-import ThemeHeader from './../components/ThemeHeader';
+import { StyleSheet, css } from 'aphrodite';
+import { Header, Segment, Icon, Grid, Button } from 'semantic-ui-react';
 import ThemeBody from './../components/ThemeBody';
+import API from './../utils/Api';
+const { Row, Column } = Grid;
 
 class Profile extends Component {
     constructor(props){
@@ -10,12 +12,21 @@ class Profile extends Component {
         this.state = {
         }
     }
+    
+
 
     render(){
 
         return (
             <div>
-                <ThemeHeader text='' />
+                <Grid textAlign='center'>
+                    <Row>
+                        <Column color='blue' className={css(styles.pt)}>
+                            <Header as='h6' className={css(styles.white)}>
+                            </Header>
+                        </Column>
+                    </Row>
+                </Grid>
                 <ThemeBody>
                     <div>
                         <Segment vertical>
@@ -41,12 +52,21 @@ class Profile extends Component {
                     <Segment attached='bottom'>
                         <p>Donations Here</p>
                     </Segment>
-                   
+                    <Button fluid onClick={() => API.logout()}>Logout</Button>
 
                 </ThemeBody>
             </div>
         );
     }
 };
+
+const styles = StyleSheet.create({
+    white: {
+        color: 'white'
+    },
+    pt: {
+        paddingTop: '2em'
+    }
+});
 
 export default Profile;
