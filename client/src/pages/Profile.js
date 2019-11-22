@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Header } from 'semantic-ui-react';
+import { Header, Segment, Icon } from 'semantic-ui-react';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 
@@ -8,19 +8,41 @@ class Profile extends Component {
         super(props);
         
         this.state = {
-
         }
     }
 
     render(){
+
         return (
             <div>
-                <ThemeHeader text='Congratulations!' />
+                <ThemeHeader text='' />
                 <ThemeBody>
-                    <Header as='h4' textAlign='center'>
-                        Profile                    
-                    </Header>
-          
+                    <div>
+                        <Segment vertical>
+                            <Header as='h2' icon textAlign='center'>
+                                <Icon name='user' circular />
+                                <Header.Content>Jane Doe</Header.Content>
+                            </Header>
+                        </Segment>
+                        <Segment vertical>Member Since -Date-</Segment>
+                    </div>
+
+                    <Header as='h5' attached='top'>Impacts</Header>
+                    <Segment attached='bottom'>
+                        <p>Impacts Here</p>
+                    </Segment>
+
+                    <Header as='h5' attached='top'>Allocations</Header>
+                    <Segment attached='bottom'>
+                        <p>Allocations Here</p>
+                    </Segment>
+
+                    <Header as='h5' attached='top'>Donation History</Header>
+                    <Segment attached='bottom'>
+                        <p>Donations Here</p>
+                    </Segment>
+                   
+
                 </ThemeBody>
             </div>
         );
