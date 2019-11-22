@@ -11,6 +11,7 @@ class Impact extends Component {
         super(props);
         
         this.state = {
+            id: '',
             redirect: false,
             impact: 3,
             shortVlongTerm: 3
@@ -19,8 +20,12 @@ class Impact extends Component {
 
     componentDidMount(){
         API
-            .getdata()
-            .then(res => console.log(res));
+            .get()
+            .then(res => {
+                console.log(res.data.user);
+                this.setState({ id: res.data.user._id })
+            })
+            .catch(err => console.log(err));
     }
 
     handleChange = (key, value) => {
@@ -30,10 +35,9 @@ class Impact extends Component {
     }
 
     handleImpacts = () => {
-        console.log('clicked');
-        const { impact, shortVlongTerm } = this.state;
+        const { id, impact, shortVlongTerm } = this.state;
         API
-            .post({
+            .update(id, {
                 impact,
                 shortVlongTerm
             })

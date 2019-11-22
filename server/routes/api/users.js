@@ -29,4 +29,15 @@ router.post('/mydata',passport.authenticate('jwt',{session:false}), (req, res, n
   appController.saveUserData(req, res);
 });
 
+router
+  .post('/mydata/:id',passport.authenticate('jwt',{session:false}), (req, res, next) => {
+    console.log('test')
+    appController.updateUser(req, res);
+  })
+  .put('/mydata/:id',passport.authenticate('jwt',{session:false}), (req, res, next) => {
+    console.log('test')
+    appController.updateUser(req, res);
+  });
+
+
 module.exports = router;
