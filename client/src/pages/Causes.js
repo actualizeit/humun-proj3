@@ -38,6 +38,7 @@ class Causes extends Component {
     render(){
         return (
             <div>
+                { this.renderRedirect() }
                 <ThemeHeader text='Your Causes' />
                 <ThemeBody>
                     <Header as='h4' textAlign='center'>
@@ -45,26 +46,20 @@ class Causes extends Component {
                     </Header>
                     <Form>
                         <Segment>
-                            Is it more important to make a significant Causes near you or greater a global Causes?
-                            <Header as='h4'>
-                                Pollution Prevention {'&'} Clean-up
-                            </Header>
-                            <ThemeSlider />
-
-                            <Header as='h4'>
-                                Habitat Preservation {'&'} Biodiversity
-                            </Header>
-                            <ThemeSlider />
-
-                            <Header as='h4'>
-                                Climate Change Mitigation
-                            </Header>
-                            <ThemeSlider />
+                            <p>
+                                Is it more important to make a significant Causes near you or greater a global Causes?
+                            </p>
+                            <ThemeSlider id='pollution' label={'Pollution Prevention & Clean-up'} />
+                            <ThemeSlider id='preservation' label={'Habitat Preservation & Biodiversity'}/>
+                            <ThemeSlider id='climate' label='Climate Change Mitigation'/>
                         </Segment>
                         <Segment>
-                            Is it more important to have smaller effects in the near-term or larger uncertain effects in the long-term?
-                            <ThemeSlider />
-
+                            <p>
+                                Is it more important to have smaller effects in the near-term or larger uncertain effects in the long-term?
+                            </p>
+                            <ThemeSlider id='needs' label='Basic Needs (Nutrition, Shelter, Safety, Water)'/>
+                            <ThemeSlider id='education' label={'Education & Opportunity'}/>
+                            <ThemeSlider id='health' label={'Global Health (Healthcare & Family Planning'}/>
                         </Segment>
                         <Button type='submit' onClick={this.handleCauses} primary fluid>Submit</Button>
                     </Form>
