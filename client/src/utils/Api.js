@@ -32,6 +32,10 @@ export default {
   login: function(userData) {
     return axios.post("/api/users/login", userData);
   },
+  logout: function(event) {
+    event.preventDefault();
+    cookies.set('jwt', '', { path: '/' });
+  },
   test: function() {
     return axios.get("/api/users/test", { 'headers': { 'Authorization': cookies.get('jwt') }});
   }
