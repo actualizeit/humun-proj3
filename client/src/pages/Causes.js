@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Header, Segment, Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-import ThemeSlider from "./../components/Slider";
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 
@@ -49,17 +48,17 @@ class Causes extends Component {
                             <p>
                                 Is it more important to make a significant Causes near you or greater a global Causes?
                             </p>
-                            <ThemeSlider id='pollution' label={'Pollution Prevention & Clean-up'} />
-                            <ThemeSlider id='preservation' label={'Habitat Preservation & Biodiversity'}/>
-                            <ThemeSlider id='climate' label='Climate Change Mitigation'/>
+                            {/* <TempSlider id='pollution' label={'Pollution Prevention & Clean-up'} />
+                            <TempSlider id='preservation' label={'Habitat Preservation & Biodiversity'}/>
+                            <TempSlider id='climate' label='Climate Change Mitigation'/> */}
                         </Segment>
                         <Segment>
                             <p>
                                 Is it more important to have smaller effects in the near-term or larger uncertain effects in the long-term?
                             </p>
-                            <ThemeSlider id='needs' label='Basic Needs (Nutrition, Shelter, Safety, Water)'/>
-                            <ThemeSlider id='education' label={'Education & Opportunity'}/>
-                            <ThemeSlider id='health' label={'Global Health (Healthcare & Family Planning'}/>
+                            {/* <TempSlider id='needs' label='Basic Needs (Nutrition, Shelter, Safety, Water)'/>
+                            <TempSlider id='education' label={'Education & Opportunity'}/>
+                            <TempSlider id='health' label={'Global Health (Healthcare & Family Planning'}/> */}
                         </Segment>
                         <Button type='submit' onClick={this.handleCauses} primary fluid>Submit</Button>
                     </Form>

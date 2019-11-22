@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Header, Segment, Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-import ThemeSlider from "./../components/Slider";
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
+import ThemeSlider from './../components/ThemeSlider';
 
 class Impact extends Component {
     constructor(props){
@@ -45,12 +45,11 @@ class Impact extends Component {
                     <Form>
                         <Segment>
                             Is it more important to make a significant impact near you or greater a global impact?
-                            <ThemeSlider />
+                            <ThemeSlider leftLabel='local' rightLabel='global' />
                         </Segment>
                         <Segment>
                             Is it more important to have smaller effects in the near-term or larger uncertain effects in the long-term?
-                            <ThemeSlider />
-                            
+                            <ThemeSlider leftLabel='short-term' rightLabel='long-term' />
                         </Segment>
                         <Button type='submit' onClick={this.handleImpacts} primary fluid>Submit</Button>
                     </Form>
