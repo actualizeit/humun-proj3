@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Header, Segment } from 'semantic-ui-react';
+import { Header, Segment, Icon } from 'semantic-ui-react';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 
@@ -19,8 +19,9 @@ class Profile extends Component {
                 <ThemeBody>
                     <div>
                         <Segment vertical>
-                            <Header as='h3' textAlign='center'>
-                                Jane Doe
+                            <Header as='h2' icon textAlign='center'>
+                                <Icon name='user' circular />
+                                <Header.Content>Jane Doe</Header.Content>
                             </Header>
                         </Segment>
                         <Segment vertical>Member Since -Date-</Segment>
