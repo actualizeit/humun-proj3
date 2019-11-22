@@ -42,7 +42,7 @@ export default {
   getdata: function() {
     return axios.get("/api/users/mydata", { 'headers': { 'Authorization': cookies.get('jwt') }});
   },
-  savedata: function() {
-    return axios.post("/api/users/mydata", { firstName: "jeff"}, { 'headers': { 'Authorization': cookies.get('jwt') }});
+  post: function(obj) {
+    return axios.post("/api/users/mydata", obj, { 'headers': { 'Authorization': cookies.get('jwt') }});
   }
 };

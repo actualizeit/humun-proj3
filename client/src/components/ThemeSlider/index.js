@@ -30,6 +30,7 @@ class ThemeSlider extends React.Component {
                                 min={MIN}
                                 max={MAX}
                                 onChange={values => this.setState({ values })}
+                                onFinalChange={values => this.props.stateHandler(this.props.stateKey, ...values)}
                                 renderTrack={({ props, children }) => (
                                     <div
                                         onMouseDown={props.onMouseDown}

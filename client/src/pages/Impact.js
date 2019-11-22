@@ -4,21 +4,43 @@ import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 import ThemeSlider from './../components/ThemeSlider';
+import API from './../utils/Api';
 
 class Impact extends Component {
     constructor(props){
         super(props);
         
         this.state = {
-            redirect: false
+            redirect: false,
+            impact: 3,
+            shortVlongTerm: 3
         }
+    }
+
+    componentDidMount(){
+        API
+            .getdata()
+            .then(res => console.log(res));
+    }
+
+    handleChange = (key, value) => {
+        this.setState({
+            [key]: value
+        });
     }
 
     handleImpacts = () => {
         console.log('clicked');
-
-        // if successfully created redirect to causes page
-        this.setRedirect();
+        const { impact, shortVlongTerm } = this.state;
+        API
+            .post({
+                impact,
+                shortVlongTerm
+            })
+            .then(() => {
+                this.setRedirect();
+            })
+            .catch(err => console.log(err));
     }
 
     setRedirect = () => {
@@ -45,11 +67,11 @@ class Impact extends Component {
                     <Form>
                         <Segment>
                             Is it more important to make a significant impact near you or greater a global impact?
-                            <ThemeSlider leftLabel='local' rightLabel='global' />
+                            <ThemeSlider stateKey='impact' value={this.state.impact} stateHandler={this.handleChange} leftLabel='local' rightLabel='global' />
                         </Segment>
                         <Segment>
                             Is it more important to have smaller effects in the near-term or larger uncertain effects in the long-term?
-                            <ThemeSlider leftLabel='short-term' rightLabel='long-term' />
+                            <ThemeSlider stateKey='shortVlongTerm' value={this.state.shortVlongTerm} stateHandler={this.handleChange} leftLabel='short-term' rightLabel='long-term' />
                         </Segment>
                         <Button type='submit' onClick={this.handleImpacts} primary fluid>Submit</Button>
                     </Form>

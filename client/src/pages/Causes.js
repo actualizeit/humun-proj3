@@ -40,22 +40,15 @@ class Causes extends Component {
                 { this.renderRedirect() }
                 <ThemeHeader text='Your Causes' />
                 <ThemeBody>
-                    <Header as='h4' textAlign='center'>
-                        Which is more important to you?
-                    </Header>
                     <Form>
                         <Segment>
-                            <p>
-                                Is it more important to make a significant Causes near you or greater a global Causes?
-                            </p>
+                            <Header as='h4'>Environmental</Header>
                             {/* <TempSlider id='pollution' label={'Pollution Prevention & Clean-up'} />
                             <TempSlider id='preservation' label={'Habitat Preservation & Biodiversity'}/>
                             <TempSlider id='climate' label='Climate Change Mitigation'/> */}
                         </Segment>
                         <Segment>
-                            <p>
-                                Is it more important to have smaller effects in the near-term or larger uncertain effects in the long-term?
-                            </p>
+                            <Header as='h4'>Social</Header>
                             {/* <TempSlider id='needs' label='Basic Needs (Nutrition, Shelter, Safety, Water)'/>
                             <TempSlider id='education' label={'Education & Opportunity'}/>
                             <TempSlider id='health' label={'Global Health (Healthcare & Family Planning'}/> */}
