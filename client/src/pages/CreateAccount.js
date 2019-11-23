@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
@@ -22,7 +22,8 @@ class CreateAccount extends Component {
             lNameErr: null,
             emailErr: null,
             pwErr: null,
-            pw2Err: null
+            pw2Err: null,
+            success: false
         }
     }
 
@@ -51,8 +52,11 @@ class CreateAccount extends Component {
                 })
      
             } else if(res.data.success){
-                console.log('success')
-                this.setRedirect();
+                this.setState({success: true});
+                let that = this;
+                setTimeout(function(){ 
+                    that.setRedirect();
+                }, 200);
                 // this.props.history.push('/impact')
             } else {
               console.log(res.data)
@@ -78,11 +82,21 @@ class CreateAccount extends Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/impact' />
+            return <Redirect to='/login' />
         }
     }
 
     render(){
+        let success;
+        if (this.state.success) {
+            success =   <Form success success={true}>
+                            <Message
+                                success
+                                header='Account created successfully'
+                                content="You will now be redirected"
+                            />
+                        </Form>
+        }
         return (
             <div>
                 { this.renderRedirect() }
@@ -146,6 +160,7 @@ class CreateAccount extends Component {
                             error={this.state.pw2Err}
                             // required
                         />
+                        {success}
                         <Button type='submit' onClick={this.handleCreate} primary fluid>Submit</Button>
                     </Form>
                 </ThemeBody>

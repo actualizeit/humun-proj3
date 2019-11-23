@@ -44,7 +44,7 @@ class Login extends Component {
                 let that = this;
                 setTimeout(function(){ 
                     that.setState({ redirect: true });
-                }, 2000);
+                }, 3000);
             } else (
                 // add error alert 
                 res.data.errors.forEach(error => {
