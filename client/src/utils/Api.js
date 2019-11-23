@@ -1,47 +1,27 @@
-import axios from "axios";
+import axios from 'axios';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  }
-  const error = new Error(`HTTP Error ${response.statusText}`);
-  error.status = response.statusText;
-  error.response = response;
-  console.log(error);
-  throw error;
-}
-
-function parseJSON(response) {
-  return response.json();
-}
-
-export default { 
-  search: function(query, cb) {
-    return fetch(`api/food?q=${query}`, {
-      accept: "application/json"
-    })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb);
+export default {
+  register: function (userData) {
+    return axios.post('/api/users/register', userData);
   },
-  register: function(userData) {
-    return axios.post("/api/users/register", userData);
+  login: function (userData) {
+    return axios.post('/api/users/login', userData);
   },
-  login: function(userData) {
-    return axios.post("/api/users/login", userData);
-  },
-  logout: function() {
+  logout: function () {
     cookies.set('jwt', '', { path: '/' });
   },
-  test: function() {
-    return axios.get("/api/users/test", { 'headers': { 'Authorization': cookies.get('jwt') }});
+  test: function () {
+    return axios.get('/api/users/test', { 'headers': { 'Authorization': cookies.get('jwt') } });
   },
-  getdata: function() {
-    return axios.get("/api/users/mydata", { 'headers': { 'Authorization': cookies.get('jwt') }});
+  get: function () {
+    return axios.get('/api/users/mydata', { 'headers': { 'Authorization': cookies.get('jwt') } });
   },
-  savedata: function() {
-    return axios.post("/api/users/mydata", { firstName: "jeff"}, { 'headers': { 'Authorization': cookies.get('jwt') }});
+  post: function (id, obj) {
+    return axios.post(`/api/users/mydata/${id}`, obj, { 'headers': { 'Authorization': cookies.get('jwt') } });
+  },
+  update: function (id, obj) {
+    return axios.put(`/api/users/mydata/${id}`, obj, { 'headers': { 'Authorization': cookies.get('jwt') } });
   }
 };

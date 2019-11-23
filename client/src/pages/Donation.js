@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-function Donation() {
-    return (
-        <div>
-            <p>this is the donation page</p>
-        </div>
-    );
-};
+function Donation () {
+  return (
+    <div>
+      <p>this is the donation page</p>
+    </div>
+  );
+}
 
 export default Donation;

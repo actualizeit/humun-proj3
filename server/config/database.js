@@ -1,4 +1,4 @@
 module.exports = {
-    database: 'mongodb://localhost/humumDB',
-    secret: 'YoUrSeCreT'
-}
+  database: 'mongodb://localhost/humumDB',
+  secret: 'YoUrSeCreT'
+};
