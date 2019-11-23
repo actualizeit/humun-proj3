@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router';
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Message } from 'semantic-ui-react';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 import API from "../utils/Api";
@@ -14,7 +14,10 @@ class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            redirect: false
+            redirect: false,
+            emailErr: null,
+            pwErr: null,
+            success: false
         }
     }
 
@@ -25,8 +28,8 @@ class Login extends Component {
         });
     };
 
-    login = event => {
-        event.preventDefault();
+    login = () => {
+        this.setState({ emailErr: null, pwErr: null })
         let { email, password } = this.state;
         API.login({
           email: email,
@@ -36,17 +39,25 @@ class Login extends Component {
             if(res.data.success){
                 cookies.set('jwt', res.data.token, { path: '/' });
                 console.log('success');
+                this.setState({success: true});
                 // need to add success alert before redirect
                 let that = this;
                 setTimeout(function(){ 
                     that.setState({ redirect: true });
-                }, 1000);
+                }, 2000);
             } else (
                 // add error alert 
-                console.log(res.data.msg)
-            )
-        })
-    }
+                res.data.errors.forEach(error => {
+                    if(error.email) {
+                        this.setState({ emailErr: { content: error.email, pointing: 'below' }})
+                    }
+                    if(error.password) {
+                        this.setState({ pwErr: { content: error.password, pointing: 'below' }})
+                    }
+                })
+            );
+        });
+    };
 
     getdata = event => {
         event.preventDefault();
@@ -65,6 +76,16 @@ class Login extends Component {
     }
 
     render(){
+        let success;
+        if (this.state.success) {
+            success =   <Form success success={true}>
+                            <Message
+                                success
+                                header='Login successful'
+                                content="You will now be redirected"
+                            />
+                        </Form>
+        }
         if (this.state.redirect) {
             return <Redirect push to="/profile" />;
         }
@@ -82,6 +103,7 @@ class Login extends Component {
                             name='email'
                             value={this.state.email}
                             onChange={this.handleInputChange}
+                            error={this.state.emailErr}
                         />
                          <Form.Field
                             id='form-input-control-pw'
@@ -93,7 +115,9 @@ class Login extends Component {
                             type='password'
                             value={this.state.password}
                             onChange={this.handleInputChange}
+                            error={this.state.pwErr}
                         />
+                        {success}
                         <Button type='submit' onClick={this.login} primary fluid>Submit</Button>
                     </Form>
                 </ThemeBody>

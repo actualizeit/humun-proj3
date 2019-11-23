@@ -69,11 +69,13 @@ module.exports = {
     login: function(req, res) {
         let email = req.body.email;
         let password = req.body.password;
+        let errors = [];
         User.findOne({
           email: email
         }).then(user => {
           if (!user) {
-            return res.json({success: false, msg: 'user not found'});
+            errors.push({email: "Email not registered"})
+            return res.json({ success: false, errors });
           }
       
           // Match password
@@ -95,7 +97,8 @@ module.exports = {
                 }
               })
             } else {
-              return res.json({success: false, msg: 'Wrong Password'})
+              errors.push({password: "Incorrect password"})
+              return res.json({success: false, errors})
             }
           });
         });
