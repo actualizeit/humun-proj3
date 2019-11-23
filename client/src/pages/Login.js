@@ -17,7 +17,7 @@ class Login extends Component {
             redirect: false,
             emailErr: null,
             pwErr: null,
-            success: false
+            loginSuccess: false
         }
     }
 
@@ -38,8 +38,7 @@ class Login extends Component {
         .then(res => {
             if(res.data.success){
                 cookies.set('jwt', res.data.token, { path: '/' });
-                console.log('success');
-                this.setState({success: true});
+                this.setState({loginSuccess: true});
                 // need to add success alert before redirect
                 let that = this;
                 setTimeout(function(){ 
@@ -76,15 +75,13 @@ class Login extends Component {
     }
 
     render(){
-        let success;
-        if (this.state.success) {
-            success =   <Form success success={true}>
-                            <Message
+        let loginSuccess;
+        if (this.state.loginSuccess) {
+            loginSuccess = <Message loginSuccess={true}
                                 success
                                 header='Login successful'
                                 content="You will now be redirected"
                             />
-                        </Form>
         }
         if (this.state.redirect) {
             return <Redirect push to="/profile" />;
@@ -93,7 +90,7 @@ class Login extends Component {
             <div>
                 <ThemeHeader text='Login' />
                 <ThemeBody>
-                    <Form>
+                    <Form success>
                         <Form.Field
                             id='form-input-control-email'
                             control={Input}
@@ -117,7 +114,7 @@ class Login extends Component {
                             onChange={this.handleInputChange}
                             error={this.state.pwErr}
                         />
-                        {success}
+                        {loginSuccess}
                         <Button type='submit' onClick={this.login} primary fluid>Submit</Button>
                     </Form>
                 </ThemeBody>

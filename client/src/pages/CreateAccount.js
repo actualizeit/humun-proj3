@@ -3,7 +3,7 @@ import { Button, Form, Input, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
-import API from "../utils/Api";
+import API from '../utils/Api';
 
 class CreateAccount extends Component {
     constructor(props){
@@ -23,7 +23,7 @@ class CreateAccount extends Component {
             emailErr: null,
             pwErr: null,
             pw2Err: null,
-            success: false
+            createAccountSuccess: false
         }
     }
 
@@ -52,7 +52,7 @@ class CreateAccount extends Component {
                 })
      
             } else if(res.data.success){
-                this.setState({success: true});
+                this.setState({createAccountSuccess: true});
                 let that = this;
                 setTimeout(function(){ 
                     that.setRedirect();
@@ -63,21 +63,20 @@ class CreateAccount extends Component {
             }
         })
         .catch(err => console.log(err));
-        // if successfully created redirect to impacts page
-        
+      // if successfully created redirect to impacts page
     }
 
     handleInputChange = event => {
-        const { name, value } = event.target;
-        this.setState({
-          [name]: value
-        });
+      const { name, value } = event.target;
+      this.setState({
+        [name]: value
+      });
     };
 
     setRedirect = () => {
-        this.setState({
-          redirect: true
-        })
+      this.setState({
+        redirect: true
+      });
     }
 
     renderRedirect = () => {
@@ -87,9 +86,9 @@ class CreateAccount extends Component {
     }
 
     render(){
-        let success;
+        let createAccountSuccess;
         if (this.state.success) {
-            success =   <Form success success={true}>
+            createAccountSuccess =   <Form success createAccountSuccess={true}>
                             <Message
                                 success
                                 header='Account created successfully'
@@ -160,13 +159,13 @@ class CreateAccount extends Component {
                             error={this.state.pw2Err}
                             // required
                         />
-                        {success}
+                        {createAccountSuccess}
                         <Button type='submit' onClick={this.handleCreate} primary fluid>Submit</Button>
                     </Form>
                 </ThemeBody>
             </div>
         );
     }
-};
+}
 
 export default CreateAccount;

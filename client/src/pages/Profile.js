@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Header, Segment, Icon, Grid, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
@@ -7,87 +7,82 @@ import API from './../utils/Api';
 const { Row, Column } = Grid;
 
 class Profile extends Component {
-    constructor(props){
-        super(props);
-        this.logout = this.logout.bind(this);
-        this.state = {
-            redirect: false
-        }
+  constructor (props) {
+    super(props);
+    this.logout = this.logout.bind(this);
+    this.state = {
+      redirect: false
+    };
+  }
+
+  componentDidMount () {
+    this.checkLogin();
+  }
+
+  checkLogin () {
+    API.test()
+      .then(res => {
+        console.log('loggedin');
+      })
+      .catch(() => {
+        this.setState({ redirect: true });
+      });
+  }
+
+  logout () {
+    API.logout();
+    this.checkLogin();
+  }
+
+  render () {
+    if (this.state.redirect) {
+      return <Redirect push to="/" />;
     }
-    
-    componentDidMount() {
-        this.checkLogin();
-    }
+    return (
+      <div>
+        <Grid textAlign='center'>
+          <Row>
+            <Column color='blue' className={css(styles.pt)}>
+              <Header as='h6' className={css(styles.white)}>
+              </Header>
+            </Column>
+          </Row>
+        </Grid>
+        <ThemeBody>
+          <div>
+            <Segment vertical>
+              <Header as='h2' icon textAlign='center'>
+                <Icon name='user' circular />
+                <Header.Content>Jane Doe</Header.Content>
+              </Header>
+            </Segment>
+            <Segment vertical>Member Since -Date-</Segment>
+          </div>
 
-    checkLogin() {
-        API.test()
-        .then(res=> {
-            console.log('loggedin');
-        })
-        .catch(err => {
-            this.setState({redirect: true});
-        })
-    }
+          <Header as='h5' attached='top'>Allocations</Header>
+          <Segment attached='bottom'>
+            <p>Allocations Here</p>
+          </Segment>
 
-    logout() {
-        API.logout();
-        this.checkLogin();
-    }
+          <Header as='h5' attached='top'>Donation History</Header>
+          <Segment attached='bottom'>
+            <p>Donations Here</p>
+          </Segment>
+          <Button fluid onClick={() => API.logout()}>Logout</Button>
 
-    render(){
-        if (this.state.redirect) {
-            return <Redirect push to="/" />;
-        }
-        return (
-            <div>
-                <Grid textAlign='center'>
-                    <Row>
-                        <Column color='blue' className={css(styles.pt)}>
-                            <Header as='h6' className={css(styles.white)}>
-                            </Header>
-                        </Column>
-                    </Row>
-                </Grid>
-                <ThemeBody>
-                    <div>
-                        <Segment vertical>
-                            <Header as='h2' icon textAlign='center'>
-                                <Icon name='user' circular />
-                                <Header.Content>Jane Doe</Header.Content>
-                            </Header>
-                        </Segment>
-                        <Segment vertical>Member Since -Date-</Segment>
-                    </div>
-
-                    <Header as='h5' attached='top'>Impacts</Header>
-                    <Segment attached='bottom'>
-                        <p>Impacts Here</p>
-                    </Segment>
-
-                    <Header as='h5' attached='top'>Allocations</Header>
-                    <Segment attached='bottom'>
-                        <p>Allocations Here</p>
-                    </Segment>
-
-                    <Header as='h5' attached='top'>Donation History</Header>
-                    <Segment attached='bottom'>
-                        <p>Donations Here</p>
-                    </Segment>
-                    <Button fluid onClick={this.logout}>Logout</Button>
-
-                </ThemeBody>
-            </div>
-        );
-    }
-};
+        </ThemeBody>
+      </div>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-    white: {
-        color: 'white'
-    },
-    pt: {
-        paddingTop: '2em'
-    }
+  white: {
+    color: 'white'
+  },
+  pt: {
+    paddingTop: '2em'
+  }
 });
 
 export default Profile;
