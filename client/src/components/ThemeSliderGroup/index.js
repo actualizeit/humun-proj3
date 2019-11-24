@@ -5,12 +5,46 @@ import { Header } from 'semantic-ui-react';
 // dynamically creates state object
 const createState = (arr, max) => {
   const obj = {};
-  const num = max / 2;
+  const num = max / arr.length;
   arr.map(x => {
     obj[x] = [num];
   });
   return obj;
 };
+
+const adjustThumbs = (key, value, state, max, min) => {
+  // declare return obj
+  const obj = { [key]: value };
+
+  // get all sliders
+  const keys = Object.keys(state);
+
+  // how much of total remains
+  const remaining = max - value + min;
+
+  // keys to be manipulated
+  const filtered = keys.filter(x => x !== key);
+
+  // values of other keys
+  const otherValues = filtered.map(x => state[x][0]);
+
+  // total of other keys
+  const otherValuesTotal = otherValues.reduce((acc, cur) => acc + cur);
+
+  // take proportion of specific key value * remaining of total.
+  for (const x of filtered) {
+    obj[x] = [Math.floor((state[x] / otherValuesTotal) * remaining) + min];
+  }
+
+  return obj;
+}
+
+const createParentState = (state, min, max) => {
+  const obj = state.map(x => {
+    return (state[x][0] - min) / max;
+  });
+  return obj;
+}
 
 class ThemeSliderGroup extends Component {
   constructor (props) {
@@ -27,6 +61,9 @@ class ThemeSliderGroup extends Component {
 
     // sets initial slider states
     this.setState(state);
+
+    // set initial slider states with parent
+    this.props.stateHandler(this.props.stateKey, state);
   }
 
   // alternative 1: getDerivedStateFromProps
@@ -41,8 +78,19 @@ class ThemeSliderGroup extends Component {
   // alternative 2: componentDidMount & async componentDidMount
   // doesn't work, page tries to render before states are dynamically created, page crashes
 
+  // async componentWillMount () {
+  //   const { values, max } = this.props;
+  //   const state = createState(values, max);
+  //   this.setState(state);
+  // }
+
   render () {
-    const { values, step, min, max, titles } = this.props;
+    const { values, step, steps, titles } = this.props;
+
+    // important if 0 the sliders will fail when one bar is maxed out
+    const min = 1;
+    const max = min + steps;
+
     return (
       <div>
         {
@@ -57,9 +105,14 @@ class ThemeSliderGroup extends Component {
                     min={min}
                     max={max}
                     // maintains local state
-                    onChange={value => this.setState({ [x]: value })}
+                    onChange={value => {
+                      const obj = adjustThumbs(x, value, this.state, max, min);
+                      this.setState(obj);
+                    }}
                     // sends slider states back to parent
-                    onFinalChange={() => this.props.stateHandler(this.props.stateKey, this.state)}
+                    onFinalChange={() => {
+                      this.props.stateHandler(this.props.stateKey, this.state);
+                    }}
                     renderTrack={({ props, children }) => (
                       <div
                         onMouseDown={props.onMouseDown}

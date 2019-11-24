@@ -55,7 +55,7 @@ class Causes extends Component {
             </Header>
             <Segment attached='bottom'>
               <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} step={1} min={0} max={100}/>
+                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} step={1} min={1} max={101} steps={120}/>
               </ThemeSliderGroupContainer>
             </Segment>
 
@@ -64,7 +64,7 @@ class Causes extends Component {
             </Header>
             <Segment attached='bottom'>
               <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} step={1} min={0} max={100}/>
+                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} step={1} min={1} max={101} steps={120}/>
               </ThemeSliderGroupContainer>
             </Segment>
 
