@@ -114,5 +114,13 @@ module.exports = {
         res.json({ success: true, user });
       })
       .catch(err => res.status(422).json(err));
+  },
+  updateUserTest: function (req, res) {
+    User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body })
+      .then(user => {
+        user.password = undefined;
+        res.json({ success: true, user });
+      })
+      .catch(err => res.status(422).json(err));
   }
 };

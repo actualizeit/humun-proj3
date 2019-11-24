@@ -18,6 +18,7 @@ router.get('/test', passport.authenticate('jwt', { session: false }), (req, res,
 router
   .route('/mydata')
   .get(passport.authenticate('jwt', { session: false }), appController.findUserData)
+  .put(passport.authenticate('jwt', { session: false }), appController.updateUserTest)
   .post(passport.authenticate('jwt', { session: false }), appController.saveUserData);
 
 // Update specific user data, Post specific user data
