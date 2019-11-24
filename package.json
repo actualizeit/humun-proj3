@@ -19,6 +19,10 @@
   "author": "Alper Gokcehan",
   "license": "MIT",
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.0",
+    "eslint-plugin-react": "^7.16.0",
+    "nodemon": "^1.19.4"
   },
   "dependencies": {
     "nodemon": "^1.19.4",

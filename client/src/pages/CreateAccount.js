@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
-import API from "../utils/Api";
-import ModalBasicExample from "../components/modal/modal"
+import API from '../utils/Api';
 
 class CreateAccount extends Component {
     constructor(props){
@@ -18,50 +17,85 @@ class CreateAccount extends Component {
             password: "",
             password2: "",
             email2: "",
-            password3: ""
+            password3: "",
+            fNameErr: null,
+            lNameErr: null,
+            emailErr: null,
+            pwErr: null,
+            pw2Err: null,
+            createAccountSuccess: false
         }
     }
 
     handleCreate = () => {
-        console.log('clicked');
+        this.setState({ fNameErr: null, lNameErr: null, emailErr: null, pwErr: null, pw2Err: null })
         let { firstName, lastName, email, password, password2 } = this.state;
         API.register({ firstName, lastName, email, password, password2 })
         .then(res => {
-            console.log(res)
             if (res.data.errors) {
-                console.log(res.data.errors)
+                res.data.errors.forEach(error => {
+                    if(error.firstName) {
+                        this.setState({ fNameErr: { content: error.firstName, pointing: 'below' }})
+                    }
+                    if(error.lastName) {
+                        this.setState({ lNameErr: { content: error.lastName, pointing: 'below' }})
+                    }
+                    if(error.email) {
+                        this.setState({ emailErr: { content: error.email, pointing: 'below' }})
+                    }
+                    if(error.password) {
+                        this.setState({ pwErr: { content: error.password, pointing: 'below' }})
+                    }
+                    if(error.password2) {
+                        this.setState({ pw2Err: { content: error.password2, pointing: 'below' }})
+                    }
+                })
+     
             } else if(res.data.success){
-                console.log('success')
-                this.setRedirect();
+                this.setState({createAccountSuccess: true});
+                let that = this;
+                setTimeout(function(){ 
+                    that.setRedirect();
+                }, 200);
+                // this.props.history.push('/impact')
             } else {
               console.log(res.data)
             }
         })
         .catch(err => console.log(err));
-        // if successfully created redirect to impacts page
-        
+      // if successfully created redirect to impacts page
     }
 
     handleInputChange = event => {
-        const { name, value } = event.target;
-        this.setState({
-          [name]: value
-        });
+      const { name, value } = event.target;
+      this.setState({
+        [name]: value
+      });
     };
 
     setRedirect = () => {
-        this.setState({
-          redirect: true
-        })
+      this.setState({
+        redirect: true
+      });
     }
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/impact' />
+            return <Redirect to='/login' />
         }
     }
 
     render(){
+        let createAccountSuccess;
+        if (this.state.success) {
+            createAccountSuccess =   <Form success createAccountSuccess={true}>
+                            <Message
+                                success
+                                header='Account created successfully'
+                                content="You will now be redirected"
+                            />
+                        </Form>
+        }
         return (
             <div>
                 { this.renderRedirect() }
@@ -76,6 +110,7 @@ class CreateAccount extends Component {
                             name='firstName'
                             value={this.state.firstName}
                             onChange={this.handleInputChange}
+                            error={this.state.fNameErr}
                             // required
                         />
                         <Form.Field
@@ -86,6 +121,7 @@ class CreateAccount extends Component {
                             name='lastName'
                             value={this.state.lastName}
                             onChange={this.handleInputChange}
+                            error={this.state.lNameErr}
                             // required
                         />
                         <Form.Field
@@ -96,6 +132,7 @@ class CreateAccount extends Component {
                             name='email'
                             value={this.state.email}
                             onChange={this.handleInputChange}
+                            error={this.state.emailErr}
                             // required
                         />
                          <Form.Field
@@ -107,6 +144,7 @@ class CreateAccount extends Component {
                             type='password'
                             value={this.state.password}
                             onChange={this.handleInputChange}
+                            error={this.state.pwErr}
                             // required
                         />
                         <Form.Field
@@ -118,8 +156,10 @@ class CreateAccount extends Component {
                             type='password'
                             value={this.state.password2}
                             onChange={this.handleInputChange}
+                            error={this.state.pw2Err}
                             // required
                         />
+                        {createAccountSuccess}
                         <Button type='submit' onClick={this.handleCreate} primary fluid>Submit</Button>
                     </Form>
                 </ThemeBody>
@@ -127,6 +167,6 @@ class CreateAccount extends Component {
             </div>
         );
     }
-};
+}
 
 export default CreateAccount;
