@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Range, getTrackBackground } from 'react-range';
-import { Grid, Header } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 
+// dynamically creates state object
 const createState = (arr, max) => {
   const obj = {};
   const num = max / 2;
@@ -9,7 +10,7 @@ const createState = (arr, max) => {
     obj[x] = [num];
   });
   return obj;
-}
+};
 
 class ThemeSliderGroup extends Component {
   constructor (props) {
@@ -18,17 +19,27 @@ class ThemeSliderGroup extends Component {
     };
   }
 
+  // depreciated, need to find alternative
+  // this.props.values array is used to dynamically create states for each slider
   componentWillMount () {
     const { values, max } = this.props;
     const state = createState(values, max);
+
+    // sets initial slider states
     this.setState(state);
   }
+
+  // alternative 1: getDerivedStateFromProps
+  // notes: manages to set initial state and render page, but state does not change (sliders do not move):
 
   // static getDerivedStateFromProps (props, state) {
   //   const { values, max } = props;
   //   const initState = createState(values, max);
   //   return initState;
   // }
+
+  // alternative 2: componentDidMount & async componentDidMount
+  // doesn't work, page tries to render before states are dynamically created, page crashes
 
   render () {
     const { values, step, min, max, titles } = this.props;
@@ -45,8 +56,10 @@ class ThemeSliderGroup extends Component {
                     step={step}
                     min={min}
                     max={max}
+                    // maintains local state
                     onChange={value => this.setState({ [x]: value })}
-                    // onFinalChange={() => this.props.stateHandler(this.props.stateKey, this.state)}
+                    // sends slider states back to parent
+                    onFinalChange={() => this.props.stateHandler(this.props.stateKey, this.state)}
                     renderTrack={({ props, children }) => (
                       <div
                         onMouseDown={props.onMouseDown}
@@ -58,6 +71,7 @@ class ThemeSliderGroup extends Component {
                           style={{
                             ...styles.track,
                             background: getTrackBackground({
+                              // updates background of track
                               values: this.state[x],
                               colors: ['#548BF4', '#ccc'],
                               min: min,

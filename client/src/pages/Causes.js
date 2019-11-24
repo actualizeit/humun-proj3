@@ -18,6 +18,7 @@ class Causes extends Component {
   }
 
   handleChange = (key, value) => {
+    console.log(value);
     this.setState({
       [key]: value
     });
