@@ -49,25 +49,24 @@ class Causes extends Component {
         <ThemeHeader text='Your Causes' />
         <ThemeBody>
           <Form>
-
-            <Header as='h4' attached='top'>
-              <Icon name='leaf' />
+            <Header as='h4' attached='top' textAlign='center'>
               Environmental
             </Header>
-            <Segment attached>
+            <Segment attached='bottom'>
               <ThemeSliderGroupContainer>
                 <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} step={1} min={0} max={100}/>
               </ThemeSliderGroupContainer>
-              {/* <TempSlider id='pollution' label={'Pollution Prevention & Clean-up'} />
-                            <TempSlider id='preservation' label={'Habitat Preservation & Biodiversity'}/>
-                            <TempSlider id='climate' label='Climate Change Mitigation'/> */}
             </Segment>
-            <Segment>
-              <Header as='h4'>Social</Header>
-              {/* <TempSlider id='needs' label='Basic Needs (Nutrition, Shelter, Safety, Water)'/>
-                            <TempSlider id='education' label={'Education & Opportunity'}/>
-                            <TempSlider id='health' label={'Global Health (Healthcare & Family Planning'}/> */}
+
+            <Header as='h4' attached='top' textAlign='center'>
+              Social
+            </Header>
+            <Segment attached='bottom'>
+              <ThemeSliderGroupContainer>
+                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} step={1} min={0} max={100}/>
+              </ThemeSliderGroupContainer>
             </Segment>
+
             <Button type='submit' onClick={this.handleCauses} primary fluid>Submit</Button>
           </Form>
         </ThemeBody>
