@@ -14,7 +14,8 @@ class Impact extends Component {
       id: '',
       redirect: false,
       impact: 3,
-      shortVlongTerm: 3
+      shortVlongTerm: 3,
+      socialVenvironmental: 3
     };
   }
 
@@ -35,11 +36,12 @@ class Impact extends Component {
     }
 
     handleImpacts = () => {
-      const { id, impact, shortVlongTerm } = this.state;
+      const { id, impact, shortVlongTerm, socialVenvironmental } = this.state;
       API
         .update(id, {
           impact,
-          shortVlongTerm
+          shortVlongTerm,
+          socialVenvironmental
         })
         .then(() => {
           this.setRedirect();
@@ -74,8 +76,12 @@ class Impact extends Component {
                 <ThemeSlider stateKey='impact' value={this.state.impact} stateHandler={this.handleChange} leftLabel='local' rightLabel='global' />
               </Segment>
               <Segment>
-                            Is it more important to have smaller effects in the near-term or larger uncertain effects in the long-term?
+                            Is it more important to achieve guaranteed smaller effects in the near-term or work toward potentially larger effects in the long-term?
                 <ThemeSlider stateKey='shortVlongTerm' value={this.state.shortVlongTerm} stateHandler={this.handleChange} leftLabel='short-term' rightLabel='long-term' />
+              </Segment>
+              <Segment>
+                            Are social or environemental issues more important to you?
+                <ThemeSlider stateKey='socialVenvironmental' value={this.state.socialVenvironmental} stateHandler={this.handleChange} leftLabel='social' rightLabel='environmental' />
               </Segment>
               <Button type='submit' onClick={this.handleImpacts} primary fluid>Submit</Button>
             </Form>
