@@ -2,16 +2,43 @@ import React, { Component } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 import { Header } from 'semantic-ui-react';
 
+// min of 1 is important, if 0 min the sliders will fail when one bar hits 0
+const step = 1;
+const min = 1;
+
 // dynamically creates state object
 const createState = (arr, max) => {
   const obj = {};
   const num = max / arr.length;
-  arr.map(x => {
+  for (const x of arr) {
     obj[x] = [num];
-  });
+  }
   return obj;
 };
 
+// creates object to send to parent
+const renderResults = (result, min, max) => {
+  const obj = {};
+  const keys = Object.keys(result);
+  for (const x of keys) {
+    const num = ((result[x][0] - min) / max) * 100;
+    obj[x] = num.toFixed(2);
+  }
+  return obj;
+};
+
+// creates initial object to send to parent
+const renderInitialParent = (result, steps) => {
+  const obj = {};
+  const keys = Object.keys(result);
+  for (const x of keys) {
+    const num = ((result[x][0]) / steps) * 100;
+    obj[x] = num.toFixed(2);
+  }
+  return obj;
+};
+
+// Adjusts other thumbs based on thumb being adjusted
 const adjustThumbs = (key, value, state, max, min) => {
   // declare return obj
   const obj = { [key]: value };
@@ -50,13 +77,13 @@ class ThemeSliderGroup extends Component {
   // this.props.values array is used to dynamically create states for each slider
   componentWillMount () {
     const { values, steps } = this.props;
-    const state = createState(values, steps + 1);
+    const state = createState(values, steps);
 
     // sets initial slider states
     this.setState(state);
-
+    const forParent = renderInitialParent(state, steps);
     // set initial slider states with parent
-    this.props.stateHandler(this.props.stateKey, state);
+    this.props.stateHandler(this.props.stateKey, forParent);
   }
 
   // alternative 1: getDerivedStateFromProps
@@ -77,23 +104,11 @@ class ThemeSliderGroup extends Component {
   //   this.setState(state);
   // }
 
+  // creating object to send to parent
+
   render () {
     const { values, steps, titles } = this.props;
-
-    // 1 is important, if 0 for min the sliders will fail when one bar hits 0
-    const step = 1;
-    const min = 1;
     const max = min + steps;
-
-    // creating object to send to parent
-    const renderResults = (result, min, max) => {
-      const obj = {};
-      Object.keys(result).map((x, i) => {
-        const num = ((result[x][0] - min) / max) * 100;
-        obj[x] = num.toFixed(2);
-      });
-      return obj;
-    };
 
     return (
       <div>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Header, Segment, Form, Button, Divider, Icon } from 'semantic-ui-react';
+import { Header, Segment, Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 import ThemeSliderGroup from './../components/ThemeSliderGroup';
 import ThemeSliderGroupContainer from './../components/ThemeSliderGroup/ThemeSliderGroupContainer';
+import API from './../utils/Api';
 
 const sliderSteps = 120;
 
@@ -28,9 +29,12 @@ class Causes extends Component {
   handleCauses = () => {
     const { environment, social } = this.state;
     const obj = { ...environment, ...social };
-    // if successful redirect to review page
-    console.log(obj);
-    // this.setRedirect();
+
+    // Post to db, if successful redirect to review page
+    API
+      .post(obj)
+      .then(() => this.setRedirect())
+      .catch(err => console.log(err));
   }
 
   setRedirect = () => {
