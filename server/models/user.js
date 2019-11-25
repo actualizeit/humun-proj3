@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
   impact: { type: Number },
   shortVlongTerm: { type: Number },
+  socialVenvironmental: { type: Number },
   pollution: { type: Number },
   habitat: { type: Number },
   climateChange: { type: Number },
