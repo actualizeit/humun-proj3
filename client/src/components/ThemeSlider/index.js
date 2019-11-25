@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Range, getTrackBackground } from 'react-range';
 import { Grid, Icon, Header } from 'semantic-ui-react';
-import { StyleSheet, css } from 'aphrodite';
 const { Row, Column } = Grid;
 
 const STEP = 1;
@@ -17,7 +16,7 @@ class ThemeSlider extends React.Component {
         <Grid style={{ width: '100%' }} padded>
           <Row columns={1}>
             <Column>
-              <div className={css(styles.wrapper)}>
+              <div style={{ ...styles.wrapper }}>
                 <Range
                   values={this.state.values}
                   step={STEP}
@@ -29,12 +28,12 @@ class ThemeSlider extends React.Component {
                     <div
                       onMouseDown={props.onMouseDown}
                       onTouchStart={props.onTouchStart}
-                      style={{ ...props.style }}
-                      className={css(styles.rangeInner)}
+                      style={{ ...props.style, ...styles.rangeInner }}
                     >
                       <div
                         ref={props.ref}
                         style={{
+                          ...styles.track,
                           background: getTrackBackground({
                             values: this.state.values,
                             colors: ['#548BF4', '#ccc'],
@@ -42,7 +41,6 @@ class ThemeSlider extends React.Component {
                             max: MAX
                           })
                         }}
-                        className={css(styles.track)}
                       >
                         {children}
                       </div>
@@ -51,19 +49,13 @@ class ThemeSlider extends React.Component {
                   renderThumb={({ props, isDragged }) => (
                     <div
                       {...props}
-                      style={{
-                        ...props.style,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }}
-                      className={css(styles.thumb)}
+                      style={{ ...props.style, ...styles.thumb }}
                     >
                       <div
                         style={{
+                          ...styles.thumbInner,
                           backgroundColor: isDragged ? '#548BF4' : '#CCC'
                         }}
-                        className={css(styles.thumbInner)}
                       />
                     </div>
                   )}
@@ -95,7 +87,7 @@ class ThemeSlider extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   wrapper: {
     display: 'flex',
     justifyContent: 'center',
@@ -113,6 +105,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   thumb: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: '30px',
     width: '30px',
     borderRadius: '4px',
@@ -123,6 +118,6 @@ const styles = StyleSheet.create({
     height: '16px',
     width: '5px'
   }
-});
+};
 
 export default ThemeSlider;

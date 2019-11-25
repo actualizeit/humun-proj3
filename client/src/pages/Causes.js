@@ -3,60 +3,83 @@ import { Header, Segment, Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
+import ThemeSliderGroup from './../components/ThemeSliderGroup';
+import ThemeSliderGroupContainer from './../components/ThemeSliderGroup/ThemeSliderGroupContainer';
+import API from './../utils/Api';
+
+const sliderSteps = 120;
 
 class Causes extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
-      redirect: false
+      redirect: false,
+      environment: [],
+      social: []
     };
   }
 
-    handleCauses = () => {
-      console.log('clicked');
+  handleChange = (key, result) => {
+    this.setState({
+      [key]: result
+    });
+  }
 
-      // if successful redirect to review page
-      this.setRedirect();
-    }
+  handleCauses = () => {
+    const { environment, social } = this.state;
+    const obj = { ...environment, ...social };
 
-    setRedirect = () => {
-      this.setState({
-        redirect: true
-      });
-    }
+    // Post to db, if successful redirect to review page
+    API
+      .post(obj)
+      .then(() => this.setRedirect())
+      .catch(err => console.log(err));
+  }
 
-    renderRedirect = () => {
-      if (this.state.redirect) {
-        return <Redirect to='/review' />;
-      }
-    }
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    });
+  }
 
-    render () {
-      return (
-        <div>
-          { this.renderRedirect() }
-          <ThemeHeader text='Your Causes' />
-          <ThemeBody>
-            <Form>
-              <Segment>
-                <Header as='h4'>Environmental</Header>
-                {/* <TempSlider id='pollution' label={'Pollution Prevention & Clean-up'} />
-                            <TempSlider id='preservation' label={'Habitat Preservation & Biodiversity'}/>
-                            <TempSlider id='climate' label='Climate Change Mitigation'/> */}
-              </Segment>
-              <Segment>
-                <Header as='h4'>Social</Header>
-                {/* <TempSlider id='needs' label='Basic Needs (Nutrition, Shelter, Safety, Water)'/>
-                            <TempSlider id='education' label={'Education & Opportunity'}/>
-                            <TempSlider id='health' label={'Global Health (Healthcare & Family Planning'}/> */}
-              </Segment>
-              <Button type='submit' onClick={this.handleCauses} primary fluid>Submit</Button>
-            </Form>
-          </ThemeBody>
-        </div>
-      );
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/review' />;
     }
+  }
+
+  render () {
+    return (
+      <div>
+        {this.renderRedirect()}
+        <ThemeHeader text='Your Causes' />
+        <ThemeBody>
+          <Form>
+            <Header as='h4' attached='top' textAlign='center'>
+              Environmental
+            </Header>
+            <Segment attached='bottom'>
+              <ThemeSliderGroupContainer>
+                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} steps={sliderSteps}/>
+              </ThemeSliderGroupContainer>
+            </Segment>
+
+            <Header as='h4' attached='top' textAlign='center'>
+              Social
+            </Header>
+            <Segment attached='bottom'>
+              <ThemeSliderGroupContainer>
+                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
+              </ThemeSliderGroupContainer>
+            </Segment>
+
+            <Button type='submit' onClick={this.handleCauses} primary fluid>Submit</Button>
+          </Form>
+        </ThemeBody>
+      </div>
+    );
+  }
 }
 
 export default Causes;

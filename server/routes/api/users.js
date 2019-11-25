@@ -20,7 +20,4 @@ router
   .get(passport.authenticate('jwt', { session: false }), appController.findUserData)
   .post(passport.authenticate('jwt', { session: false }), appController.saveUserData);
 
-// Update specific user data, Post specific user data
-
-
 module.exports = router;

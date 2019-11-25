@@ -18,10 +18,7 @@ export default {
   get: function () {
     return axios.get('/api/users/mydata', { 'headers': { 'Authorization': cookies.get('jwt') } });
   },
-  post: function (id, obj) {
-    return axios.post(`/api/users/mydata/${id}`, obj, { 'headers': { 'Authorization': cookies.get('jwt') } });
-  },
-  update: function (id, obj) {
-    return axios.put(`/api/users/mydata/${id}`, obj, { 'headers': { 'Authorization': cookies.get('jwt') } });
+  post: function (obj) {
+    return axios.post(`/api/users/mydata`, obj, { 'headers': { 'Authorization': cookies.get('jwt') } });
   }
 };
