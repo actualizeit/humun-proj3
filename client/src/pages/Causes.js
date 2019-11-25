@@ -29,7 +29,7 @@ class Causes extends Component {
   handleCauses = () => {
     const { environment, social } = this.state;
     const obj = { ...environment, ...social };
-
+    console.log(obj);
     // Post to db, if successful redirect to review page
     API
       .post(obj)

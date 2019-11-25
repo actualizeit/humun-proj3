@@ -16,25 +16,38 @@ const createState = (arr, max) => {
   return obj;
 };
 
-// creates object to send to parent
-const renderResults = (result, min, max) => {
-  const obj = {};
-  const keys = Object.keys(result);
-  for (const x of keys) {
-    const num = ((result[x][0] - min) / max) * 100;
-    obj[x] = num.toFixed(2);
-  }
-  return obj;
+const calculateNum = (result, steps) => {
+  const num = ((result) / steps) * 100;
+  return num;
+};
+
+const fixNum = (num) => {
+  return parseFloat(num.toFixed(2));
 };
 
 // creates initial object to send to parent
-const renderInitialParent = (result, steps) => {
+const renderResults = (result, steps, cb) => {
   const obj = {};
   const keys = Object.keys(result);
+  const testArr = [];
+
   for (const x of keys) {
-    const num = ((result[x][0]) / steps) * 100;
-    obj[x] = num.toFixed(2);
+    const num = cb(result[x][0], steps);
+    obj[x] = fixNum(num);
+    testArr.push(fixNum(num));
   }
+
+  const test = testArr.reduce((acc, cur) => {
+    return acc + cur;
+  });
+
+  // to ensure totals add up to exactly 100%
+  const adjustment = fixNum(100 - test);
+  const toAdjust = keys[0];
+
+  // add difference onto first number
+  obj[toAdjust] = fixNum(obj[toAdjust] + adjustment);
+
   return obj;
 };
 
@@ -81,7 +94,9 @@ class ThemeSliderGroup extends Component {
 
     // sets initial slider states
     this.setState(state);
-    const forParent = renderInitialParent(state, steps);
+    const forParent = renderResults(state, steps, calculateNum);
+    console.log(forParent);
+
     // set initial slider states with parent
     this.props.stateHandler(this.props.stateKey, forParent);
   }
@@ -130,7 +145,7 @@ class ThemeSliderGroup extends Component {
                     }}
                     // sends slider states back to parent
                     onFinalChange={() => {
-                      const results = renderResults(this.state, min, max);
+                      const results = renderResults(this.state, steps, calculateNum);
                       this.props.stateHandler(this.props.stateKey, results);
                     }}
                     renderTrack={({ props, children }) => (
