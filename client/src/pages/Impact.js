@@ -26,7 +26,7 @@ class Impact extends Component {
   handleImpacts = () => {
     const { impact, shortVlongTerm } = this.state;
     API
-      .update({
+      .post({
         impact,
         shortVlongTerm
       })

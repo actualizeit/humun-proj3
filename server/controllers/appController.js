@@ -10,14 +10,23 @@ module.exports = {
     const { firstName, lastName, email, password, password2 } = req.body;
     const errors = [];
 
-    if (!firstName || !lastName || !email || !password || !password2) {
-      errors.push({ msg: 'Please enter all fields' });
+    if (!firstName) {
+      errors.push({ firstName: 'Please enter your first name.' });
+    }
+    if (!lastName) {
+      errors.push({ lastName: 'Please enter your last name.' });
+    }
+    if (!email) {
+      errors.push({ email: 'Please enter a valid email.' });
+    }
+    if (!password) {
+      errors.push({ password: 'Password cannot be empty.' });
     }
     if (password !== password2) {
-      errors.push({ msg: 'Passwords do not match' });
+      errors.push({ password2: 'Passwords do not match' });
     }
     if (password.length < 6) {
-      errors.push({ msg: 'Password must be at least 6 characters' });
+      errors.push({ password: 'Password must be at least 6 characters' });
     }
     if (errors.length > 0) {
       res.send({
@@ -27,7 +36,7 @@ module.exports = {
     } else {
       User.findOne({ email: email }).then(user => {
         if (user) {
-          errors.push({ msg: 'Email already exists' });
+          errors.push({ email: 'Email already exists' });
           res.send({
             success: false,
             errors
@@ -60,11 +69,13 @@ module.exports = {
   login: function (req, res) {
     const email = req.body.email;
     const password = req.body.password;
+    const errors = [];
     User.findOne({
       email: email
     }).then(user => {
       if (!user) {
-        return res.json({ success: false, msg: 'user not found' });
+        errors.push({ email: 'Email not registered' });
+        return res.json({ success: false, errors });
       }
 
       // Match password
@@ -86,7 +97,8 @@ module.exports = {
             }
           });
         } else {
-          return res.json({ success: false, msg: 'Wrong Password' });
+          errors.push({ password: 'Incorrect password' });
+          return res.json({ success: false, errors });
         }
       });
     });
@@ -95,7 +107,7 @@ module.exports = {
     User.findById(req.user._id)
       .then(user => {
         user.password = undefined;
-        res.json({ success: true, user });
+        res.json({ success: true, user })
       })
       .catch(err => res.status(422).json(err));
   },
@@ -103,23 +115,7 @@ module.exports = {
     User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body })
       .then(user => {
         user.password = undefined;
-        res.json({ success: true, user });
-      })
-      .catch(err => res.status(422).json(err));
-  },
-  updateUser: function (req, res) {
-    User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body })
-      .then(user => {
-        user.password = undefined;
-        res.json({ success: true, user });
-      })
-      .catch(err => res.status(422).json(err));
-  },
-  updateUserTest: function (req, res) {
-    User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body })
-      .then(user => {
-        user.password = undefined;
-        res.json({ success: true, user });
+        res.json({ success: true, user })
       })
       .catch(err => res.status(422).json(err));
   }

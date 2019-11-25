@@ -115,7 +115,7 @@ class ThemeSliderGroup extends Component {
         {
           values.map((x, i) => {
             return (
-              <div key={i} style={{marginTop: '1.5em'}}>
+              <div key={i} style={{ marginTop: '1.5em' }}>
                 <Header sub>{titles[i]}</Header>
                 <div key={i} style={{ ...styles.wrapper }}>
                   <Range

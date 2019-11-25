@@ -70,12 +70,6 @@ class Profile extends Component {
           </Segment>
           <Button fluid onClick={() => API.logout()}>Logout</Button>
 
-          <Header as='h5' attached='top'>Donation History</Header>
-          <Segment attached='bottom'>
-            <p>Donations Here</p>
-          </Segment>
-          <Button fluid onClick={this.logout}>Logout</Button>
-
         </ThemeBody>
       </div>
     );
