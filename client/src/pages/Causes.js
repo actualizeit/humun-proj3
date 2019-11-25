@@ -6,6 +6,8 @@ import ThemeBody from './../components/ThemeBody';
 import ThemeSliderGroup from './../components/ThemeSliderGroup';
 import ThemeSliderGroupContainer from './../components/ThemeSliderGroup/ThemeSliderGroupContainer';
 
+const sliderSteps = 120;
+
 class Causes extends Component {
   constructor (props) {
     super(props);
@@ -17,18 +19,18 @@ class Causes extends Component {
     };
   }
 
-  handleChange = (key, value) => {
-    console.log(value);
+  handleChange = (key, result) => {
     this.setState({
-      [key]: value
+      [key]: result
     });
   }
 
   handleCauses = () => {
-    console.log('clicked');
-
+    const { environment, social } = this.state;
+    const obj = { ...environment, ...social };
     // if successful redirect to review page
-    this.setRedirect();
+    console.log(obj);
+    // this.setRedirect();
   }
 
   setRedirect = () => {
@@ -55,7 +57,7 @@ class Causes extends Component {
             </Header>
             <Segment attached='bottom'>
               <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} step={1} min={1} max={101} steps={120}/>
+                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} steps={sliderSteps}/>
               </ThemeSliderGroupContainer>
             </Segment>
 
@@ -64,7 +66,7 @@ class Causes extends Component {
             </Header>
             <Segment attached='bottom'>
               <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} step={1} min={1} max={101} steps={120}/>
+                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
               </ThemeSliderGroupContainer>
             </Segment>
 

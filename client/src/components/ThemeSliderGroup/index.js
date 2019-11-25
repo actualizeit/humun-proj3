@@ -37,14 +37,7 @@ const adjustThumbs = (key, value, state, max, min) => {
   }
 
   return obj;
-}
-
-const createParentState = (state, min, max) => {
-  const obj = state.map(x => {
-    return (state[x][0] - min) / max;
-  });
-  return obj;
-}
+};
 
 class ThemeSliderGroup extends Component {
   constructor (props) {
@@ -56,8 +49,8 @@ class ThemeSliderGroup extends Component {
   // depreciated, need to find alternative
   // this.props.values array is used to dynamically create states for each slider
   componentWillMount () {
-    const { values, max } = this.props;
-    const state = createState(values, max);
+    const { values, steps } = this.props;
+    const state = createState(values, steps + 1);
 
     // sets initial slider states
     this.setState(state);
@@ -85,11 +78,22 @@ class ThemeSliderGroup extends Component {
   // }
 
   render () {
-    const { values, step, steps, titles } = this.props;
+    const { values, steps, titles } = this.props;
 
-    // important if 0 the sliders will fail when one bar is maxed out
+    // 1 is important, if 0 for min the sliders will fail when one bar hits 0
+    const step = 1;
     const min = 1;
     const max = min + steps;
+
+    // creating object to send to parent
+    const renderResults = (result, min, max) => {
+      const obj = {};
+      Object.keys(result).map((x, i) => {
+        const num = ((result[x][0] - min) / max) * 100;
+        obj[x] = num.toFixed(2);
+      });
+      return obj;
+    };
 
     return (
       <div>
@@ -111,7 +115,8 @@ class ThemeSliderGroup extends Component {
                     }}
                     // sends slider states back to parent
                     onFinalChange={() => {
-                      this.props.stateHandler(this.props.stateKey, this.state);
+                      const results = renderResults(this.state, min, max);
+                      this.props.stateHandler(this.props.stateKey, results);
                     }}
                     renderTrack={({ props, children }) => (
                       <div
