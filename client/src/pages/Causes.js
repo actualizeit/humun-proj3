@@ -16,8 +16,22 @@ class Causes extends Component {
     this.state = {
       redirect: false,
       environment: [],
-      social: []
+      social: [],
+      userInfo: false
     };
+  }
+
+  componentDidMount () {
+    API
+      .get()
+      .then(res => {
+        this.setState({
+          userInfo: res.data.user
+        });
+        console.log(res.data.user);
+      })
+      .catch(err => console.log(err));
+
   }
 
   handleChange = (key, result) => {
@@ -29,7 +43,7 @@ class Causes extends Component {
   handleCauses = () => {
     const { environment, social } = this.state;
     const obj = { ...environment, ...social };
-    console.log(obj);
+
     // Post to db, if successful redirect to review page
     API
       .post(obj)

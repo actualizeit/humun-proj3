@@ -17,6 +17,15 @@ class Profile extends Component {
 
   componentDidMount () {
     this.checkLogin();
+    API
+      .get()
+      .then(res => {
+        this.setState({
+          userInfo: res.data.user
+        });
+        console.log(res.data.user);
+      })
+      .catch(err => console.log(err));
   }
 
   checkLogin () {
@@ -38,6 +47,8 @@ class Profile extends Component {
     if (this.state.redirect) {
       return <Redirect push to="/" />;
     }
+    // getting variables from userInfo, since it's a nested object in one state it's a little tricky
+    const { firstName, lastName } = { ...this.state.userInfo };
     return (
       <div>
         <Grid textAlign='center'>
@@ -53,7 +64,7 @@ class Profile extends Component {
             <Segment vertical>
               <Header as='h2' icon textAlign='center'>
                 <Icon name='user' circular />
-                <Header.Content>Jane Doe</Header.Content>
+                <Header.Content>{firstName} {lastName}</Header.Content>
               </Header>
             </Segment>
             <Segment vertical>Member Since -Date-</Segment>
