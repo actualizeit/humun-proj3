@@ -87,7 +87,7 @@ let totCharLocvGlob = 0;
 // };
 
 // const charPort = function (testCharities) {
-//   testCharities.array.forEach(element => {
+//   testCharities.forEach(element => {
 //     element.SvLPortion = element.shortVlong / totCharShortvLong;
 //     element.LvGPortion = element.localVglobal / totCharLocvGlob;
 //   });
@@ -95,15 +95,15 @@ let totCharLocvGlob = 0;
 
 const userArray = Object.keys(testUser).map(i => testUser[i]);
 
-const filteredUser = userArray.filter(e => typeof e === 'number' && e < 100);
+const filteredUser = userArray.filter(e => typeof e === 'number' && e < 101);
 
 // function to be run after completion of user onboarding, profile edit, or added charity
 // sets donation defaults for review (on next login in case of charity add)
 
 const allocationCalc = function (filteredUser, testCharities) {
   const userCharTemp = [];
-  testCharities.array.forEach(element => {
-    const tempDiff = Math.abs(element.localVglobal - filteredUser[0]) + Math.abs(element.shortVlongTerm - filteredUser[1]);
+  testCharities.forEach(element => {
+    const tempDiff = Math.abs(element.localVglobal - filteredUser[0]) + Math.abs(element.shortVlong - filteredUser[1]);
     if (userCharTemp.filter(e => e.category === element.category).length === 0) {
       userCharTemp.push({
         name: element.name,
@@ -123,3 +123,5 @@ const allocationCalc = function (filteredUser, testCharities) {
   });
   return userCharTemp;
 };
+
+console.log(allocationCalc(filteredUser, testCharities));
