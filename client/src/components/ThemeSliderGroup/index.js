@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 import { Header } from 'semantic-ui-react';
+import API from './../../utils/Api';
 
 // min of 1 is important, if 0 min the sliders will fail when one bar hits 0
 const step = 1;
 const min = 1;
+
+const loader = (isLoaded) => {
+  if (!isLoaded) {
+    return (
+      <div class="ui active inverted dimmer">
+        <div class="ui text loader">Loading</div>
+      </div>
+    );
+  }
+}
 
 // dynamically creates state object
 const createState = (arr, max) => {
@@ -12,6 +23,14 @@ const createState = (arr, max) => {
   const num = max / arr.length;
   for (const x of arr) {
     obj[x] = [num];
+  }
+  return obj;
+};
+
+const createInitialState = (user, arr, steps, min) => {
+  const obj = {};
+  for (const x of arr) {
+    obj[x] = [((user[x] / 100) * steps) + min];
   }
   return obj;
 };
@@ -92,13 +111,23 @@ class ThemeSliderGroup extends Component {
     const { values, steps } = this.props;
     const state = createState(values, steps);
 
-    // sets initial slider states
+    // sets initial slider states so that sliders render
     this.setState(state);
     const forParent = renderResults(state, steps, calculateNum);
-    console.log(forParent);
 
     // set initial slider states with parent
     this.props.stateHandler(this.props.stateKey, forParent);
+
+    // get user data and re-render sliders
+    API
+      .get()
+      .then(res => {
+        const { user } = res.data;
+        const userState = createInitialState(user, values, steps, min);
+        this.setState(userState);
+        const forParentWithData = renderResults(userState, steps, calculateNum);
+        this.props.stateHandler(this.props.stateKey, forParentWithData);
+      });
   }
 
   // alternative 1: getDerivedStateFromProps
@@ -118,8 +147,6 @@ class ThemeSliderGroup extends Component {
   //   const state = createState(values, max);
   //   this.setState(state);
   // }
-
-  // creating object to send to parent
 
   render () {
     const { values, steps, titles } = this.props;

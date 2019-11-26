@@ -15,11 +15,27 @@ class Causes extends Component {
 
     this.state = {
       redirect: false,
-      environment: [],
-      social: []
+      environment: false,
+      social: false,
+      user: false
     };
   }
 
+  async componentDidMount () {
+    const user = await this.getUser();
+    this.setState({
+      user
+    });
+  }
+
+  getUser = () => {
+    return API
+      .get()
+      .then(res => {
+        const { user } = res.data;
+        return user;
+      });
+  }
   handleChange = (key, result) => {
     this.setState({
       [key]: result
@@ -29,7 +45,7 @@ class Causes extends Component {
   handleCauses = () => {
     const { environment, social } = this.state;
     const obj = { ...environment, ...social };
-    console.log(obj);
+
     // Post to db, if successful redirect to review page
     API
       .post(obj)
@@ -61,7 +77,7 @@ class Causes extends Component {
             </Header>
             <Segment attached='bottom'>
               <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} steps={sliderSteps}/>
+                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} userValues={this.state.user} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} steps={sliderSteps}/>
               </ThemeSliderGroupContainer>
             </Segment>
 
@@ -70,7 +86,7 @@ class Causes extends Component {
             </Header>
             <Segment attached='bottom'>
               <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
+                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} userValues={this.state.user} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
               </ThemeSliderGroupContainer>
             </Segment>
 
