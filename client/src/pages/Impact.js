@@ -22,9 +22,9 @@ class Impact extends Component {
     API
       .get()
       .then(res => {
-        const { impact, shortVlongTerm, socialVenvironmental } = res.data.user;
+        const { impactLoc, shortVlongTerm, socialVenvironmental } = res.data.user;
         this.setState({
-          impact: [impact],
+          impact: [impactLoc],
           shortVlongTerm: [shortVlongTerm],
           socialVenvironmental: [socialVenvironmental]
         });
@@ -41,7 +41,7 @@ class Impact extends Component {
     const { impactLoc, shortVlongTerm, socialVenvironmental } = this.state;
     API
       .post({
-        impact: impact[0],
+        impactLoc: impactLoc[0],
         shortVlongTerm: shortVlongTerm[0],
         socialVenvironmental: socialVenvironmental[0]
       })

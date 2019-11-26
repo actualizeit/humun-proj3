@@ -3,6 +3,7 @@ import { Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
+import API from './../utils/Api';
 
 class Review extends Component {
   constructor (props) {
@@ -11,6 +12,19 @@ class Review extends Component {
     this.state = {
       redirect: false
     };
+  }
+
+  componentDidMount () {
+    API
+      .get()
+      .then(res => {
+        const { impactLoc, shortVlongTerm, socialVenvironmental } = res.data.user;
+        this.setState({
+          impactLoc: [impactLoc],
+          shortVlongTerm: [shortVlongTerm],
+          socialVenvironmental: [socialVenvironmental]
+        });
+      });
   }
 
     handleReview = () => {
