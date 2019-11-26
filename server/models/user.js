@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   date: { type: Date, default: Date.now },
-  impact: { type: Number },
+  impactLoc: { type: Number },
   shortVlongTerm: { type: Number },
   socialVenvironmental: { type: Number },
   pollution: { type: Number },
@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema({
   education: { type: Number },
   globalHealth: { type: Number },
   zipCode: { type: Number },
+  charities: { type: Array },
   transaction: [
     {
       type: Schema.Types.ObjectId,
