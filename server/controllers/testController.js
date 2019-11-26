@@ -103,7 +103,7 @@ const filteredUser = userArray.filter(e => typeof e === 'number' && e < 100);
 const allocationCalc = function (filteredUser, testCharities) {
   const userCharTemp = [];
   testCharities.array.forEach(element => {
-    const tempDiff = element.localVglobal - filteredUser[0] + element.shortVlongTerm - filteredUser[1];
+    const tempDiff = Math.abs(element.localVglobal - filteredUser[0]) + Math.abs(element.shortVlongTerm - filteredUser[1]);
     if (userCharTemp.filter(e => e.category === element.category).length === 0) {
       userCharTemp.push({
         name: element.name,
@@ -121,4 +121,5 @@ const allocationCalc = function (filteredUser, testCharities) {
       }
     }
   });
+  return userCharTemp;
 };
