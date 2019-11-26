@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 import { Header } from 'semantic-ui-react';
+import API from './../../utils/Api';
 
 // min of 1 is important, if 0 min the sliders will fail when one bar hits 0
 const step = 1;
 const min = 1;
+
+const loader = (isLoaded) => {
+  if (!isLoaded) {
+    return (
+      <div class="ui active inverted dimmer">
+        <div class="ui text loader">Loading</div>
+      </div>
+    );
+  }
+}
 
 // dynamically creates state object
 const createState = (arr, max) => {
@@ -16,25 +27,46 @@ const createState = (arr, max) => {
   return obj;
 };
 
-// creates object to send to parent
-const renderResults = (result, min, max) => {
+const createInitialState = (user, arr, steps, min) => {
   const obj = {};
-  const keys = Object.keys(result);
-  for (const x of keys) {
-    const num = ((result[x][0] - min) / max) * 100;
-    obj[x] = num.toFixed(2);
+  for (const x of arr) {
+    obj[x] = [((user[x] / 100) * steps) + min];
   }
   return obj;
 };
 
+const calculateNum = (result, steps) => {
+  const num = ((result) / steps) * 100;
+  return num;
+};
+
+const fixNum = (num) => {
+  return parseFloat(num.toFixed(2));
+};
+
 // creates initial object to send to parent
-const renderInitialParent = (result, steps) => {
+const renderResults = (result, steps, cb) => {
   const obj = {};
   const keys = Object.keys(result);
+  const testArr = [];
+
   for (const x of keys) {
-    const num = ((result[x][0]) / steps) * 100;
-    obj[x] = num.toFixed(2);
+    const num = cb(result[x][0], steps);
+    obj[x] = fixNum(num);
+    testArr.push(fixNum(num));
   }
+
+  const test = testArr.reduce((acc, cur) => {
+    return acc + cur;
+  });
+
+  // to ensure totals add up to exactly 100%
+  const adjustment = fixNum(100 - test);
+  const toAdjust = keys[0];
+
+  // add difference onto first number
+  obj[toAdjust] = fixNum(obj[toAdjust] + adjustment);
+
   return obj;
 };
 
@@ -79,11 +111,23 @@ class ThemeSliderGroup extends Component {
     const { values, steps } = this.props;
     const state = createState(values, steps);
 
-    // sets initial slider states
+    // sets initial slider states so that sliders render
     this.setState(state);
-    const forParent = renderInitialParent(state, steps);
+    const forParent = renderResults(state, steps, calculateNum);
+
     // set initial slider states with parent
     this.props.stateHandler(this.props.stateKey, forParent);
+
+    // get user data and re-render sliders
+    API
+      .get()
+      .then(res => {
+        const { user } = res.data;
+        const userState = createInitialState(user, values, steps, min);
+        this.setState(userState);
+        const forParentWithData = renderResults(userState, steps, calculateNum);
+        this.props.stateHandler(this.props.stateKey, forParentWithData);
+      });
   }
 
   // alternative 1: getDerivedStateFromProps
@@ -103,8 +147,6 @@ class ThemeSliderGroup extends Component {
   //   const state = createState(values, max);
   //   this.setState(state);
   // }
-
-  // creating object to send to parent
 
   render () {
     const { values, steps, titles } = this.props;
@@ -130,7 +172,7 @@ class ThemeSliderGroup extends Component {
                     }}
                     // sends slider states back to parent
                     onFinalChange={() => {
-                      const results = renderResults(this.state, min, max);
+                      const results = renderResults(this.state, steps, calculateNum);
                       this.props.stateHandler(this.props.stateKey, results);
                     }}
                     renderTrack={({ props, children }) => (

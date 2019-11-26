@@ -8,83 +8,80 @@ const MIN = 0;
 const MAX = 6;
 
 class ThemeSlider extends React.Component {
-    state = {
-      values: [3]
-    };
-    render () {
-      return (
-        <Grid style={{ width: '100%' }} padded>
-          <Row columns={1}>
-            <Column>
-              <div style={{ ...styles.wrapper }}>
-                <Range
-                  values={this.state.values}
-                  step={STEP}
-                  min={MIN}
-                  max={MAX}
-                  onChange={values => this.setState({ values })}
-                  onFinalChange={values => this.props.stateHandler(this.props.stateKey, ...values)}
-                  renderTrack={({ props, children }) => (
+  render () {
+    return (
+      <Grid style={{ width: '100%' }} padded>
+        <Row columns={1}>
+          <Column>
+            <div style={{ ...styles.wrapper }}>
+              <Range
+                values={this.props.value}
+                step={STEP}
+                min={MIN}
+                max={MAX}
+                onChange={values => this.props.stateHandler(this.props.stateKey, values)}
+                // onFinalChange={values => this.props.stateHandler(this.props.stateKey, values)}
+                renderTrack={({ props, children }) => (
+                  <div
+                    onMouseDown={props.onMouseDown}
+                    onTouchStart={props.onTouchStart}
+                    style={{ ...props.style, ...styles.rangeInner }}
+                  >
                     <div
-                      onMouseDown={props.onMouseDown}
-                      onTouchStart={props.onTouchStart}
-                      style={{ ...props.style, ...styles.rangeInner }}
+                      ref={props.ref}
+                      style={{
+                        ...styles.track,
+                        background: getTrackBackground({
+                          values: this.props.value,
+                          colors: ['#548BF4', '#ccc'],
+                          min: MIN,
+                          max: MAX
+                        })
+                      }}
                     >
-                      <div
-                        ref={props.ref}
-                        style={{
-                          ...styles.track,
-                          background: getTrackBackground({
-                            values: this.state.values,
-                            colors: ['#548BF4', '#ccc'],
-                            min: MIN,
-                            max: MAX
-                          })
-                        }}
-                      >
-                        {children}
-                      </div>
+                      {children}
                     </div>
-                  )}
-                  renderThumb={({ props, isDragged }) => (
+                  </div>
+                )}
+                renderThumb={({ props, isDragged }) => (
+                  <div
+                    {...props}
+                    style={{ ...props.style, ...styles.thumb }}
+                  >
                     <div
-                      {...props}
-                      style={{ ...props.style, ...styles.thumb }}
-                    >
-                      <div
-                        style={{
-                          ...styles.thumbInner,
-                          backgroundColor: isDragged ? '#548BF4' : '#CCC'
-                        }}
-                      />
-                    </div>
-                  )}
-                />
+                      style={{
+                        ...styles.thumbInner,
+                        backgroundColor: isDragged ? '#548BF4' : '#CCC'
+                      }}
+                    />
+                  </div>
+                )}
+              />
 
-              </div>
-            </Column>
+            </div>
+          </Column>
 
-          </Row>
-          <Row columns={3} style={{ paddingTop: '0' }}>
-            <Column>
-              <Header as='h6' style={{ textTransform: 'uppercase' }} disabled>
-                {this.props.leftLabel}
-              </Header>
-            </Column>
-            <Column textAlign='center'>
-              <Header as='h6' style={{ textTransform: 'uppercase' }} disabled>
-                <Icon style={{ marginLeft: '9px' }} name='caret up' />
-              </Header>
-            </Column>
-            <Column textAlign='right'>
-              <Header as='h6' style={{ textTransform: 'uppercase' }} disabled>
-                {this.props.rightLabel}
-              </Header>
-            </Column>
-          </Row>
-        </Grid>
-      );
-    }
+        </Row>
+        <Row columns={3} style={{ paddingTop: '0' }}>
+          <Column>
+            <Header as='h6' style={{ textTransform: 'uppercase' }} disabled>
+              {this.props.leftLabel}
+            </Header>
+          </Column>
+          <Column textAlign='center'>
+            <Header as='h6' style={{ textTransform: 'uppercase' }} disabled>
+              <Icon style={{ marginLeft: '9px' }} name='caret up' />
+            </Header>
+          </Column>
+          <Column textAlign='right'>
+            <Header as='h6' style={{ textTransform: 'uppercase' }} disabled>
+              {this.props.rightLabel}
+            </Header>
+          </Column>
+        </Row>
+      </Grid>
+    );
+  }
 }
 
 const styles = {

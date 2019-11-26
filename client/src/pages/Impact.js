@@ -12,10 +12,23 @@ class Impact extends Component {
 
     this.state = {
       redirect: false,
-      impactLoc: 3,
-      shortVlongTerm: 3,
-      socialVenvironmental: 3
+      impact: [3],
+      shortVlongTerm: [3],
+      socialVenvironmental: [3]
     };
+  }
+
+  componentDidMount () {
+    API
+      .get()
+      .then(res => {
+        const { impact, shortVlongTerm, socialVenvironmental } = res.data.user;
+        this.setState({
+          impact: [impact],
+          shortVlongTerm: [shortVlongTerm],
+          socialVenvironmental: [socialVenvironmental]
+        });
+      });
   }
 
   handleChange = (key, value) => {
@@ -28,9 +41,9 @@ class Impact extends Component {
     const { impactLoc, shortVlongTerm, socialVenvironmental } = this.state;
     API
       .post({
-        impactLoc,
-        shortVlongTerm,
-        socialVenvironmental
+        impact: impact[0],
+        shortVlongTerm: shortVlongTerm[0],
+        socialVenvironmental: socialVenvironmental[0]
       })
       .then(() => {
         this.setRedirect();

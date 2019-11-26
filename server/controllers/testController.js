@@ -1,5 +1,5 @@
 
-const testCharities = [
+const charities = [
   {
     name: 'pollutionCo',
     description: 'It does pollution stuff',
@@ -69,59 +69,35 @@ const testUser = {
   zipCode: 27517
 };
 
-let totCharShortvLong = 0;
-let totCharLocvGlob = 0;
-
-// functions to be run on addition of any charity to DB
-// sets total value ratio
-
-// const charTot = function (testCharities) {
-//   let SvLTemp = 0;
-//   let LvGTemp = 0;
-//   testCharities.array.forEach(element => {
-//     SvLTemp = SvLTemp + element.shortVlong;
-//     LvGTemp = LvGTemp + element.localVglobal;
-//   });
-//   totCharShortvLong = SvLTemp;
-//   totCharLocvGlob = LvGTemp;
-// };
-
-// const charPort = function (testCharities) {
-//   testCharities.forEach(element => {
-//     element.SvLPortion = element.shortVlong / totCharShortvLong;
-//     element.LvGPortion = element.localVglobal / totCharLocvGlob;
-//   });
-// };
-
-const userArray = Object.keys(testUser).map(i => testUser[i]);
-
-const filteredUser = userArray.filter(e => typeof e === 'number' && e < 101);
-
 // function to be run after completion of user onboarding, profile edit, or added charity
 // sets donation defaults for review (on next login in case of charity add)
 
-const allocationCalc = function (filteredUser, testCharities) {
-  const userCharTemp = [];
-  testCharities.forEach(element => {
-    const tempDiff = Math.abs(element.localVglobal - filteredUser[0]) + Math.abs(element.shortVlong - filteredUser[1]);
-    if (userCharTemp.filter(e => e.category === element.category).length === 0) {
-      userCharTemp.push({
-        name: element.name,
-        category: element.category,
-        diff: tempDiff
-      });
-    }
-    if (userCharTemp.some(e => e.category === element.category && e.diff > tempDiff)) {
-      for (let i = 0; i < userCharTemp.length; i++) {
-        if (userCharTemp[i].category === element.category) {
-          userCharTemp[i].name = element.name;
-          userCharTemp[i].diff = tempDiff;
-          break;
+module.exports = {
+
+  allocationCalc: function (user, charities) {
+    const userArray = Object.keys(user).map(i => user[i]);
+    const filteredUser = userArray.filter(e => typeof e === 'number' && e < 101);
+    const userCharTemp = [];
+    charities.forEach(element => {
+      const tempDiff = Math.abs(element.localVglobal - filteredUser[0]) + Math.abs(element.shortVlong - filteredUser[1]);
+      if (userCharTemp.filter(e => e.category === element.category).length === 0) {
+        userCharTemp.push({
+          name: element.name,
+          category: element.category,
+          diff: tempDiff
+        });
+      }
+      if (userCharTemp.some(e => e.category === element.category && e.diff > tempDiff)) {
+        for (let i = 0; i < userCharTemp.length; i++) {
+          if (userCharTemp[i].category === element.category) {
+            userCharTemp[i].name = element.name;
+            userCharTemp[i].diff = tempDiff;
+            break;
+          }
         }
       }
-    }
-  });
-  return userCharTemp;
-};
+    });
+    return userCharTemp;
+  }
 
-console.log(allocationCalc(filteredUser, testCharities));
+};
