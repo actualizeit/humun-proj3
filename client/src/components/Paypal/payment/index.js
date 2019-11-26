@@ -1,29 +1,16 @@
 import React, { Component } from 'react'
-import { PayPalButton } from "react-paypal-button-v2";
  
 class Payment extends Component {
   render() {
     return (
-      <PayPalButton
-        amount="0.01"
-       
-        onSuccess={(details, data) => {
-          alert("Transaction completed by " + details.payer.name.given_name);
- 
-        
-        return fetch("/paypal-transaction-complete", {
-          method: "post",
-          body: JSON.stringify({
-            orderId: data.orderID
-          })
-        });
-      }}
-      options={{
-        clientId: "PRODUCTION_CLIENT_ID"
-      }}
-      />
-    );
-  };
-};
-
+      
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick" />
+        <input type="hidden" name="hosted_button_id" value="EDE9PRLKP23VE" />
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+      </form>
+    )
+  }
+}
 export default Payment

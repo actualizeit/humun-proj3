@@ -19,12 +19,11 @@ function Products(){
     function handleSubmit(event){
 
         event.preventDefault();
-        axios.get('https://api.data.charitynavigator.org/v2/Organizations?app_id=ba24e24a&app_key='+ApiKey+'&search='+search+'&rated=true&sort=Rating')
+        axios.get('https://api.data.charitynavigator.org/v2/Organizations?app_id=ba24e24a&app_key='+ApiKey+'pageSize=10&search='+search+'&rated=true&sort=Rating')
         .then(res =>{
-            console.log(res.data[0].charityName)
-            setProducts(res)
+            console.log(res.data)
+            setProducts(res.data)
             return products;
-            
         })
 
         
@@ -43,16 +42,13 @@ function Products(){
                 </form>
             </nav>
             <div>
-                {
-                   console.log(products)
-                   
-                }
-                {
+               
+                {/* {
                     products.map(charity =>(
                         
                         <h4>{charity.data.charityName}</h4>
                     ))  
-                }   
+                }    */}
                 
             </div>
         </div>
