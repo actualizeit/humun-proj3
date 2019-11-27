@@ -18,50 +18,62 @@ class Review extends Component {
     API
       .get()
       .then(res => {
-        const { impactLoc, shortVlongTerm, socialVenvironmental } = res.data.user;
         this.setState({
-          impactLoc: [impactLoc],
-          shortVlongTerm: [shortVlongTerm],
-          socialVenvironmental: [socialVenvironmental]
+          userInfo: res.data.user
         });
-      });
+      })
+      .catch(err => console.log(err));
   }
 
-    handleReview = () => {
-      console.log('clicked');
+  handleReview = () => {
+    console.log('clicked');
 
-      // if review is approved redirect to matches page
-      this.setRedirect();
+    // if review is approved redirect to matches page
+    this.setRedirect();
+  }
+
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    });
+  }
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/matches' />;
     }
+  }
 
-    setRedirect = () => {
-      this.setState({
-        redirect: true
-      });
-    }
+  render () {
+    const {
+      firstName,
+      lastName,
+      impact,
+      shortVlongTerm,
+      basicNeeds,
+      climateChange,
+      education,
+      globalHealth,
+      habitat,
+      pollution,
+      socialVenvironmental
+    } = { ...this.state.userInfo };
 
-    renderRedirect = () => {
-      if (this.state.redirect) {
-        return <Redirect to='/matches' />;
-      }
-    }
-
-    render () {
-      return (
-        <div>
-          { this.renderRedirect() }
-          <ThemeHeader text='Review' />
-          <ThemeBody>
-            <Header as='h4' textAlign='center'>
-              <p>Great!</p>
-              <p>Please review your contribution profile:</p>
-            </Header>
-
-            <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
-          </ThemeBody>
-        </div>
-      );
-    }
+    return (
+      <div>
+        {this.renderRedirect()}
+        <ThemeHeader text='Review' />
+        <ThemeBody>
+          <Header as='h4' textAlign='center'>
+            <p>Great!</p>
+            <p>Please review your contribution profile:</p>
+          </Header>
+          {/* content here */}
+          <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
+        </ThemeBody>
+      </div>
+    );
+  }
 }
 
 export default Review;
