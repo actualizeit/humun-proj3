@@ -22,9 +22,9 @@ class Impact extends Component {
     API
       .get()
       .then(res => {
-        const { impact, shortVlongTerm, socialVenvironmental } = res.data.user;
+        const { impactLoc, shortVlongTerm, socialVenvironmental } = res.data.user;
         this.setState({
-          impact: [impact],
+          impact: [impactLoc],
           shortVlongTerm: [shortVlongTerm],
           socialVenvironmental: [socialVenvironmental]
         });
@@ -38,10 +38,10 @@ class Impact extends Component {
   }
 
   handleImpacts = () => {
-    const { impact, shortVlongTerm, socialVenvironmental } = this.state;
+    const { impactLoc, shortVlongTerm, socialVenvironmental } = this.state;
     API
       .post({
-        impact: impact[0],
+        impactLoc: impactLoc[0],
         shortVlongTerm: shortVlongTerm[0],
         socialVenvironmental: socialVenvironmental[0]
       })
@@ -75,7 +75,7 @@ class Impact extends Component {
           <Form>
             <Segment>
               Is it more important to make a significant impact near you or greater a global impact?
-              <ThemeSlider stateKey='impact' value={this.state.impact} stateHandler={this.handleChange} leftLabel='local' rightLabel='global' />
+              <ThemeSlider stateKey='impactLoc' value={this.state.impactLoc} stateHandler={this.handleChange} leftLabel='local' rightLabel='global' />
             </Segment>
             <Segment>
               Is it more important to achieve guaranteed smaller effects in the near-term or work toward potentially larger effects in the long-term?
