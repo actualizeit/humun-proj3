@@ -3,6 +3,7 @@ import { Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
+import API from './../utils/Api';
 
 class Review extends Component {
   constructor (props) {
@@ -13,41 +14,66 @@ class Review extends Component {
     };
   }
 
-    handleReview = () => {
-      console.log('clicked');
+  componentDidMount () {
+    API
+      .get()
+      .then(res => {
+        this.setState({
+          userInfo: res.data.user
+        });
+      })
+      .catch(err => console.log(err));
+  }
 
-      // if review is approved redirect to matches page
-      this.setRedirect();
+  handleReview = () => {
+    console.log('clicked');
+
+    // if review is approved redirect to matches page
+    this.setRedirect();
+  }
+
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    });
+  }
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/matches' />;
     }
+  }
 
-    setRedirect = () => {
-      this.setState({
-        redirect: true
-      });
-    }
+  render () {
+    const {
+      firstName,
+      lastName,
+      impact,
+      shortVlongTerm,
+      basicNeeds,
+      climateChange,
+      education,
+      globalHealth,
+      habitat,
+      pollution,
+      socialVenvironmental
+    } = { ...this.state.userInfo };
 
-    renderRedirect = () => {
-      if (this.state.redirect) {
-        return <Redirect to='/matches' />;
-      }
-    }
-
-    render () {
-      return (
-        <div>
-          { this.renderRedirect() }
-          <ThemeHeader text='Review' />
-          <ThemeBody>
-            <Header as='h4' textAlign='center'>
-              <p>Great!</p>
-              <p>Please review your contribution profile:</p>
-            </Header>
-
-            <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
-          </ThemeBody>
-        </div>
-      );
-    }
+    return (
+      <div>
+        {this.renderRedirect()}
+        <ThemeHeader text='Review' />
+        <ThemeBody>
+          <Header as='h4' textAlign='center'>
+            <p>Great!</p>
+            <p>Please review your contribution profile:</p>
+          </Header>
+          {/* content here */}
+          <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
+        </ThemeBody>
+      </div>
+    );
+  }
 }
 
 export default Review;
