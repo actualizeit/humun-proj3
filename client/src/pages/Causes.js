@@ -21,21 +21,6 @@ class Causes extends Component {
     };
   }
 
-  async componentDidMount () {
-    const user = await this.getUser();
-    this.setState({
-      user
-    });
-  }
-
-  getUser = () => {
-    return API
-      .get()
-      .then(res => {
-        const { user } = res.data;
-        return user;
-      });
-  }
   handleChange = (key, result) => {
     this.setState({
       [key]: result
