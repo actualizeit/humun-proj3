@@ -15,6 +15,9 @@ export default {
   test: function () {
     return axios.get('/api/users/test', { 'headers': { 'Authorization': cookies.get('jwt') } });
   },
+  calculateCharities: function () {
+    return axios.get('/api/users/calculate', { 'headers': { 'Authorization': cookies.get('jwt') } });
+  },
   get: function () {
     return axios.get('/api/users/mydata', { 'headers': { 'Authorization': cookies.get('jwt') } });
   },

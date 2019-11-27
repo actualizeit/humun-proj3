@@ -20,4 +20,6 @@ router
   .get(passport.authenticate('jwt', { session: false }), appController.findUserData)
   .post(passport.authenticate('jwt', { session: false }), appController.saveUserData);
 
+router.route('/resetPW/:token').get(appController.resetPW)
+  
 module.exports = router;
