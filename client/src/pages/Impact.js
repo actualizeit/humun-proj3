@@ -12,7 +12,7 @@ class Impact extends Component {
 
     this.state = {
       redirect: false,
-      impact: [3],
+      impactLoc: [3],
       shortVlongTerm: [3],
       socialVenvironmental: [3]
     };

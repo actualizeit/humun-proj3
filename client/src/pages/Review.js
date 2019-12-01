@@ -3,7 +3,7 @@ import { Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
-import API from './../utils/Api';
+import API from '../utils/Api';
 
 class Review extends Component {
   constructor (props) {
@@ -18,6 +18,7 @@ class Review extends Component {
     API
       .get()
       .then(res => {
+        console.log(res);
         this.setState({
           userInfo: res.data.user
         });
@@ -67,6 +68,7 @@ class Review extends Component {
           <Header as='h4' textAlign='center'>
             <p>Great!</p>
             <p>Please review your contribution profile:</p>
+            <p>firstName: {this.state.firstName}</p>
           </Header>
           {/* content here */}
           <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
