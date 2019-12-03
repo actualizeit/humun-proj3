@@ -9,6 +9,9 @@ export default {
   login: function (userData) {
     return axios.post('/api/users/login', userData);
   },
+  allocation: function (user) {
+    return axios.post('/api/users/allocation', user, { 'headers': { 'Authorization': cookies.get('jwt') } });
+  },
   logout: function () {
     cookies.set('jwt', '', { path: '/' });
   },

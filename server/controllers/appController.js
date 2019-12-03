@@ -4,7 +4,7 @@ const config = require('../config/database');
 
 const { Charities, Transactions, User } = require('../models');
 
-// Defining methods for the foodController
+// Defining methods for the appController
 module.exports = {
   register: function (req, res) {
     const { firstName, lastName, email, password, password2 } = req.body;

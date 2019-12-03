@@ -23,6 +23,7 @@ class Impact extends Component {
       .get()
       .then(res => {
         const { impactLoc, shortVlongTerm, socialVenvironmental } = res.data.user;
+        console.log(impactLoc);
         this.setState({
           impact: [impactLoc],
           shortVlongTerm: [shortVlongTerm],

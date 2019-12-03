@@ -3,6 +3,7 @@ import { Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
+import ThemeCard from './../components/ThemeCard';
 import API from '../utils/Api';
 
 class Review extends Component {
@@ -19,13 +20,24 @@ class Review extends Component {
  }
 
  componentDidMount () {
-   API
-     .get()
-     .then(res => this.setState({
-       userInfo: res.data.user
-     }),
-     console.log(this.state.userInfo))
-     .catch(err => console.log(err));
+   console.log('allocationCalc: ' + JSON.stringify(API.allocation()));
+   API.allocation()
+     .then(user =>
+       this.setState({
+         firstName: [user.firstName],
+         lastName: [user.lastName],
+         impact: [user.impact],
+         shortVlongTerm: [user.shortVlongTerm],
+         basicNeeds: [user.basicNeeds],
+         climateChange: [user.climateChange],
+         education: [user.education],
+         globalHealth: [user.globalHealth],
+         habitat: [user.habitat],
+         pollution: [user.pollution],
+         socialVenvironmental: [user.socialVenvironmental]
+       })
+     );
+   //  console.log(this.state.firstName);
  }
 
   handleReview = () => {
@@ -72,6 +84,8 @@ class Review extends Component {
             <p>Please review your contribution profile:</p>
             <p>firstName: {this.state.firstName}</p>
           </Header>
+          <ThemeCard>
+          </ThemeCard>
           {/* content here */}
           <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
         </ThemeBody>
