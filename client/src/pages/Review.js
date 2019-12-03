@@ -8,23 +8,25 @@ import API from '../utils/Api';
 class Review extends Component {
   constructor (props) {
     super(props);
-
     this.state = {
-      redirect: false
+      redirect: false,
+      firstName: ''
     };
   }
 
-  componentDidMount () {
-    API
-      .get()
-      .then(res => {
-        console.log(res);
-        this.setState({
-          userInfo: res.data.user
-        });
-      })
-      .catch(err => console.log(err));
-  }
+ loadUser = () => {
+
+ }
+
+ componentDidMount () {
+   API
+     .get()
+     .then(res => this.setState({
+       userInfo: res.data.user
+     }),
+     console.log(this.state.userInfo))
+     .catch(err => console.log(err));
+ }
 
   handleReview = () => {
     console.log('clicked');
