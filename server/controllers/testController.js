@@ -11,24 +11,26 @@ module.exports = {
   allocationCalc: function (req, res) {
     User.findById(req.user._id)
       .then(userResp => {
-        console.log('user resp: ' +
-          userResp.firstName +
-          userResp.lastName +
-          userResp.impactLoc +
-          userResp.shortVlongTerm +
-          userResp.basicNeeds +
-          userResp.climateChange +
-          userResp.education +
-          userResp.globalHealth +
-          userResp.habitat +
-          userResp.pollution +
-          userResp.socialVenvironmental
-        );
+        const profileData = userResp.profileData;
+        
+
+        // const firstName = userResp.firstName;
+        // const lastName = userResp.lastName;
+        // const impactLoc = userResp.impactLoc;
+        // const shortVlongTerm = userResp.shortVlongTerm;
+        // const basicNeeds = userResp.basicNeeds;
+        // const climateChange = userResp.climateChange;
+        // const education = userResp.education;
+        // const globalHealth = userResp.globalHealth;
+        // const habitat = userResp.habitat;
+        // const pollution = userResp.pollution;
+        // const socialVenvironmental = userResp.socialVenvironmental;
+
         // const user = userResp;
-        console.log('charities: ' + JSON.stringify(charities.charities));
-        const userArray = Object.keys(userResp);
+        // console.log('charities: ' + JSON.stringify(charities.charities));
+        // const userArray = Object.keys(userResp);
         // .map(i => userResp[i]);
-        console.log('userArray: ' + userArray);
+        // console.log('userArray: ' + userArray);
         const filteredUser = userArray.filter(e => typeof e === 'number' && e < 101);
         const SvERatio = userResp.socialVenvironmental;
         const portions = [];
