@@ -11,11 +11,11 @@
 @border: @borderWidth solid @borderColor;
 
 @boxShadow: @subtleShadow;
-@verticalPadding: 1em;
+@verticalPadding: 1.25em;
 @horizontalPadding: 1em;
 @padding: @verticalPadding @horizontalPadding;
 
-@verticalMargin: 1rem;
+@verticalMargin: 1.5rem;
 @horizontalMargin: 0;
 @margin: @verticalMargin @horizontalMargin;
 @borderRadius: @defaultBorderRadius;

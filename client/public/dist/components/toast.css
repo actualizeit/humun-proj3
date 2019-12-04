@@ -362,7 +362,7 @@
 .ui.toast {
   display: none;
   border-radius: 0.57142857rem;
-  padding: 0.78571429em 1em;
+  padding: 1em 1.14285714em;
   margin: 0 -1px -0.01em;
   color: rgba(0, 0, 0, 0.87);
   background-color: #FFFFFF;

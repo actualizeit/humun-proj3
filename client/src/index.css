@@ -6,3 +6,11 @@ body {
 .text-white{
   color: white;
 }
+
+.button-white{
+  background: #eeeeee;
+}
+
+.button-white:hover{
+  background: #ffffff;
+}

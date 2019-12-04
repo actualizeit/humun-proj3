@@ -12,7 +12,7 @@
 @pageFont          : 'Raleway', 'Helvetica Neue', Arial, Helvetica, sans-serif;
 @fontSmoothing     : antialiased;
 
-@googleFontFamily  : 'Montserrat:700|Raleway:500,700';
+@googleFontFamily  : 'Montserrat:600|Raleway:500,700';
 
 @importGoogleFonts : true;
 @googleSubset      : 'latin';
@@ -21,7 +21,7 @@
 @googleFontRequest : '@{googleFontFamily}&display=@{googleFontDisplay}';
 
 
-@bold              : bold;
+@bold              : 600;
 @normal            : 500;
 
 /*-------------------
@@ -80,8 +80,8 @@
 
 /* This adjusts the default form input across all elements */
 @inputBackground        : @white;
-@inputVerticalPadding   : @relative11px;
-@inputHorizontalPadding : @relative14px;
+@inputVerticalPadding   : @relative14px;
+@inputHorizontalPadding : @relative16px;
 @inputPadding           : @inputVerticalPadding @inputHorizontalPadding;
 
 /* Input Text Color */
@@ -125,7 +125,7 @@
         Page
 --------------------*/
 
-@pageBackground      : #FFFFFF;
+@pageBackground      : #eeeeee;
 @pageOverflowX       : hidden;
 
 @lineHeight          : 1.4285em;
@@ -135,7 +135,7 @@
       Paragraph
 --------------------*/
 
-@paragraphMargin     : 0 0 1em;
+@paragraphMargin     : 0 0 1.25em;
 @paragraphLineHeight : @lineHeight;
 
 /*-------------------

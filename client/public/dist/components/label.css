@@ -23,7 +23,7 @@
   padding: 0.5833em 0.833em;
   color: rgba(0, 0, 0, 0.6);
   text-transform: none;
-  font-weight: bold;
+  font-weight: 600;
   border: 0 solid transparent;
   border-radius: 0.57142857rem;
   -webkit-transition: background 0.1s ease;
@@ -71,7 +71,7 @@ a.ui.label {
 .ui.label > .detail {
   display: inline-block;
   vertical-align: top;
-  font-weight: bold;
+  font-weight: 600;
   margin-left: 1em;
   opacity: 0.8;
 }
