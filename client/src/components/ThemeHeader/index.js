@@ -6,8 +6,8 @@ function ThemeHeader (props) {
   return (
     <Grid textAlign='center'>
       <Row>
-        <Column color='blue' style={styles.px}>
-          <Header as='h2' style={styles.white}>
+        <Column style={styles.px}>
+          <Header as='h2' disabled>
             {props.text}
           </Header>
         </Column>
@@ -21,8 +21,9 @@ const styles = {
     color: 'white'
   },
   px: {
+    background: '#f6f6f6',
     paddingTop: '3em',
-    paddingBottom: '2em'
+    paddingBottom: '1em'
   }
 };
 

@@ -4,12 +4,12 @@ import { Segment, Header } from 'semantic-ui-react';
 function ThemeSegment (props) {
   return (
     <div>
-      <Segment attached='top' textAlign='center' raised>
-        <Header as='h5'>
+      <Segment attached='top' textAlign='center' color='blue' style={{ border: 'none' }} inverted raised>
+        <Header as='h5' style={{ letterSpacing: '.5px' }}>
           {props.title}
         </Header>
       </Segment>
-      <Segment attached='bottom' secondary raised>
+      <Segment attached='bottom' raised>
         {props.children}
       </Segment>
     </div>

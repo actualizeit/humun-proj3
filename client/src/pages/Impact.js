@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Segment, Form, Button } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
@@ -74,7 +74,7 @@ class Impact extends Component {
             <ThemeSegment title='Is it more important to achieve guaranteed smaller effects in the near-term or work toward potentially larger effects in the long-term?'>
               <ThemeSlider stateKey='shortVlongTerm' value={this.state.shortVlongTerm} stateHandler={this.handleChange} leftLabel='short-term' rightLabel='long-term' />
             </ThemeSegment>
-            <Button type='submit' onClick={this.handleImpacts} primary fluid>Submit</Button>
+            <Button basic type='submit' onClick={this.handleImpacts} content='Your Causes' icon='right arrow' labelPosition='right' fluid />
           </Form>
         </ThemeBody>
       </div>
