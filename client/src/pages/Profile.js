@@ -44,11 +44,23 @@ class Profile extends Component {
   }
 
   render () {
+    const {
+      firstName,
+      impact,
+      shortVlongTerm,
+      basicNeeds,
+      climateChange,
+      education,
+      globalHealth,
+      habitat,
+      pollution,
+      socialVenvironmental
+    } = { ...this.state.userInfo };
+
     if (this.state.redirect) {
       return <Redirect push to="/" />;
     }
-    // getting variables from userInfo, since it's a nested object in one state it's a little tricky
-    const { firstName, lastName } = { ...this.state.userInfo };
+
     return (
       <div>
         <Grid textAlign='center'>
@@ -64,10 +76,10 @@ class Profile extends Component {
             <Segment vertical>
               <Header as='h2' icon textAlign='center'>
                 <Icon name='user' circular />
-                <Header.Content>{firstName} {lastName}</Header.Content>
+                <Header.Content>Welcome {firstName}!</Header.Content>
               </Header>
             </Segment>
-            <Segment vertical>Member Since -Date-</Segment>
+            <Segment vertical></Segment>
           </div>
 
           <Header as='h5' attached='top'>Allocations</Header>

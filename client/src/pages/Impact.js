@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Header, Segment, Form, Button } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
+import ThemeSegment from './../components/ThemeSegment';
 import ThemeSlider from './../components/ThemeSlider';
 import API from './../utils/Api';
 
@@ -12,9 +13,8 @@ class Impact extends Component {
 
     this.state = {
       redirect: false,
-      impact: [3],
-      shortVlongTerm: [3],
-      socialVenvironmental: [3]
+      impactLoc: [3],
+      shortVlongTerm: [3]
     };
   }
 
@@ -22,11 +22,10 @@ class Impact extends Component {
     API
       .get()
       .then(res => {
-        const { impactLoc, shortVlongTerm, socialVenvironmental } = res.data.user;
+        const { impactLoc, shortVlongTerm } = res.data.user;
         this.setState({
           impact: [impactLoc],
-          shortVlongTerm: [shortVlongTerm],
-          socialVenvironmental: [socialVenvironmental]
+          shortVlongTerm: [shortVlongTerm]
         });
       });
   }
@@ -38,12 +37,11 @@ class Impact extends Component {
   }
 
   handleImpacts = () => {
-    const { impactLoc, shortVlongTerm, socialVenvironmental } = this.state;
+    const { impactLoc, shortVlongTerm } = this.state;
     API
       .post({
         impactLoc: impactLoc[0],
-        shortVlongTerm: shortVlongTerm[0],
-        socialVenvironmental: socialVenvironmental[0]
+        shortVlongTerm: shortVlongTerm[0]
       })
       .then(() => {
         this.setRedirect();
@@ -69,23 +67,14 @@ class Impact extends Component {
         {this.renderRedirect()}
         <ThemeHeader text='Your Impact' />
         <ThemeBody>
-          <Header as='h4' textAlign='center'>
-            Which is more important to you?
-          </Header>
           <Form>
-            <Segment>
-              Is it more important to make a significant impact near you or greater a global impact?
+            <ThemeSegment title='Is it more important to make a significant impact near you or greater a global impact?'>
               <ThemeSlider stateKey='impactLoc' value={this.state.impactLoc} stateHandler={this.handleChange} leftLabel='local' rightLabel='global' />
-            </Segment>
-            <Segment>
-              Is it more important to achieve guaranteed smaller effects in the near-term or work toward potentially larger effects in the long-term?
+            </ThemeSegment>
+            <ThemeSegment title='Is it more important to achieve guaranteed smaller effects in the near-term or work toward potentially larger effects in the long-term?'>
               <ThemeSlider stateKey='shortVlongTerm' value={this.state.shortVlongTerm} stateHandler={this.handleChange} leftLabel='short-term' rightLabel='long-term' />
-            </Segment>
-            <Segment>
-              Are social or environemental issues more important to you?
-              <ThemeSlider stateKey='socialVenvironmental' value={this.state.socialVenvironmental} stateHandler={this.handleChange} leftLabel='social' rightLabel='environmental' />
-            </Segment>
-            <Button type='submit' onClick={this.handleImpacts} primary fluid>Submit</Button>
+            </ThemeSegment>
+            <Button basic type='submit' onClick={this.handleImpacts} content='Your Causes' icon='right arrow' labelPosition='right' fluid />
           </Form>
         </ThemeBody>
       </div>

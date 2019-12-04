@@ -7,15 +7,15 @@ import API from './../../utils/Api';
 const step = 1;
 const min = 1;
 
-const loader = (isLoaded) => {
-  if (!isLoaded) {
-    return (
-      <div class="ui active inverted dimmer">
-        <div class="ui text loader">Loading</div>
-      </div>
-    );
-  }
-}
+// const loader = (isLoaded) => {
+//   if (!isLoaded) {
+//     return (
+//       <div class="ui active inverted dimmer">
+//         <div class="ui text loader">Loading</div>
+//       </div>
+//     );
+//   }
+// }
 
 // dynamically creates state object
 const createState = (arr, max) => {
@@ -101,24 +101,23 @@ const adjustThumbs = (key, value, state, max, min) => {
 class ThemeSliderGroup extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-    };
-  }
 
-  // depreciated, need to find alternative
-  // this.props.values array is used to dynamically create states for each slider
-  componentWillMount () {
+    // set default/initial state
     const { values, steps } = this.props;
     const state = createState(values, steps);
+    this.state = {
+      ...state
+    };
 
-    // sets initial slider states so that sliders render
-    this.setState(state);
     const forParent = renderResults(state, steps, calculateNum);
 
     // set initial slider states with parent
     this.props.stateHandler(this.props.stateKey, forParent);
+  }
 
-    // get user data and re-render sliders
+  componentDidMount () {
+    // get user values
+    const { values, steps } = this.props;
     API
       .get()
       .then(res => {
@@ -129,24 +128,6 @@ class ThemeSliderGroup extends Component {
         this.props.stateHandler(this.props.stateKey, forParentWithData);
       });
   }
-
-  // alternative 1: getDerivedStateFromProps
-  // notes: manages to set initial state and render page, but state does not change (sliders do not move):
-
-  // static getDerivedStateFromProps (props, state) {
-  //   const { values, max } = props;
-  //   const initState = createState(values, max);
-  //   return initState;
-  // }
-
-  // alternative 2: componentDidMount & async componentDidMount
-  // doesn't work, page tries to render before states are dynamically created, page crashes
-
-  // async componentWillMount () {
-  //   const { values, max } = this.props;
-  //   const state = createState(values, max);
-  //   this.setState(state);
-  // }
 
   render () {
     const { values, steps, titles } = this.props;
