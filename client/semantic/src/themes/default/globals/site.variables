@@ -8,23 +8,21 @@
        Fonts
 --------------------*/
 
-@fontName          : 'Lato';
+@headerFont        : 'Montserrat', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@pageFont          : 'Raleway', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@fontSmoothing     : antialiased;
 
-@headerFont        : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-@pageFont          : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@googleFontFamily  : 'Montserrat:700|Raleway:500,700';
 
-@googleFontName    : @fontName;
 @importGoogleFonts : true;
-@googleFontSizes   : '400,700,400italic,700italic';
 @googleSubset      : 'latin';
 @googleFontDisplay : 'swap';
-
 @googleProtocol    : 'https://';
-@googleFontRequest : '@{googleFontName}:@{googleFontSizes}&subset=@{googleSubset}&display=@{googleFontDisplay}';
+@googleFontRequest : '@{googleFontFamily}&display=@{googleFontDisplay}';
 
 
 @bold              : bold;
-@normal            : normal;
+@normal            : 500;
 
 /*-------------------
       Base Sizes
@@ -44,8 +42,8 @@
 /* See Power-user section below
    for explanation of @px variables
 */
-@relativeBorderRadius: @relative4px;
-@absoluteBorderRadius: @4px;
+@relativeBorderRadius: @relative8px;
+@absoluteBorderRadius: @8px;
 
 @defaultBorderRadius: @absoluteBorderRadius;
 
@@ -69,7 +67,7 @@
 @headerFontWeight : @bold;
 @headerLineHeight : unit((18 / 14), em);
 
-@h1 : unit((28 / 14), rem);
+@h1 : unit((50 / 14), rem);
 @h2 : unit((24 / 14), rem);
 @h3 : unit((18 / 14), rem);
 @h4 : unit((15 / 14), rem);
