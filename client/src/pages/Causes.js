@@ -3,6 +3,7 @@ import { Header, Segment, Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
+import ThemeSlider from './../components/ThemeSlider';
 import ThemeSliderGroup from './../components/ThemeSliderGroup';
 import ThemeSliderGroupContainer from './../components/ThemeSliderGroup/ThemeSliderGroupContainer';
 import API from './../utils/Api';
@@ -17,8 +18,20 @@ class Causes extends Component {
       redirect: false,
       environment: false,
       social: false,
-      user: false
+      user: false,
+      socialVenvironmental: [3]
     };
+  }
+
+  componentDidMount () {
+    API
+      .get()
+      .then(res => {
+        const { socialVenvironmental } = res.data.user.profileData;
+        this.setState({
+          socialVenvironmental: [socialVenvironmental]
+        });
+      });
   }
 
   handleChange = (key, result) => {
@@ -28,8 +41,12 @@ class Causes extends Component {
   }
 
   handleCauses = () => {
-    const { environment, social } = this.state;
-    const obj = { ...environment, ...social };
+    const { environment, social, socialVenvironmental } = this.state;
+    const obj = {
+      ...environment,
+      ...social,
+      socialVenvironmental: socialVenvironmental[0]
+    };
 
     // Post to db, if successful redirect to review page
     API
@@ -58,7 +75,14 @@ class Causes extends Component {
         <ThemeBody>
           <Form>
             <Header as='h4' attached='top' textAlign='center'>
-              Environmental
+              Are social or environmental issues more important to you?
+            </Header>
+            <Segment attached='bottom'>
+              <ThemeSlider stateKey='socialVenvironmental' value={this.state.socialVenvironmental} stateHandler={this.handleChange} leftLabel='social' rightLabel='environmental' />
+            </Segment>
+
+            <Header as='h4' attached='top' textAlign='center'>
+              Which environmental issues do you care most about?
             </Header>
             <Segment attached='bottom'>
               <ThemeSliderGroupContainer>
@@ -67,7 +91,7 @@ class Causes extends Component {
             </Segment>
 
             <Header as='h4' attached='top' textAlign='center'>
-              Social
+              Which social issues do you care most about?
             </Header>
             <Segment attached='bottom'>
               <ThemeSliderGroupContainer>

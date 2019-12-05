@@ -10,18 +10,19 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   date: { type: Date, default: Date.now },
   zipCode: { type: Number },
-  profileData: { type: Array,
-    impactLoc: { type: Number },
-    shortVlongTerm: { type: Number },
-    socialVenvironmental: { type: Number },
-    pollution: { type: Number },
-    habitat: { type: Number },
-    climateChange: { type: Number },
-    basicNeeds: { type: Number },
-    education: { type: Number },
-    globalHealth: { type: Number }
+  profileData: {
+    impactLoc: { type: Number, default: 3 },
+    shortVlongTerm: { type: Number, default: 3 },
+    socialVenvironmental: { type: Number, default: 3 },
+    pollution: { type: Number, default: 33 },
+    habitat: { type: Number, default: 33 },
+    climateChange: { type: Number, default: 34 },
+    basicNeeds: { type: Number, default: 33 },
+    education: { type: Number, default: 33 },
+    globalHealth: { type: Number, default: 34 }
   },
-  allocations: { type: Array },
+  allocations: { type: Object },
+  userSelected: { type: Object },
   transaction: [
     {
       type: Schema.Types.ObjectId,
