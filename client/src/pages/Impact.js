@@ -21,11 +21,12 @@ class Impact extends Component {
     API
       .get()
       .then(res => {
-        const { impactLoc, shortVlongTerm } = res.data.user.profileData;
+        const { profileData } = res.data.user;
         console.log(res.data.user.profileData);
         this.setState({
-          impactLoc: [impactLoc],
-          shortVlongTerm: [shortVlongTerm]
+          impactLoc: [profileData.impactLoc],
+          shortVlongTerm: [profileData.shortVlongTerm],
+          profileData: [profileData]
         });
       });
   }
@@ -38,12 +39,15 @@ class Impact extends Component {
 
   handleImpacts = () => {
     const { impactLoc, shortVlongTerm } = this.state;
+    // console.log('svl: ' + shortVlongTerm + ' impact: ' + impactLoc);
+    this.state.profileData[0].impactLoc = impactLoc[0];
+    this.state.profileData[0].shortVlongTerm = shortVlongTerm[0];
+    // console.log('svl: ' + this.state.profileData.shortVlongTerm + ' impact: ' + this.state.profileData.impactLoc);
+    console.log(this.state.profileData);
+    const profileData = this.state.profileData;
     API
       .post({
-        profileData: {
-          impactLoc: impactLoc[0],
-          shortVlongTerm: shortVlongTerm[0]
-        }
+        profileData: profileData[0]
       })
       .then(() => {
         this.setRedirect();

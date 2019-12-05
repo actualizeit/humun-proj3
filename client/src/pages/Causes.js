@@ -27,9 +27,11 @@ class Causes extends Component {
     API
       .get()
       .then(res => {
-        const { socialVenvironmental } = res.data.user.profileData;
+        const { socialVenvironmental, impactLoc, shortVlongTerm } = res.data.user.profileData;
         this.setState({
-          socialVenvironmental: [socialVenvironmental]
+          socialVenvironmental: [socialVenvironmental],
+          impactLoc: [impactLoc],
+          shortVlongTerm: [shortVlongTerm]
         });
       });
   }
@@ -41,11 +43,15 @@ class Causes extends Component {
   }
 
   handleCauses = () => {
-    const { environment, social, socialVenvironmental } = this.state;
+    const { environment, social, socialVenvironmental, impactLoc, shortVlongTerm } = this.state;
     const obj = {
-      ...environment,
-      ...social,
-      socialVenvironmental: socialVenvironmental[0]
+      profileData: {
+        ...environment,
+        ...social,
+        socialVenvironmental: socialVenvironmental[0],
+        impactLoc: impactLoc[0],
+        shortVlongTerm: shortVlongTerm[0]
+      }
     };
 
     // Post to db, if successful redirect to review page
