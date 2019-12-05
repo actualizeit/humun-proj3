@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, Header, Button, List, Segment } from 'semantic-ui-react';
+import { Image, Header, List, Segment } from 'semantic-ui-react';
 
-function ThemeCard(props) {
+function ThemeCard (props) {
   return (
     <div>
       <Segment style={{ marginTop: '1em', border: 'none' }} attached='top' raised inverted color='blue'>
@@ -32,7 +32,7 @@ function ThemeCard(props) {
             </List.Content>
           </List.Item>
         </List>
-        <Button basic color='blue' fluid>Select</Button>
+        {props.children}
       </Segment>
     </div>
   );

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 // import { Grid, Header, Button } from 'semantic-ui-react';
 import axios from 'axios';
-import { Input } from 'semantic-ui-react';
+import { Input, Button, Message } from 'semantic-ui-react';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
+import API from './../utils/Api';
 
 function Search () {
   // set states for products and search term.
@@ -12,6 +13,28 @@ function Search () {
   const [ApiKey] = useState('300131a1a6649b667c037cf4136c26bc');
   const [search, setSearch] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [charity, setCharity] = useState([]);
+  const [charityName, setCharityName] = useState(false);
+
+  // get current charity name if there is one
+  useEffect(() => {
+    API
+      .get()
+      .then(res => {
+        setCharity(res.data.user.charities);
+        return res.data.user.charities[0];
+      })
+      .then(res => {
+        axios
+          .get(`https://api.data.charitynavigator.org/v2/Organizations/${res}?app_id=ba24e24a&app_key=${ApiKey}`)
+          .then(res => {
+            console.log(res.data);
+            console.log('current charity:' + res.data.charityName);
+            setCharityName(res.data.charityName);
+          })
+          .catch(() => setCharityName(false));
+      });
+  }, []);
 
   // capture search from user input update states above
   function handleChange (event) {
@@ -30,9 +53,12 @@ function Search () {
       });
   }
 
-  // function handleSave(){
-
-  // }
+  function handleSave (id) {
+    const obj = { charities: [id] };
+    API
+      .post(obj)
+      .then(() => console.log('success'));
+  }
 
   // Rerun API call each time search term is changed
   useEffect(() => {
@@ -45,7 +71,15 @@ function Search () {
       <ThemeBody>
         {/* input section to update search term */}
         <Input icon='search' placeholder='Search...' onChange={handleChange} fluid />
-        {/* {this.isLoaded && } */}
+
+        {charityName &&
+          <Message info
+            icon='info'
+            header='You already have a charity selected.'
+            content={`You may only select one charity at a time. If you select a new charity, ${charityName} will no longer recieve a portion of your contribution.`}
+          />
+        }
+
         {/* Map through all of products in the state and display them onto the page */}
         <div>
           {isLoaded &&
@@ -56,12 +90,12 @@ function Search () {
                   image={charity.cause.image}
                   link={charity.websiteURL}
                   tagLine={charity.tagLine}
-                  EIN={charity.EIN}
+                  EIN={charity.ein}
                   cause={charity.cause.causeName}
                   city={charity.mailingAddress.city}
                   state={charity.mailingAddress.stateOrProvince}
                 >
-                  {/* <button onClick={handleSave}>Save</button> */}
+                  <Button fluid basic color='blue' onClick={() => handleSave(charity.ein)}>Select</Button>
                 </ThemeCard>
               </div>
             ))
