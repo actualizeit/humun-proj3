@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import { Grid, Header, Button } from 'semantic-ui-react';
 import axios from 'axios';
-import { Input, Button, Message } from 'semantic-ui-react';
+import { Input, Button, Message, Modal } from 'semantic-ui-react';
 import ThemeHeader from './../components/ThemeHeader';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
@@ -13,8 +12,10 @@ function Search () {
   const [ApiKey] = useState('300131a1a6649b667c037cf4136c26bc');
   const [search, setSearch] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [charity, setCharity] = useState([]);
+  const [charity, setCharity] = useState(false);
   const [charityName, setCharityName] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [userSelect, setUserSelect] = useState(false);
 
   // get current charity name if there is one
   useEffect(() => {
@@ -28,8 +29,6 @@ function Search () {
         axios
           .get(`https://api.data.charitynavigator.org/v2/Organizations/${res}?app_id=ba24e24a&app_key=${ApiKey}`)
           .then(res => {
-            console.log(res.data);
-            console.log('current charity:' + res.data.charityName);
             setCharityName(res.data.charityName);
           })
           .catch(() => setCharityName(false));
@@ -53,13 +52,21 @@ function Search () {
       });
   }
 
-  function handleSave (id) {
+  function handleSave (id, charity) {
+    setUserSelect({ id, charity });
+    if (charity) {
+      setOpen(true);
+    } else {
+      save(id);
+    }
+  }
+
+  function save (id) {
     const obj = { charities: [id] };
     API
       .post(obj)
       .then(() => console.log('success'));
   }
-
   // Rerun API call each time search term is changed
   useEffect(() => {
     charitySearch();
@@ -80,6 +87,30 @@ function Search () {
           />
         }
 
+        {charityName &&
+          <Modal size='Tiny' open={open} onClose={() => setOpen(false)}>
+            <Modal.Header>Set New Charity</Modal.Header>
+            <Modal.Content>
+              <p>Please confirm: Your charity selection will be set to {userSelect.charity}. {charityName} will no longer receive a portion of your contribution.</p>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button negative>No</Button>
+              <Button
+                positive
+                icon='checkmark'
+                labelPosition='right'
+                content='Confirm'
+                onClick={() => {
+                  save(userSelect.id);
+                  setOpen(false);
+                  setCharity(userSelect.id);
+                  setCharityName(userSelect.charity);
+                }}
+              />
+            </Modal.Actions>
+          </Modal>
+        }
+
         {/* Map through all of products in the state and display them onto the page */}
         <div>
           {isLoaded &&
@@ -95,12 +126,13 @@ function Search () {
                   city={charity.mailingAddress.city}
                   state={charity.mailingAddress.stateOrProvince}
                 >
-                  <Button fluid basic color='blue' onClick={() => handleSave(charity.ein)}>Select</Button>
+                  <Button fluid basic color='blue' onClick={() => handleSave(charity.ein, charity.charityName)}>Select</Button>
                 </ThemeCard>
               </div>
             ))
           }
         </div>
+
       </ThemeBody>
     </div>
   );
