@@ -22,7 +22,7 @@ function ThemeCard (props) {
           <List.Item>
             <List.Icon name='linkify' />
             <List.Content>
-              <a href={props.link} target='_blank'>{props.link}</a>
+              <a href={props.link} target='_blank' rel="noopener noreferrer">{props.link}</a>
             </List.Content>
           </List.Item>
           <List.Item>

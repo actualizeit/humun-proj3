@@ -7,7 +7,7 @@ let MONGO_URL;
 const MONGO_LOCAL_URL = require('../config/database').database;
 
 if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
   MONGO_URL = process.env.MONGODB_URI;
 } else {
   mongoose.connect(MONGO_LOCAL_URL, { useNewUrlParser: true, useUnifiedTopology: true }); // local mongo url

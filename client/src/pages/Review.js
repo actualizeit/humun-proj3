@@ -45,19 +45,19 @@ class Review extends Component {
   }
 
   render () {
-    const {
-      firstName,
-      lastName,
-      impact,
-      shortVlongTerm,
-      basicNeeds,
-      climateChange,
-      education,
-      globalHealth,
-      habitat,
-      pollution,
-      socialVenvironmental
-    } = { ...this.state.userInfo };
+    // const {
+    //   firstName,
+    //   lastName,
+    //   impact,
+    //   shortVlongTerm,
+    //   basicNeeds,
+    //   climateChange,
+    //   education,
+    //   globalHealth,
+    //   habitat,
+    //   pollution,
+    //   socialVenvironmental
+    // } = { ...this.state.userInfo };
 
     return (
       <div>
