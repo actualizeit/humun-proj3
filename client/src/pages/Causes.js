@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeSegment from './../components/ThemeSegment';
-import ThemeHeader from './../components/ThemeHeader';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeSlider from './../components/ThemeSlider';
 import ThemeSliderGroup from './../components/ThemeSliderGroup';
@@ -72,27 +72,28 @@ class Causes extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <ThemeHeader text='Your Causes' />
-        <ThemeBody>
-          <Form>
-            <ThemeSegment title='Are social or environmental issues more important to you?'>
-              <ThemeSlider stateKey='socialVenvironmental' value={this.state.socialVenvironmental} stateHandler={this.handleChange} leftLabel='social' rightLabel='environmental' />
-            </ThemeSegment>
+        <ThemeContainer text='Your Causes'>
+          <ThemeBody>
+            <Form>
+              <ThemeSegment title='Are social or environmental issues more important to you?'>
+                <ThemeSlider stateKey='socialVenvironmental' value={this.state.socialVenvironmental} stateHandler={this.handleChange} leftLabel='social' rightLabel='environmental' />
+              </ThemeSegment>
 
-            <ThemeSegment title='Which environmental issues do you care most about?'>
-              <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} userValues={this.state.user} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} steps={sliderSteps}/>
-              </ThemeSliderGroupContainer>
-            </ThemeSegment>
+              <ThemeSegment title='Which environmental issues do you care most about?'>
+                <ThemeSliderGroupContainer>
+                  <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} userValues={this.state.user} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} steps={sliderSteps}/>
+                </ThemeSliderGroupContainer>
+              </ThemeSegment>
 
-            <ThemeSegment title='Which social issues do you care most about?'>
-              <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} userValues={this.state.user} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
-              </ThemeSliderGroupContainer>
-            </ThemeSegment>
-            <Button basic type='submit' onClick={this.handleCauses} content='Review' icon='right arrow' labelPosition='right' fluid />
-          </Form>
-        </ThemeBody>
+              <ThemeSegment title='Which social issues do you care most about?'>
+                <ThemeSliderGroupContainer>
+                  <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} userValues={this.state.user} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
+                </ThemeSliderGroupContainer>
+              </ThemeSegment>
+              <Button basic type='submit' onClick={this.handleCauses} content='Review' icon='right arrow' labelPosition='right' fluid />
+            </Form>
+          </ThemeBody>
+        </ThemeContainer>
       </div>
     );
   }

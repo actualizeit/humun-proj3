@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Input, Button, Message, Modal, Header } from 'semantic-ui-react';
-import ThemeHeader from './../components/ThemeHeader';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
 import ThemeSliderUseState from './../components/ThemeSliderUseState';
@@ -66,8 +66,8 @@ function Search () {
   }, [search, ApiKey]);
 
   return (
-    <div>
-      <ThemeHeader text='Search for Organizations' />
+    <ThemeContainer text='Search for Organizations'>
+
       <ThemeBody>
         {/* input section to update search term */}
 
@@ -160,9 +160,8 @@ function Search () {
             ))
           }
         </div>
-
       </ThemeBody>
-    </div>
+    </ThemeContainer>
   );
 }
 

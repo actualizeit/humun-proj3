@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-import ThemeHeader from './../components/ThemeHeader';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import API from './../utils/Api';
 
@@ -62,15 +62,16 @@ class Review extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <ThemeHeader text='Review' />
-        <ThemeBody>
-          <Header as='h4' textAlign='center'>
-            <p>Great!</p>
-            <p>Please review your contribution profile:</p>
-          </Header>
-          {/* content here */}
-          <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
-        </ThemeBody>
+        <ThemeContainer text='Review'>
+          <ThemeBody>
+            <Header as='h4' textAlign='center'>
+              <p>Great!</p>
+              <p>Please review your contribution profile:</p>
+            </Header>
+            {/* content here */}
+            <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
+          </ThemeBody>
+        </ThemeContainer>
       </div>
     );
   }

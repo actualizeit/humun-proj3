@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-import ThemeHeader from './../components/ThemeHeader';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeSegment from './../components/ThemeSegment';
 import ThemeSlider from './../components/ThemeSlider';
@@ -65,18 +65,19 @@ class Impact extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <ThemeHeader text='Your Impact' />
-        <ThemeBody>
-          <Form>
-            <ThemeSegment title='Is it more important to make a significant impact near you or greater a global impact?'>
-              <ThemeSlider stateKey='impactLoc' value={this.state.impactLoc} stateHandler={this.handleChange} leftLabel='local' rightLabel='global' />
-            </ThemeSegment>
-            <ThemeSegment title='Is it more important to achieve guaranteed smaller effects in the near-term or work toward potentially larger effects in the long-term?'>
-              <ThemeSlider stateKey='shortVlongTerm' value={this.state.shortVlongTerm} stateHandler={this.handleChange} leftLabel='short-term' rightLabel='long-term' />
-            </ThemeSegment>
-            <Button basic type='submit' onClick={this.handleImpacts} content='Your Causes' icon='right arrow' labelPosition='right' fluid />
-          </Form>
-        </ThemeBody>
+        <ThemeContainer text='Your Impact'>
+          <ThemeBody>
+            <Form>
+              <ThemeSegment title='Is it more important to make a significant impact near you or greater a global impact?'>
+                <ThemeSlider stateKey='impactLoc' value={this.state.impactLoc} stateHandler={this.handleChange} leftLabel='local' rightLabel='global' />
+              </ThemeSegment>
+              <ThemeSegment title='Is it more important to achieve guaranteed smaller effects in the near-term or work toward potentially larger effects in the long-term?'>
+                <ThemeSlider stateKey='shortVlongTerm' value={this.state.shortVlongTerm} stateHandler={this.handleChange} leftLabel='short-term' rightLabel='long-term' />
+              </ThemeSegment>
+              <Button basic type='submit' onClick={this.handleImpacts} content='Your Causes' icon='right arrow' labelPosition='right' fluid />
+            </Form>
+          </ThemeBody>
+        </ThemeContainer>
       </div>
     );
   }
