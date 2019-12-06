@@ -10,6 +10,8 @@ import Profile from './pages/Profile';
 import Review from './pages/Review';
 import Splash from './pages/Splash';
 import NoMatch from './pages/NoMatch';
+import Chart from './pages/Chart';
+import PasswordReset from './pages/PasswordReset';
 import Search from './pages/Search';
 import API from './utils/Api';
 
@@ -41,6 +43,8 @@ class App extends Component {
             <Route exact path="/matches" component={OrgMatches} />
             <Route exact path="/review" component={Review} />
             <Route exact path="/causes" component={Causes} />
+            <Route exact path="/chart" component={Chart} />
+            <Route path="/reset/:jsontoken" component={PasswordReset}/>
             <Route component={NoMatch} />
           </Switch>
         </div>

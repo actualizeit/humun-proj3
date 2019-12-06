@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  pwResetToken: { type: String },
   date: { type: Date, default: Date.now },
   impactLoc: { type: Number },
   shortVlongTerm: { type: Number },

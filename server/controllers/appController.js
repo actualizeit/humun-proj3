@@ -1,8 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
+const nodemailer = require('nodemailer');
 
 const { Charities, Transactions, User } = require('../models');
+
+const pwResetSecret = 'passwordresetsecret';
 
 // Defining methods for the foodController
 module.exports = {
@@ -107,7 +110,7 @@ module.exports = {
     User.findById(req.user._id)
       .then(user => {
         user.password = undefined;
-        res.json({ success: true, user })
+        res.json({ success: true, user });
       })
       .catch(err => res.status(422).json(err));
   },
@@ -115,7 +118,45 @@ module.exports = {
     User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body })
       .then(user => {
         user.password = undefined;
-        res.json({ success: true, user })
+        res.json({ success: true, user });
+      })
+      .catch(err => res.status(422).json(err));
+  },
+  resetPW: function (req, res) {
+    console.log('test');
+    res.json({ success: true });
+  },
+  getPwResetToken: function (req, res) {
+    console.log(req);
+    const token = jwt.sign({ email: 'jeffswanner93@gmail.com' }, pwResetSecret, {
+      expiresIn: 3600
+    });
+    User.findOneAndUpdate({ email: 'jeffswanner93@gmail.com' }, { $set: { pwResetToken: token } }, { new: true })
+      .then(user => {
+        console.log(user);
+        // async..await is not allowed in global scope, must use a wrapper
+        async function main () {
+          // create reusable transporter object using the default SMTP transport
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'humun.reset@gmail.com', // generated ethereal user
+              pass: 'nubkyp-cagmu3-moxmEq' // generated ethereal password
+            }
+          });
+
+          // send mail with defined transport object
+          const info = await transporter.sendMail({
+            from: 'humun.reset@gmail.com', // sender address
+            to: 'jeffswanner93@gmail.com', // list of receivers
+            subject: 'Humun Password Reset', // Subject line
+            html: `<b>Reset Password: http://localhost:3001/api/user/${user.pwResetToken}</b>` // html body
+          });
+
+          console.log(info);
+        }
+
+        main().catch(console.error);
       })
       .catch(err => res.status(422).json(err));
   }
