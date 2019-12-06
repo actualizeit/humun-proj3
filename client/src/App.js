@@ -12,6 +12,7 @@ import Splash from './pages/Splash';
 import NoMatch from './pages/NoMatch';
 import Chart from './pages/Chart';
 import PasswordReset from './pages/PasswordReset';
+import Search from './pages/Search';
 import API from './utils/Api';
 
 class App extends Component {
@@ -36,6 +37,7 @@ class App extends Component {
             {/* Test authentication before rendering profile */}
             { API.test() && <Route exact path="/profile" component={Profile} /> }
 
+            <Route exact path="/search" component={Search} />
             <Route exact path="/impact" component={Impact} />
             <Route exact path="/donation" component={Donation} />
             <Route exact path="/matches" component={OrgMatches} />

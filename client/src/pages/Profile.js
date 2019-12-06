@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Header, Segment, Icon, Grid, Button } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import ThemeBody from './../components/ThemeBody';
 import API from './../utils/Api';
 const { Row, Column } = Grid;
@@ -46,15 +46,16 @@ class Profile extends Component {
   render () {
     const {
       firstName,
-      impact,
-      shortVlongTerm,
-      basicNeeds,
-      climateChange,
-      education,
-      globalHealth,
-      habitat,
-      pollution,
-      socialVenvironmental
+      // impact,
+      // shortVlongTerm,
+      // basicNeeds,
+      // climateChange,
+      // education,
+      // globalHealth,
+      // habitat,
+      // pollution,
+      // socialVenvironmental,
+      charities
     } = { ...this.state.userInfo };
 
     if (this.state.redirect) {
@@ -84,7 +85,9 @@ class Profile extends Component {
 
           <Header as='h5' attached='top'>Allocations</Header>
           <Segment attached='bottom'>
-            <p>Allocations Here</p>
+            <p>You currently have chosen {charities && charities[0]} to receive a portion of your contribution.</p>
+            <p><Link to='/search'>Change Charity</Link></p>
+
           </Segment>
 
           <Header as='h5' attached='top'>Donation History</Header>

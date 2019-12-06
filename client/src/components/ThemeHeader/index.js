@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import { Grid, Header } from 'semantic-ui-react';
 const { Row, Column } = Grid;
 
@@ -7,8 +6,8 @@ function ThemeHeader (props) {
   return (
     <Grid textAlign='center'>
       <Row>
-        <Column color='blue' className={css(styles.pt)}>
-          <Header as='h1' className={css(styles.white)}>
+        <Column style={styles.px}>
+          <Header as='h2' disabled>
             {props.text}
           </Header>
         </Column>
@@ -17,13 +16,15 @@ function ThemeHeader (props) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = {
   white: {
     color: 'white'
   },
-  pt: {
-    paddingTop: '2em'
+  px: {
+    background: '#f6f6f6',
+    paddingTop: '3em',
+    paddingBottom: '1em'
   }
-});
+};
 
 export default ThemeHeader;

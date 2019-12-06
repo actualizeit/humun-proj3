@@ -59,6 +59,7 @@ class OrgMatches extends Component {
             <Header as='h4' textAlign='center'>
                         In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution profile at any time.
             </Header>
+            
 
             <Button onClick={() => this.handleOrgMatches('/login')} primary fluid>To Profile</Button>
           </ThemeBody>
