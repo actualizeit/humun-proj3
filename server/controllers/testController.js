@@ -12,7 +12,7 @@ module.exports = {
     User.findById(req.user._id)
       .then(userResp => {
         const profileData = userResp.profileData;
-        
+        console.log(profileData);
 
         // const firstName = userResp.firstName;
         // const lastName = userResp.lastName;
@@ -28,23 +28,34 @@ module.exports = {
 
         // const user = userResp;
         // console.log('charities: ' + JSON.stringify(charities.charities));
-        // const userArray = Object.keys(userResp);
-        // .map(i => userResp[i]);
-        // console.log('userArray: ' + userArray);
-        const filteredUser = userArray.filter(e => typeof e === 'number' && e < 101);
-        const SvERatio = userResp.socialVenvironmental;
+
+        // dynamically creates state object
+const createState = (arr, max) => {
+  const obj = {};
+  const num = max / arr.length;
+  for (const x of arr) {
+    obj[x] = [num];
+  }
+  return obj;
+};
+        const userArray = Object.values(profileData);
+          // .map(i => profileData[i]);
+        const profileArray = Object.keys(profileData);
+          // .map(i => profileData[i]);
+        console.log('userArray: ' + userArray);
+        console.log('profileArray: ' + profileArray);
+        const SvERatio = profileData.socialVenvironmental / 6;
         const portions = [];
         const userCharTemp = [];
-        console.log('filteredUser: ' + filteredUser);
-        for (let i = 3; i < filteredUser.length; i++) {
-          if (i < 6) {
-            portions.push(filteredUser[i] * SvERatio);
+        for (let i = 1; i < userArray.length; i++) {
+          if (i < 8) {
+            portions.push(userArray[i] * SvERatio);
           } else {
-            portions.push(filteredUser[i] * (1 - SvERatio));
+            portions.push(userArray[i] * (1 - SvERatio));
           }
         }
         charities.charities.forEach(element => {
-          const tempDiff = Math.abs(element.localVglobal - filteredUser[0]) + Math.abs(element.shortVlong - filteredUser[1]);
+          const tempDiff = Math.abs(element.localVglobal - userArray[1]) + Math.abs(element.shortVlong - userArray[2]);
           if (userCharTemp.filter(e => e.category === element.category).length === 0) {
             userCharTemp.push({
               name: element.name,
