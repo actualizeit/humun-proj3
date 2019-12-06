@@ -123,6 +123,11 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   resetPW: function (req, res) {
+    console.log('test');
+    res.json({ success: true });
+  },
+  getPwResetToken: function (req, res) {
+    console.log(req);
     const token = jwt.sign({ email: 'jeffswanner93@gmail.com' }, pwResetSecret, {
       expiresIn: 3600
     });
