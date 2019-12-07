@@ -1,7 +1,9 @@
+/* eslint-disable handle-callback-err */
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const { Charities, Transactions, User } = require('../models');
 
@@ -88,7 +90,6 @@ module.exports = {
           const token = jwt.sign(user.toJSON(), config.secret, {
             expiresIn: 604800
           });
-          console.log(token);
           res.json({
             success: true,
             token: 'JWT ' + token,
@@ -123,40 +124,78 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   resetPW: function (req, res) {
-    console.log('test');
-    res.json({ success: true });
+    const errors = [];
+    const decoded = jwt.decode(req.body.token);
+    if (!decoded) {
+      errors.push({ token: 'Password reset token has expired or is invalid.' });
+      return res.json({ success: false, errors });
+    }
+    User.findOne({ email: decoded.email })
+      .then(user => {
+        const { password, password2, token } = req.body;
+        if (!user || (token !== user.pwResetToken)) {
+          errors.push({ token: 'Password reset token has expired or is invalid. <a href="/reset">Send Reset Email</a>' });
+          return res.json({ success: false, errors });
+        }
+        if (!password) {
+          errors.push({ password: 'Password cannot be empty.' });
+        }
+        if (password !== password2) {
+          errors.push({ password2: 'Passwords do not match' });
+        }
+        if (password.length < 6) {
+          errors.push({ password: 'Password must be at least 6 characters' });
+        }
+        if (errors.length > 0) {
+          return res.json({ success: false, errors });
+        } else {
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(password, salt, (err, hash) => {
+              if (err) throw err;
+              User.findOneAndUpdate({ email: decoded.email }, { password: hash })
+                .then(user => {
+                  res.json({ success: true });
+                });
+            });
+          });
+        }
+      });
   },
   getPwResetToken: function (req, res) {
-    console.log(req);
-    const token = jwt.sign({ email: 'jeffswanner93@gmail.com' }, pwResetSecret, {
+    const production = 'https://humun.herokuapp.com/reset/';
+    const development = 'http://localhost:3000/reset/';
+    const url = (process.env.NODE_ENV ? production : development);
+    const token = jwt.sign(req.body, pwResetSecret, {
       expiresIn: 3600
     });
-    User.findOneAndUpdate({ email: 'jeffswanner93@gmail.com' }, { $set: { pwResetToken: token } }, { new: true })
+    User.findOneAndUpdate(req.body, { $set: { pwResetToken: token } }, { new: true })
       .then(user => {
-        console.log(user);
         // async..await is not allowed in global scope, must use a wrapper
         async function main () {
           // create reusable transporter object using the default SMTP transport
           const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-              user: 'humun.reset@gmail.com', // generated ethereal user
-              pass: 'nubkyp-cagmu3-moxmEq' // generated ethereal password
+              user: process.env.humunEmail, // generated ethereal user
+              pass: process.env.humunPassword // generated ethereal password
             }
           });
 
           // send mail with defined transport object
           const info = await transporter.sendMail({
             from: 'humun.reset@gmail.com', // sender address
-            to: 'jeffswanner93@gmail.com', // list of receivers
+            to: req.body.email, // list of receivers
             subject: 'Humun Password Reset', // Subject line
-            html: `<b>Reset Password: http://localhost:3001/api/user/${user.pwResetToken}</b>` // html body
+            html: `<b>Click the below link to reset your password</b><p>Link: ${url}${user.pwResetToken}</p>` // html body
           });
-
-          console.log(info);
         }
-
-        main().catch(console.error);
+        if (user) {
+          main().catch(console.error).then(res.json({ success: true }));
+        } else {
+          const errors = [];
+          errors.push({ email: 'Email not found' });
+          return res.json({ success: false, errors });
+        }
       })
       .catch(err => res.status(422).json(err));
   }

@@ -25,7 +25,7 @@ export default {
     return axios.post(`/api/users/mydata`, obj, { 'headers': { 'Authorization': cookies.get('jwt') } });
   },
   getResetToken: function (obj) {
-    return axios.get('/api/users/getResetToken', { email: 'jeffswanner93@gmail.com' });
+    return axios.post('/api/users/getResetToken', obj);
   },
   resetPW: function (obj) {
     return axios.post(`/api/users/resetPW`, obj);
