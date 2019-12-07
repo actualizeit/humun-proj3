@@ -7,6 +7,7 @@ import ThemeBody from './../components/ThemeBody';
 import API from './../utils/Api';
 const { Row, Column } = Grid;
 
+
 class Profile extends Component {
   constructor (props) {
     super(props);
@@ -26,9 +27,9 @@ class Profile extends Component {
         });
         console.log(res.data.user);
       })
-      .catch(err => console.log(err));
-  }
+    }
 
+     
   checkLogin () {
     API.test()
       .then(res => {
@@ -56,7 +57,8 @@ class Profile extends Component {
       // habitat,
       // pollution,
       // socialVenvironmental,
-      charities
+      charities,
+      charityName
     } = { ...this.state.userInfo };
 
     if (this.state.redirect) {
@@ -86,7 +88,7 @@ class Profile extends Component {
 
           <Header as='h5' attached='top'>Allocations</Header>
           <Segment attached='bottom'>
-            <p>You currently have chosen {charities && charities[0]} to receive a portion of your contribution.</p>
+            <p>You currently have chosen {charities && charityName} to receive a portion of your contribution.</p>
             <p><Link to='/search'>Change Charity</Link></p>
 
           </Segment>
