@@ -53,7 +53,7 @@ class Causes extends Component {
         shortVlongTerm: shortVlongTerm[0]
       }
     };
-
+    console.log('handleCauses', obj);
     // Post to db, if successful redirect to review page
     API
       .post(obj)

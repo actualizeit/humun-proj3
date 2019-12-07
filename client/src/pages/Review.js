@@ -19,27 +19,28 @@ class Review extends Component {
 
  }
 
- async componentDidMount () {
-   const response = await fetch(API.allocation());
-   const myJson = await response.json();
-   console.log(JSON.stringify(myJson));
-    //  .then(res => console.log('wut: ' + JSON.stringify(res))
-    //    .then(user =>
-    //      this.setState({
-    //        firstName: [user.firstName],
-    //        lastName: [user.lastName],
-    //        impact: [user.impact],
-    //        shortVlongTerm: [user.shortVlongTerm],
-    //        basicNeeds: [user.basicNeeds],
-    //        climateChange: [user.climateChange],
-    //        education: [user.education],
-    //        globalHealth: [user.globalHealth],
-    //        habitat: [user.habitat],
-    //        pollution: [user.pollution],
-    //        socialVenvironmental: [user.socialVenvironmental]
-    //      })
-    //    ));
-   //  console.log(this.state.firstName);
+ componentDidMount () {
+   API.allocation()
+     .then(res => {
+       const allocations = res.data.user.allocations;
+       const profileData = res.data.user.profileData;
+       this.setState({
+         firstName: [res.data.user.firstName],
+         lastName: [res.data.user.lastName],
+         date: [res.data.user.date],
+         email: [res.data.user.email],
+         impactLoc: [profileData.impactLoc],
+         shortVlongTerm: [profileData.shortVlongTerm],
+         basicNeeds: [profileData.basicNeeds],
+         climateChange: [profileData.climateChange],
+         education: [profileData.education],
+         globalHealth: [profileData.globalHealth],
+         habitat: [profileData.habitat],
+         pollution: [profileData.pollution],
+         socialVenvironmental: [profileData.socialVenvironmental]
+        //  allocations: [allocations]
+       });
+     });
  }
 
   handleReview = () => {
@@ -85,6 +86,19 @@ class Review extends Component {
             <p>Great!</p>
             <p>Please review your contribution profile:</p>
             <p>firstName: {this.state.firstName}</p>
+            <p>lastName: {this.state.lastName}</p>
+            <p>date: {this.state.date}</p>
+            <p>email: {this.state.email}</p>
+            <p>impactLoc: {this.state.impactLoc}</p>
+            <p>shortVlongTerm: {this.state.shortVlongTerm}</p>
+            <p>basicNeeds: {this.state.basicNeeds}</p>
+            <p>climateChange: {this.state.climateChange}</p>
+            <p>education: {this.state.education}</p>
+            <p>globalHealth: {this.state.globalHealth}</p>
+            <p>habitat: {this.state.habitat}</p>
+            <p>pollution: {this.state.pollution}</p>
+            <p>socialVenvironmental: {this.state.socialVenvironmental}</p>
+            {/* <p>allocations: {this.state.allocations}</p> */}
           </Header>
           <ThemeCard>
           </ThemeCard>
