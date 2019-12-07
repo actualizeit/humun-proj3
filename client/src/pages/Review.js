@@ -11,6 +11,7 @@ class Review extends Component {
     super(props);
     this.state = {
       redirect: false,
+      splashRedirect: false,
       firstName: ''
     };
   }
@@ -20,6 +21,7 @@ class Review extends Component {
  }
 
  componentDidMount () {
+   this.checkLogin();
    API.allocation()
      .then(res => {
        const allocations = res.data.user.allocations;
@@ -38,8 +40,18 @@ class Review extends Component {
          habitat: [profileData.habitat],
          pollution: [profileData.pollution],
          socialVenvironmental: [profileData.socialVenvironmental]
-        //  allocations: [allocations]
+         //  allocations: [allocations]
        });
+     });
+ }
+
+ checkLogin () {
+   API.test()
+     .then(res => {
+       console.log('loggedin');
+     })
+     .catch(() => {
+       this.setState({ splashRedirect: true });
      });
  }
 
@@ -63,6 +75,9 @@ class Review extends Component {
   }
 
   render () {
+    if (this.state.splashRedirect) {
+      return <Redirect push to="/" />;
+    }
     // const {
     //   firstName,
     //   lastName,
@@ -80,7 +95,7 @@ class Review extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <ThemeHeader text='Review' />
+        <ThemeContainer text='Review' />
         <ThemeBody>
           <Header as='h4' textAlign='center'>
             <p>Great!</p>

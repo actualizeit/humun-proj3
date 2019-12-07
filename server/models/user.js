@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
   pwResetToken: { type: String },
   date: { type: Date, default: Date.now },
   zipCode: { type: Number },
+  initialSetup: { type: Boolean, default: false },
   profileData: {
     impactLoc: { type: Number, default: 3 },
     shortVlongTerm: { type: Number, default: 3 },

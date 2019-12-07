@@ -17,6 +17,7 @@ class Causes extends Component {
 
     this.state = {
       redirect: false,
+      splashRedirect: false,
       environment: false,
       social: false,
       user: false,
@@ -25,6 +26,7 @@ class Causes extends Component {
   }
 
   componentDidMount () {
+    this.checkLogin();
     API
       .get()
       .then(res => {
@@ -34,6 +36,16 @@ class Causes extends Component {
           impactLoc: [impactLoc],
           shortVlongTerm: [shortVlongTerm]
         });
+      });
+  }
+
+  checkLogin () {
+    API.test()
+      .then(res => {
+        console.log('loggedin');
+      })
+      .catch(() => {
+        this.setState({ splashRedirect: true });
       });
   }
 
@@ -77,6 +89,9 @@ class Causes extends Component {
   }
 
   render () {
+    if (this.state.splashRedirect) {
+      return <Redirect push to="/" />;
+    }
     return (
       <div>
         {this.renderRedirect()}

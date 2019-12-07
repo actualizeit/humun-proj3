@@ -27,7 +27,6 @@ class App extends Component {
   };
 
   ProtectedRoute =  ({ auth, ...props }) => {
-    this.props.history.push('/login');
     // API.test()
     //   .then(res => {
     //     this.setState({ authenticated: true });
@@ -35,9 +34,9 @@ class App extends Component {
     //   .catch(() => {
     //     this.setState({ authenticated: false });
     //   });
-    // return this.state.authenticated
-    //   ? (<Route {...props} />)
-    //   : (<Redirect to="/login" />)
+    return this.state.authenticated
+      ? (<Route {...props} />)
+      : (<Redirect to="/login" />)
   };
 
   render () {
@@ -65,7 +64,7 @@ class App extends Component {
             <Route exact path="/review" component={Review} />
             <Route exact path="/causes" component={Causes} />
             <Route exact path="/chart" component={Chart} />
-            <this.ProtectedRoute exact path='/reset' component={GetResetToken} />
+            <Route exact path='/reset' component={GetResetToken} />
             <Route path="/reset/:jsontoken" component={PasswordReset}/>
             <Route component={NoMatch} />
           </Switch>

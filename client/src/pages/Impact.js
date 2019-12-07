@@ -10,15 +10,16 @@ import API from './../utils/Api';
 class Impact extends Component {
   constructor (props) {
     super(props);
-
     this.state = {
       redirect: false,
+      splashRedirect: false,
       impactLoc: [3],
       shortVlongTerm: [3]
     };
   }
 
   componentDidMount () {
+    this.checkLogin();
     API
       .get()
       .then(res => {
@@ -29,6 +30,16 @@ class Impact extends Component {
           shortVlongTerm: [profileData.shortVlongTerm],
           profileData: [profileData]
         });
+      });
+  }
+
+  checkLogin () {
+    API.test()
+      .then(res => {
+        console.log('loggedin');
+      })
+      .catch(() => {
+        this.setState({ splashRedirect: true });
       });
   }
 
@@ -69,6 +80,9 @@ class Impact extends Component {
   }
 
   render () {
+    if (this.state.splashRedirect) {
+      return <Redirect push to="/" />;
+    }
     return (
       <div>
         {this.renderRedirect()}

@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
+import API from './../utils/Api';
 
 class OrgMatches extends Component {
   constructor (props) {
@@ -13,6 +14,20 @@ class OrgMatches extends Component {
       redirect: false,
       redirectLoc: ''
     };
+  }
+
+  componentDidMount () {
+    this.checkLogin();
+  }
+
+  checkLogin () {
+    API.test()
+      .then(res => {
+        console.log('loggedin');
+      })
+      .catch(() => {
+        this.setState({ splashRedirect: true });
+      });
   }
 
     handleOrgMatches = (redirect) => {
@@ -34,6 +49,9 @@ class OrgMatches extends Component {
     }
 
     render () {
+      if (this.state.splashRedirect) {
+        return <Redirect push to="/" />;
+      }
       return (
         <div>
           { this.renderRedirect() }
@@ -59,9 +77,9 @@ class OrgMatches extends Component {
             <Header as='h4' textAlign='center'>
                         In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution profile at any time.
             </Header>
-            
 
-            <Button onClick={() => this.handleOrgMatches('/login')} primary fluid>To Profile</Button>
+
+            <Button onClick={() => this.handleOrgMatches('/profile')} primary fluid>To Profile</Button>
           </ThemeBody>
         </div>
       );

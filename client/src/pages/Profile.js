@@ -13,7 +13,7 @@ class Profile extends Component {
     super(props);
     this.logout = this.logout.bind(this);
     this.state = {
-      redirect: false
+      splashRedirect: false
     };
   }
 
@@ -36,7 +36,7 @@ class Profile extends Component {
         console.log('loggedin');
       })
       .catch(() => {
-        this.setState({ redirect: true });
+        this.setState({ splashRedirect: true });
       });
   }
 
@@ -61,7 +61,7 @@ class Profile extends Component {
       charityName
     } = { ...this.state.userInfo };
 
-    if (this.state.redirect) {
+    if (this.state.splashRedirect) {
       return <Redirect push to="/" />;
     }
 
