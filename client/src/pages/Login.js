@@ -88,6 +88,10 @@ class Login extends Component {
     return <Redirect push to='/profile' />;
   }
 
+  redirectToImpact = () => {
+    return <Redirect push to='/impact' />;
+  }
+
   render () {
     return (
       <div>

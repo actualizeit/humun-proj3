@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Causes from './pages/Causes';
 import CreateAccount from './pages/CreateAccount';
 import Donation from './pages/Donation';
@@ -17,6 +18,28 @@ import Search from './pages/Search';
 import API from './utils/Api';
 
 class App extends Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      authenticated: true
+    };
+  };
+
+  ProtectedRoute =  ({ auth, ...props }) => {
+    this.props.history.push('/login');
+    // API.test()
+    //   .then(res => {
+    //     this.setState({ authenticated: true });
+    //   })
+    //   .catch(() => {
+    //     this.setState({ authenticated: false });
+    //   });
+    // return this.state.authenticated
+    //   ? (<Route {...props} />)
+    //   : (<Redirect to="/login" />)
+  };
+
   render () {
     return (
       <Router>
@@ -34,10 +57,7 @@ class App extends Component {
             </Route>
 
             <Route exact path="/create" component={CreateAccount} />
-
-            {/* Test authentication before rendering profile */}
-            { API.test() && <Route exact path="/profile" component={Profile} /> }
-
+            <this.ProtectedRoute exact path="/profile" component={Profile} />
             <Route exact path="/search" component={Search} />
             <Route exact path="/impact" component={Impact} />
             <Route exact path="/donation" component={Donation} />
@@ -45,7 +65,7 @@ class App extends Component {
             <Route exact path="/review" component={Review} />
             <Route exact path="/causes" component={Causes} />
             <Route exact path="/chart" component={Chart} />
-            <Route exact path="/reset/" component={GetResetToken}/>
+            <this.ProtectedRoute exact path='/reset' component={GetResetToken} />
             <Route path="/reset/:jsontoken" component={PasswordReset}/>
             <Route component={NoMatch} />
           </Switch>
