@@ -21,7 +21,7 @@ class Review extends Component {
 
  componentDidMount () {
    console.log('allocationCalc: ' + JSON.stringify(API.allocation()));
-   API.allocation()
+   API.get()
      .then(user =>
        this.setState({
          firstName: [user.firstName],

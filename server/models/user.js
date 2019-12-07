@@ -21,7 +21,14 @@ const UserSchema = new mongoose.Schema({
     education: { type: Number, default: 33 },
     globalHealth: { type: Number, default: 34 }
   },
-  allocations: { type: Object },
+  allocations: {
+    pollution: {},
+    habitat: {},
+    climateChange: {},
+    basicNeeds: {},
+    education: {},
+    globalHealth: {}
+  },
   userSelected: { type: Object },
   transaction: [
     {

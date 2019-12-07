@@ -57,6 +57,8 @@ class Causes extends Component {
     // Post to db, if successful redirect to review page
     API
       .post(obj)
+      .then(res => API.allocation(res.data.user))
+      .then(res => console.log('allocation res: ' + JSON.stringify(res.data.user.profileData)))
       .then(() => this.setRedirect())
       .catch(err => console.log(err));
   }

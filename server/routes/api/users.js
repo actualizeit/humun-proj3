@@ -13,7 +13,7 @@ router.post('/login', appController.login);
 // Update user allocations
 router
   .route('/allocation')
-  .post(passport.authenticate('jwt', { session: false }), testController.allocationCalc);
+  .post(passport.authenticate('jwt', { session: false }), appController.allocationCalc);
 
 // Test Json Web Token not expired
 router.get('/test', passport.authenticate('jwt', { session: false }), (req, res, next) => {

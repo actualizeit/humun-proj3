@@ -13,40 +13,15 @@ module.exports = {
       .then(userResp => {
         const profileData = userResp.profileData;
         console.log(profileData);
-
-        // const firstName = userResp.firstName;
-        // const lastName = userResp.lastName;
-        // const impactLoc = userResp.impactLoc;
-        // const shortVlongTerm = userResp.shortVlongTerm;
-        // const basicNeeds = userResp.basicNeeds;
-        // const climateChange = userResp.climateChange;
-        // const education = userResp.education;
-        // const globalHealth = userResp.globalHealth;
-        // const habitat = userResp.habitat;
-        // const pollution = userResp.pollution;
-        // const socialVenvironmental = userResp.socialVenvironmental;
-
-        // const user = userResp;
-        // console.log('charities: ' + JSON.stringify(charities.charities));
-
-        // dynamically creates state object
-const createState = (arr, max) => {
-  const obj = {};
-  const num = max / arr.length;
-  for (const x of arr) {
-    obj[x] = [num];
-  }
-  return obj;
-};
         const userArray = Object.values(profileData);
-          // .map(i => profileData[i]);
+        // .map(i => profileData[i]);
         const profileArray = Object.keys(profileData);
-          // .map(i => profileData[i]);
+        // .map(i => profileData[i]);
         console.log('userArray: ' + userArray);
         console.log('profileArray: ' + profileArray);
         const SvERatio = profileData.socialVenvironmental / 6;
         const portions = [];
-        const userCharTemp = [];
+        const allocations = [];
         for (let i = 1; i < userArray.length; i++) {
           if (i < 8) {
             portions.push(userArray[i] * SvERatio);
@@ -56,23 +31,23 @@ const createState = (arr, max) => {
         }
         charities.charities.forEach(element => {
           const tempDiff = Math.abs(element.localVglobal - userArray[1]) + Math.abs(element.shortVlong - userArray[2]);
-          if (userCharTemp.filter(e => e.category === element.category).length === 0) {
-            userCharTemp.push({
+          if (allocations.filter(e => e.category === element.category).length === 0) {
+            allocations.push({
               name: element.name,
               category: element.category,
               diff: tempDiff
             });
           }
-          if (userCharTemp.some(e => e.category === element.category && e.diff > tempDiff)) {
-            for (let i = 0; i < userCharTemp.length; i++) {
-              if (userCharTemp[i].category === element.category) {
-                userCharTemp[i].name = element.name;
-                userCharTemp[i].diff = tempDiff;
+          if (allocations.some(e => e.category === element.category && e.diff > tempDiff)) {
+            for (let i = 0; i < allocations.length; i++) {
+              if (allocations[i].category === element.category) {
+                allocations[i].name = element.name;
+                allocations[i].diff = tempDiff;
                 break;
               }
             }
           }
-          userCharTemp.forEach(element => {
+          allocations.forEach(element => {
             switch (element.category) {
               case 'pollution': element.portion = portions[0];
                 break;
@@ -90,10 +65,13 @@ const createState = (arr, max) => {
             }
           });
         });
-        console.log('userCharTemp: ' + JSON.stringify(userCharTemp));
-        // API.post(userCharTemp);
-        res.json({ success: true, userCharTemp });
-        return userCharTemp;
+        console.log('allocations: ' + JSON.stringify(allocations));
+        User.findOneAndUpdate({ _id: req.user._id }, { $set: { allocations } }, { new: true })
+          .then(user => {
+            user.password = undefined;
+            res.json({ success: true, user });
+          })
+          .catch(err => res.status(422).json(err));
       });
   }
 
