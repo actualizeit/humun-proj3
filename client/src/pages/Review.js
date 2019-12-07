@@ -19,24 +19,26 @@ class Review extends Component {
 
  }
 
- componentDidMount () {
-   console.log('allocationCalc: ' + JSON.stringify(API.allocation()));
-   API.get()
-     .then(user =>
-       this.setState({
-         firstName: [user.firstName],
-         lastName: [user.lastName],
-         impact: [user.impact],
-         shortVlongTerm: [user.shortVlongTerm],
-         basicNeeds: [user.basicNeeds],
-         climateChange: [user.climateChange],
-         education: [user.education],
-         globalHealth: [user.globalHealth],
-         habitat: [user.habitat],
-         pollution: [user.pollution],
-         socialVenvironmental: [user.socialVenvironmental]
-       })
-     );
+ async componentDidMount () {
+   const response = await fetch(API.allocation());
+   const myJson = await response.json();
+   console.log(JSON.stringify(myJson));
+    //  .then(res => console.log('wut: ' + JSON.stringify(res))
+    //    .then(user =>
+    //      this.setState({
+    //        firstName: [user.firstName],
+    //        lastName: [user.lastName],
+    //        impact: [user.impact],
+    //        shortVlongTerm: [user.shortVlongTerm],
+    //        basicNeeds: [user.basicNeeds],
+    //        climateChange: [user.climateChange],
+    //        education: [user.education],
+    //        globalHealth: [user.globalHealth],
+    //        habitat: [user.habitat],
+    //        pollution: [user.pollution],
+    //        socialVenvironmental: [user.socialVenvironmental]
+    //      })
+    //    ));
    //  console.log(this.state.firstName);
  }
 
