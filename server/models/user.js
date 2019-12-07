@@ -21,6 +21,7 @@ const UserSchema = new mongoose.Schema({
   globalHealth: { type: Number },
   zipCode: { type: Number },
   charities: { type: Array },
+  charityProportion: { type: Number },
   transaction: [
     {
       type: Schema.Types.ObjectId,

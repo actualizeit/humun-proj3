@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-import ThemeHeader from './../components/ThemeHeader';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
 
@@ -37,7 +37,7 @@ class OrgMatches extends Component {
       return (
         <div>
           { this.renderRedirect() }
-          <ThemeHeader text='Congratulations!' />
+          <ThemeContainer text='Congratulations!' />
           <ThemeBody>
             <Header as='h4' textAlign='center'>
                         We’ve matched you to these organizations:

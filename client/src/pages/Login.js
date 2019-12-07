@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Button, Form, Input, Message } from 'semantic-ui-react';
-import ThemeHeader from './../components/ThemeHeader';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import API from '../utils/Api';
 import Cookies from 'universal-cookie';
@@ -74,51 +74,56 @@ class Login extends Component {
       });
   }
 
-  render () {
-    let loginSuccess;
-    if (this.state.loginSuccess) {
-      loginSuccess = <Message loginSuccess={true}
+  loginSuccess = () => {
+    return (
+      <Message loginSuccess={true}
         success
         header='Login successful'
         content='You will now be redirected'
       />
-    }
-    if (this.state.redirect) {
-      return <Redirect push to='/profile' />;
-    }
+    );
+  }
+
+  redirectToProfile = () => {
+    return <Redirect push to='/profile' />;
+  }
+
+  render () {
     return (
       <div>
-        <ThemeHeader text='Login' />
-        <ThemeBody>
-          <Form success>
-            <Form.Field
-              id='form-input-control-email'
-              control={Input}
-              label='Email'
-              placeholder='name@example.com'
-              required
-              name='email'
-              value={this.state.email}
-              onChange={this.handleInputChange}
-              error={this.state.emailErr}
-            />
-            <Form.Field
-              id='form-input-control-pw'
-              control={Input}
-              label='Password'
-              placeholder='******'
-              required
-              name='password'
-              type='password'
-              value={this.state.password}
-              onChange={this.handleInputChange}
-              error={this.state.pwErr}
-            />
-            <p>Forgot Password? <a href='/reset'>Reset Password</a></p>
-            {loginSuccess}
-            <Button type='submit' onClick={this.login} primary fluid>Submit</Button>
-          </Form>
-        </ThemeBody>
+        {this.state.redirect && this.redirectToProfile()}
+        <ThemeContainer text='Login'>
+          <ThemeBody>
+            <Form success>
+              <Form.Field
+                id='form-input-control-email'
+                control={Input}
+                label='Email'
+                placeholder='name@example.com'
+                required
+                name='email'
+                value={this.state.email}
+                onChange={this.handleInputChange}
+                error={this.state.emailErr}
+              />
+              <Form.Field
+                id='form-input-control-pw'
+                control={Input}
+                label='Password'
+                placeholder='******'
+                required
+                name='password'
+                type='password'
+                value={this.state.password}
+                onChange={this.handleInputChange}
+                error={this.state.pwErr}
+              />
+              <p>Forgot Password? <a href='/reset'>Reset Password</a></p>
+              <Button type='submit' onClick={this.login} primary fluid>Submit</Button>
+            </Form>
+            {this.state.loginSuccess && this.loginSuccess()}
+          </ThemeBody>
+        </ThemeContainer>
       </div>
     );
   }
