@@ -49,8 +49,8 @@ function Search () {
     setModal1(true);
   }
 
-  function save (charities, charityProportion) {
-    const obj = { charities, charityProportion };
+  function save (charities, charityProportion, charityName) {
+    const obj = { charities, charityProportion, charityName };
     API
       .post(obj)
       .then(() => console.log('success'));
@@ -131,7 +131,7 @@ function Search () {
                 labelPosition='right'
                 content='Submit'
                 onClick={() => {
-                  save([charity], charityProportion[0]);
+                  save([charity], charityProportion[0], charityName);
                   setModal2(false);
                 }}
               />

@@ -118,6 +118,7 @@ class Login extends Component {
                 onChange={this.handleInputChange}
                 error={this.state.pwErr}
               />
+              <p>Forgot Password? <a href='/reset'>Reset Password</a></p>
               <Button type='submit' onClick={this.login} primary fluid>Submit</Button>
             </Form>
             {this.state.loginSuccess && this.loginSuccess()}

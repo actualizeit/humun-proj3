@@ -27,9 +27,9 @@ class Dashboard extends Component {
         });
         console.log(res.data.user);
       })
-      .catch(err => console.log(err));
-  }
+    }
 
+     
   checkLogin () {
     API.test()
       .then(res => {
@@ -59,7 +59,8 @@ class Dashboard extends Component {
       // socialVenvironmental,
       causesSetUp,
       impactsSetUp,
-      charities
+      charities,
+      charityName
     } = { ...this.state.userInfo };
 
     if (this.state.redirect) {
@@ -106,7 +107,7 @@ class Dashboard extends Component {
             </div>
           }
           <ThemeSegment title='Allocations'>
-            {charities && <p>You currently have chosen {charities[0]} to receive a portion of your contribution.</p>}
+            {charities && <p>You currently have chosen {charityName} to receive a portion of your contribution.</p>}
             {!charities && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
             <p><Link to='/search'>Search Charities</Link></p>
           </ThemeSegment>
