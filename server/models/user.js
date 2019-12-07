@@ -21,6 +21,8 @@ const UserSchema = new mongoose.Schema({
   globalHealth: { type: Number },
   zipCode: { type: Number },
   charities: { type: Array },
+  causesSetUp: { type: Boolean, default: false },
+  impactsSetUp: { type: Boolean, default: false },
   charityProportion: { type: Number },
   transaction: [
     {

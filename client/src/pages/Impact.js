@@ -41,7 +41,8 @@ class Impact extends Component {
     API
       .post({
         impactLoc: impactLoc[0],
-        shortVlongTerm: shortVlongTerm[0]
+        shortVlongTerm: shortVlongTerm[0],
+        impactsSetUp: true
       })
       .then(() => {
         this.setRedirect();

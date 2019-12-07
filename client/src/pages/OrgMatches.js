@@ -54,14 +54,13 @@ class OrgMatches extends Component {
             </ThemeCard>
 
             <Header as='h4' textAlign='center'>
-                        You can donate one time to this basket of causes now, save your profile and donate later, or you can set up a recurring donation to support these causes over time.
+                        You can donate one time to this basket of causes now, save your Dashboard and donate later, or you can set up a recurring donation to support these causes over time.
             </Header>
             <Header as='h4' textAlign='center'>
-                        In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution profile at any time.
+                        In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution Dashboard at any time.
             </Header>
-            
 
-            <Button onClick={() => this.handleOrgMatches('/login')} primary fluid>To Profile</Button>
+            <Button onClick={() => this.handleOrgMatches('/login')} primary fluid>To Dashboard</Button>
           </ThemeBody>
         </div>
       );

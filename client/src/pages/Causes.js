@@ -46,7 +46,8 @@ class Causes extends Component {
     const obj = {
       ...environment,
       ...social,
-      socialVenvironmental: socialVenvironmental[0]
+      socialVenvironmental: socialVenvironmental[0],
+      causesSetUp: true
     };
 
     // Post to db, if successful redirect to review page

@@ -66,7 +66,7 @@ class Review extends Component {
           <ThemeBody>
             <Header as='h4' textAlign='center'>
               <p>Great!</p>
-              <p>Please review your contribution profile:</p>
+              <p>Please review your contribution Dashboard:</p>
             </Header>
             {/* content here */}
             <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
