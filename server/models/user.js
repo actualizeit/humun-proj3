@@ -10,17 +10,29 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   pwResetToken: { type: String },
   date: { type: Date, default: Date.now },
-  impactLoc: { type: Number },
-  shortVlongTerm: { type: Number },
-  socialVenvironmental: { type: Number },
-  pollution: { type: Number },
-  habitat: { type: Number },
-  climateChange: { type: Number },
-  basicNeeds: { type: Number },
-  education: { type: Number },
-  globalHealth: { type: Number },
   zipCode: { type: Number },
+  profileData: {
+    impactLoc: { type: Number, default: 3 },
+    shortVlongTerm: { type: Number, default: 3 },
+    socialVenvironmental: { type: Number, default: 3 },
+    pollution: { type: Number, default: 33 },
+    habitat: { type: Number, default: 33 },
+    climateChange: { type: Number, default: 34 },
+    basicNeeds: { type: Number, default: 33 },
+    education: { type: Number, default: 33 },
+    globalHealth: { type: Number, default: 34 }
+  },
+  allocations: {
+    pollution: {},
+    habitat: {},
+    climateChange: {},
+    basicNeeds: {},
+    education: {},
+    globalHealth: {}
+  },
+  userSelected: { type: Object },
   charities: { type: Array },
+  charityName: {type: String},
   charityProportion: { type: Number },
   transaction: [
     {

@@ -121,8 +121,8 @@ class ThemeSliderGroup extends Component {
     API
       .get()
       .then(res => {
-        const { user } = res.data;
-        const userState = createInitialState(user, values, steps, min);
+        const { profileData } = res.data.user;
+        const userState = createInitialState(profileData, values, steps, min);
         this.setState(userState);
         const forParentWithData = renderResults(userState, steps, calculateNum);
         this.props.stateHandler(this.props.stateKey, forParentWithData);
