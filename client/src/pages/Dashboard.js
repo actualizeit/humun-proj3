@@ -26,10 +26,9 @@ class Dashboard extends Component {
           userInfo: res.data.user
         });
         console.log(res.data.user);
-      })
-    }
+      });
+  }
 
-     
   checkLogin () {
     API.test()
       .then(res => {
