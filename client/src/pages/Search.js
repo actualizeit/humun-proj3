@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Input, Button, Message, Modal } from 'semantic-ui-react';
-import ThemeHeader from './../components/ThemeHeader';
+import { Input, Button, Message, Modal, Header } from 'semantic-ui-react';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
+import ThemeSliderUseState from './../components/ThemeSliderUseState';
 import API from './../utils/Api';
 
 function Search () {
@@ -14,8 +15,10 @@ function Search () {
   const [isLoaded, setIsLoaded] = useState(false);
   const [charity, setCharity] = useState(false);
   const [charityName, setCharityName] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [modal1, setModal1] = useState(false);
+  const [modal2, setModal2] = useState(false);
   const [userSelect, setUserSelect] = useState(false);
+  const [charityProportion, setCharityProportion] = useState([50]);
 
   // get current charity name if there is one
   useEffect(() => {
@@ -33,7 +36,7 @@ function Search () {
           })
           .catch(() => setCharityName(false));
       });
-  }, []);
+  }, [ApiKey]);
 
   // capture search from user input update states above
   function handleChange (event) {
@@ -41,44 +44,36 @@ function Search () {
     setSearch(search);
   }
 
-  // Run API call based on search term
-  function charitySearch () {
-    axios.get('https://api.data.charitynavigator.org/v2/Organizations?app_id=ba24e24a&app_key=' + ApiKey + '&pageSize=20&search=' + search + '&searchType=name_only&rated=true&sort=Rating')
-      .then(res => {
-        console.log(res.data);
-        setProducts(res.data);
-        setIsLoaded(true);
-        return products;
-      });
-  }
-
   function handleSave (id, charity) {
     setUserSelect({ id, charity });
-    if (charity) {
-      setOpen(true);
-    } else {
-      save(id);
-    }
+    setModal1(true);
   }
 
-  function save (id) {
-    const obj = { charities: [id] };
+  function save (charities, charityProportion) {
+    const obj = { charities, charityProportion };
     API
       .post(obj)
       .then(() => console.log('success'));
   }
+
   // Rerun API call each time search term is changed
   useEffect(() => {
-    charitySearch();
-  }, [search]);
+    axios.get('https://api.data.charitynavigator.org/v2/Organizations?app_id=ba24e24a&app_key=' + ApiKey + '&pageSize=20&search=' + search + '&searchType=name_only&rated=true&sort=Rating')
+      .then(res => {
+        setProducts(res.data);
+        setIsLoaded(true);
+      });
+  }, [search, ApiKey]);
 
   return (
-    <div>
-      <ThemeHeader text='Search for Organizations' />
+    <ThemeContainer text='Search for Organizations'>
+
       <ThemeBody>
         {/* input section to update search term */}
+
         <Input icon='search' placeholder='Search...' onChange={handleChange} fluid />
 
+        {/* Message warning users if they have already selected a charity */}
         {charityName &&
           <Message info
             icon='info'
@@ -87,22 +82,28 @@ function Search () {
           />
         }
 
-        {charityName &&
-          <Modal size='Tiny' open={open} onClose={() => setOpen(false)}>
-            <Modal.Header>Set New Charity</Modal.Header>
+        {/* Modal confirming charity choice */}
+        {isLoaded &&
+          <Modal size='tiny' open={modal1} onClose={() => setModal1(false)}>
+            <Modal.Header>Please Confirm</Modal.Header>
             <Modal.Content>
-              <p>Please confirm: Your charity selection will be set to {userSelect.charity}. {charityName} will no longer receive a portion of your contribution.</p>
+              {charityName &&
+                <p>Your charity selection will be set to {userSelect.charity}. {charityName} will no longer receive a portion of your contribution.</p>
+              }
+              {!charityName &&
+                <p>Your charity selection will be set to {userSelect.charity}.</p>
+              }
             </Modal.Content>
             <Modal.Actions>
-              <Button negative>No</Button>
+              <Button negative>Cancel</Button>
               <Button
                 positive
                 icon='checkmark'
                 labelPosition='right'
                 content='Confirm'
                 onClick={() => {
-                  save(userSelect.id);
-                  setOpen(false);
+                  setModal1(false);
+                  setModal2(true);
                   setCharity(userSelect.id);
                   setCharityName(userSelect.charity);
                 }}
@@ -111,7 +112,34 @@ function Search () {
           </Modal>
         }
 
-        {/* Map through all of products in the state and display them onto the page */}
+        {/* Modal collecting proportion information */}
+        {isLoaded &&
+          <Modal size='tiny' open={modal2} onClose={() => setModal2(false)}>
+            <Modal.Header>Assign Contribution</Modal.Header>
+            <Modal.Content>
+              <Header as='h4'>
+                Please select the portion of your contribution that will go to this charity:
+              </Header>
+
+              <ThemeSliderUseState stateKey='charityProportion' value={charityProportion} stateHandler={setCharityProportion} leftLabel='Your Charity' rightLabel='Your Causes' />
+            </Modal.Content>
+            <Modal.Actions>
+              <Button negative>Cancel</Button>
+              <Button
+                positive
+                icon='checkmark'
+                labelPosition='right'
+                content='Submit'
+                onClick={() => {
+                  save([charity], charityProportion[0]);
+                  setModal2(false);
+                }}
+              />
+            </Modal.Actions>
+          </Modal>
+        }
+
+        {/* Map through all of charities in the state and display them onto the page */}
         <div>
           {isLoaded &&
             products.map(charity => (
@@ -132,9 +160,8 @@ function Search () {
             ))
           }
         </div>
-
       </ThemeBody>
-    </div>
+    </ThemeContainer>
   );
 }
 

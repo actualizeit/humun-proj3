@@ -8,10 +8,10 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "..\\public\\dist\\",
-      "uncompressed": "..\\public\\dist\\components\\",
-      "compressed": "..\\public\\dist\\components\\",
-      "themes": "..\\public\\dist\\themes\\"
+      "packaged": "..\\src\\dist\\",
+      "uncompressed": "..\\src\\dist\\components\\",
+      "compressed": "..\\src\\dist\\components\\",
+      "themes": "..\\src\\dist\\themes\\"
     },
     "clean": "dist/"
   },

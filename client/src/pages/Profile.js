@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Header, Segment, Icon, Grid, Button } from 'semantic-ui-react';
 import { Redirect, Link } from 'react-router-dom';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import API from './../utils/Api';
 const { Row, Column } = Grid;
@@ -63,7 +64,7 @@ class Profile extends Component {
     }
 
     return (
-      <div>
+      <ThemeContainer>
         <Grid textAlign='center'>
           <Row>
             <Column color='blue' className={css(styles.pt)}>
@@ -97,7 +98,7 @@ class Profile extends Component {
           <Button fluid onClick={this.logout}>Logout</Button>
 
         </ThemeBody>
-      </div>
+      </ThemeContainer>
     );
   }
 }
