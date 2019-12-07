@@ -28,9 +28,11 @@ class Causes extends Component {
     API
       .get()
       .then(res => {
-        const { socialVenvironmental } = res.data.user;
+        const { socialVenvironmental, impactLoc, shortVlongTerm } = res.data.user.profileData;
         this.setState({
-          socialVenvironmental: [socialVenvironmental]
+          socialVenvironmental: [socialVenvironmental],
+          impactLoc: [impactLoc],
+          shortVlongTerm: [shortVlongTerm]
         });
       });
   }
@@ -42,16 +44,22 @@ class Causes extends Component {
   }
 
   handleCauses = () => {
-    const { environment, social, socialVenvironmental } = this.state;
+    const { environment, social, socialVenvironmental, impactLoc, shortVlongTerm } = this.state;
     const obj = {
-      ...environment,
-      ...social,
-      socialVenvironmental: socialVenvironmental[0]
+      profileData: {
+        ...environment,
+        ...social,
+        socialVenvironmental: socialVenvironmental[0],
+        impactLoc: impactLoc[0],
+        shortVlongTerm: shortVlongTerm[0]
+      }
     };
-
+    console.log('handleCauses', obj);
     // Post to db, if successful redirect to review page
     API
       .post(obj)
+      // .then(res => API.allocation(res.data.user))
+      .then(res => console.log('allocation res: ' + JSON.stringify(res.data.user.profileData)))
       .then(() => this.setRedirect())
       .catch(err => console.log(err));
   }
