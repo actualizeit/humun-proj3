@@ -7,15 +7,15 @@ import API from './../../utils/Api';
 const step = 1;
 const min = 1;
 
-const loader = (isLoaded) => {
-  if (!isLoaded) {
-    return (
-      <div class="ui active inverted dimmer">
-        <div class="ui text loader">Loading</div>
-      </div>
-    );
-  }
-}
+// const loader = (isLoaded) => {
+//   if (!isLoaded) {
+//     return (
+//       <div class="ui active inverted dimmer">
+//         <div class="ui text loader">Loading</div>
+//       </div>
+//     );
+//   }
+// }
 
 // dynamically creates state object
 const createState = (arr, max) => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Header, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-import ThemeHeader from './../components/ThemeHeader';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
 import API from '../utils/Api';
@@ -63,19 +63,19 @@ class Review extends Component {
   }
 
   render () {
-    const {
-      firstName,
-      lastName,
-      impact,
-      shortVlongTerm,
-      basicNeeds,
-      climateChange,
-      education,
-      globalHealth,
-      habitat,
-      pollution,
-      socialVenvironmental
-    } = { ...this.state.userInfo };
+    // const {
+    //   firstName,
+    //   lastName,
+    //   impact,
+    //   shortVlongTerm,
+    //   basicNeeds,
+    //   climateChange,
+    //   education,
+    //   globalHealth,
+    //   habitat,
+    //   pollution,
+    //   socialVenvironmental
+    // } = { ...this.state.userInfo };
 
     return (
       <div>

@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  pwResetToken: { type: String },
   date: { type: Date, default: Date.now },
   zipCode: { type: Number },
   profileData: {
@@ -30,6 +31,9 @@ const UserSchema = new mongoose.Schema({
     globalHealth: {}
   },
   userSelected: { type: Object },
+  charities: { type: Array },
+  charityName: {type: String},
+  charityProportion: { type: Number },
   transaction: [
     {
       type: Schema.Types.ObjectId,

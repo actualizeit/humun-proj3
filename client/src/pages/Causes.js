@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Header, Segment, Form, Button } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-import ThemeHeader from './../components/ThemeHeader';
+import ThemeSegment from './../components/ThemeSegment';
+import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeSlider from './../components/ThemeSlider';
 import ThemeSliderGroup from './../components/ThemeSliderGroup';
@@ -79,37 +80,28 @@ class Causes extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <ThemeHeader text='Your Causes' />
-        <ThemeBody>
-          <Form>
-            <Header as='h4' attached='top' textAlign='center'>
-              Are social or environmental issues more important to you?
-            </Header>
-            <Segment attached='bottom'>
-              <ThemeSlider stateKey='socialVenvironmental' value={this.state.socialVenvironmental} stateHandler={this.handleChange} leftLabel='social' rightLabel='environmental' />
-            </Segment>
+        <ThemeContainer text='Your Causes'>
+          <ThemeBody>
+            <Form>
+              <ThemeSegment title='Are social or environmental issues more important to you?'>
+                <ThemeSlider stateKey='socialVenvironmental' value={this.state.socialVenvironmental} stateHandler={this.handleChange} leftLabel='social' rightLabel='environmental' />
+              </ThemeSegment>
 
-            <Header as='h4' attached='top' textAlign='center'>
-              Which environmental issues do you care most about?
-            </Header>
-            <Segment attached='bottom'>
-              <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} userValues={this.state.user} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} steps={sliderSteps}/>
-              </ThemeSliderGroupContainer>
-            </Segment>
+              <ThemeSegment title='Which environmental issues do you care most about?'>
+                <ThemeSliderGroupContainer>
+                  <ThemeSliderGroup values={['pollution', 'habitat', 'climateChange']} userValues={this.state.user} titles={['Pollution Prevention & Clean-up', 'Habitat Preservation & Biodiversity', 'Climate Change Mitigation']} stateKey='environment' stateHandler={this.handleChange} steps={sliderSteps}/>
+                </ThemeSliderGroupContainer>
+              </ThemeSegment>
 
-            <Header as='h4' attached='top' textAlign='center'>
-              Which social issues do you care most about?
-            </Header>
-            <Segment attached='bottom'>
-              <ThemeSliderGroupContainer>
-                <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} userValues={this.state.user} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
-              </ThemeSliderGroupContainer>
-            </Segment>
-
-            <Button type='submit' onClick={this.handleCauses} primary fluid>Submit</Button>
-          </Form>
-        </ThemeBody>
+              <ThemeSegment title='Which social issues do you care most about?'>
+                <ThemeSliderGroupContainer>
+                  <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} userValues={this.state.user} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
+                </ThemeSliderGroupContainer>
+              </ThemeSegment>
+              <Button basic type='submit' onClick={this.handleCauses} content='Review' icon='right arrow' labelPosition='right' fluid />
+            </Form>
+          </ThemeBody>
+        </ThemeContainer>
       </div>
     );
   }
