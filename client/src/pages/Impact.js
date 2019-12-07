@@ -48,6 +48,9 @@ class Impact extends Component {
     const profileData = this.state.profileData;
     API
       .post({
+        impactLoc: impactLoc[0],
+        shortVlongTerm: shortVlongTerm[0],
+        impactsSetUp: true,
         profileData: profileData[0]
       })
       .then(() => {

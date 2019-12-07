@@ -3,7 +3,7 @@ const { Transactions, User } = require('../models');
 
 // console.log(charities.charities);
 
-// function to be run after completion of user onboarding, profile edit, or added charity
+// function to be run after completion of user onboarding, Dashboard edit, or added charity
 // sets donation defaults for review (on next login in case of charity add)
 
 module.exports = {

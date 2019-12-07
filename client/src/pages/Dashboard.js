@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Header, Segment, Icon, Grid, Button } from 'semantic-ui-react';
+import { Header, Segment, Icon, Grid, Button, Message } from 'semantic-ui-react';
 import { Redirect, Link } from 'react-router-dom';
-import ThemeContainer from './../components/ThemeContainer';
-import ThemeBody from './../components/ThemeBody';
-import API from './../utils/Api';
+import ThemeContainer from '../components/ThemeContainer';
+import ThemeSegment from './../components/ThemeSegment';
+import ThemeBody from '../components/ThemeBody';
+import API from '../utils/Api';
 const { Row, Column } = Grid;
 
-
-class Profile extends Component {
+class Dashboard extends Component {
   constructor (props) {
     super(props);
     this.logout = this.logout.bind(this);
@@ -57,12 +57,21 @@ class Profile extends Component {
       // habitat,
       // pollution,
       // socialVenvironmental,
+      causesSetUp,
+      impactsSetUp,
       charities,
       charityName
     } = { ...this.state.userInfo };
 
     if (this.state.redirect) {
       return <Redirect push to="/" />;
+    }
+
+    const isSetUp = () => {
+      if (causesSetUp && impactsSetUp) {
+        return true;
+      }
+      return false;
     }
 
     return (
@@ -86,18 +95,22 @@ class Profile extends Component {
             <Segment vertical></Segment>
           </div>
 
-          <Header as='h5' attached='top'>Allocations</Header>
-          <Segment attached='bottom'>
-            <p>You currently have chosen {charities && charityName} to receive a portion of your contribution.</p>
-            <p><Link to='/search'>Change Charity</Link></p>
-
-          </Segment>
-
-          <Header as='h5' attached='top'>Donation History</Header>
-          <Segment attached='bottom'>
-            <p>Donations Here</p>
-          </Segment>
-          <Button fluid onClick={this.logout}>Logout</Button>
+          { !isSetUp() &&
+            <div style={{ marginBottom: '1.25em' }}>
+              <Message icon='exclamation' header='Finish Account Set Up' info attached='top' />
+              <Message info attached='bottom'>
+                <Button.Group fluid>
+                  {!impactsSetUp && <Button basic color='teal' link='/impact'>Set Your Impacts</Button>}
+                  {!causesSetUp && <Button basic color='teal' link='/causes'>Choose Your Causes</Button>}
+                </Button.Group>
+              </Message>
+            </div>
+          }
+          <ThemeSegment title='Allocations'>
+            {charities && <p>You currently have chosen {charityName} to receive a portion of your contribution.</p>}
+            {!charities && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
+            <p><Link to='/search'>Search Charities</Link></p>
+          </ThemeSegment>
 
         </ThemeBody>
       </ThemeContainer>
@@ -114,4 +127,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Profile;
+export default Dashboard;

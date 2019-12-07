@@ -32,7 +32,9 @@ const UserSchema = new mongoose.Schema({
   },
   userSelected: { type: Object },
   charities: { type: Array },
-  charityName: {type: String},
+  causesSetUp: { type: Boolean, default: false },
+  impactsSetUp: { type: Boolean, default: false },
+  charityName: { type: String },
   charityProportion: { type: Number },
   transaction: [
     {

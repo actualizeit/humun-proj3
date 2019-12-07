@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { Doughnut } from 'react-chartjs-2';
 import API from './../utils/Api';
 
-let donationObject = [
+const donationObject = [
   {
     name: 'SaveTheSeaLions',
     donationAmount: 25
@@ -17,10 +17,11 @@ let donationObject = [
     donationAmount: 20
   }
 ];
-let donationsArray = [];
-let colorArray = ['gray', 'black', 'lightgrey', 'green', 'blue', 'indigo'];
-let colorArray2 = [];
-let labelArray = [];
+
+const donationsArray = [];
+const colorArray = ['gray', 'black', 'lightgrey', 'green', 'blue', 'indigo'];
+const colorArray2 = [];
+const labelArray = [];
 
 donationObject.forEach((charity, i) => {
   colorArray2.push(colorArray[i]);
@@ -28,7 +29,7 @@ donationObject.forEach((charity, i) => {
   labelArray.push(charity.name);
 });
 
-let dataObject = {
+const dataObject = {
   datasets: [{
     data: donationsArray,
     backgroundColor: colorArray2

@@ -6,7 +6,7 @@ import Donation from './pages/Donation';
 import Impact from './pages/Impact';
 import Login from './pages/Login';
 import OrgMatches from './pages/OrgMatches';
-import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
 import Review from './pages/Review';
 import Splash from './pages/Splash';
 import NoMatch from './pages/NoMatch';
@@ -23,7 +23,7 @@ class App extends Component {
         <div>
           <Switch>
             {/* After we create logout ability, we can use the code below to render the splash page only if the user is logged out */}
-            {/* { API.test() && <Route exact path="/" component={Profile} /> }
+            {/* { API.test() && <Route exact path="/" component={Dashboard} /> }
             { !API.test() && <Route exact path="/" component={Splash} /> } */}
 
             {/* Get rid of route below, uncomment routes above after we create logout ability */}
@@ -35,8 +35,8 @@ class App extends Component {
 
             <Route exact path="/create" component={CreateAccount} />
 
-            {/* Test authentication before rendering profile */}
-            { API.test() && <Route exact path="/profile" component={Profile} /> }
+            {/* Test authentication before rendering Dashboard */}
+            { API.test() && <Route exact path="/dashboard" component={Dashboard} /> }
 
             <Route exact path="/search" component={Search} />
             <Route exact path="/impact" component={Impact} />

@@ -84,14 +84,14 @@ class Login extends Component {
     );
   }
 
-  redirectToProfile = () => {
-    return <Redirect push to='/profile' />;
+  redirectToDashboard = () => {
+    return <Redirect push to='/dashboard' />;
   }
 
   render () {
     return (
       <div>
-        {this.state.redirect && this.redirectToProfile()}
+        {this.state.redirect && this.redirectToDashboard()}
         <ThemeContainer text='Login'>
           <ThemeBody>
             <Form success>

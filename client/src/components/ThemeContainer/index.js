@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Header, Menu, Icon, Segment, Sidebar } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import API from '../../utils/Api';
 const { Row, Column } = Grid;
 
@@ -33,7 +33,7 @@ function ThemeContainer (props) {
           direction='right'
           width='thin'
         >
-          <Menu.Item as='a' href='/profile'>
+          <Menu.Item as='a' href='/dashboard'>
               Dashboard
           </Menu.Item>
           <Menu.Item as='a' onClick={logout}>
@@ -47,7 +47,7 @@ function ThemeContainer (props) {
               <Column>
                 <Menu fixed='top'>
                   <Menu.Item>
-                    <Header as='h3'>humun</Header>
+                    <Link to='/'><Header as='h3'>humun</Header></Link>
                   </Menu.Item>
                   <Menu.Item
                     onClick={() => setMenuOpen(true)}
