@@ -4,6 +4,20 @@ import { Redirect } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import API from '../utils/Api';
+import { Doughnut } from 'react-chartjs-2';
+
+const donationsArray = [];
+const colorArray = ['gray', 'black', 'lightgrey', 'green', 'blue', 'indigo'];
+const colorArray2 = [];
+const labelArray = [];
+
+const dataObject = {
+  datasets: [{
+    data: donationsArray,
+    backgroundColor: colorArray2
+  }],
+  labels: labelArray
+};
 
 class Review extends Component {
   constructor (props) {
@@ -15,16 +29,19 @@ class Review extends Component {
     };
   }
 
-  loadUser = () => {
-
-  }
-
   componentDidMount () {
     this.checkLogin();
     API.allocation()
       .then(res => {
-        const allocations = res.data.user.allocations;
-        console.log('allocations: ', allocations);
+        const allocations = Object.values(res.data.user.allocations);
+        console.log('allocations: ', Object.values(allocations));
+        allocations.forEach((charity, i) => {
+          colorArray2.push(colorArray[i]);
+          donationsArray.push(charity.portion.toFixed(2));
+          labelArray.push(charity.name);
+        });
+
+        // console.log('allocations: ', allocations);
         const profileData = res.data.user.profileData;
         this.setState({
           firstName: [res.data.user.firstName],
@@ -40,20 +57,20 @@ class Review extends Component {
           habitat: [profileData.habitat],
           pollution: [profileData.pollution],
           socialVenvironmental: [profileData.socialVenvironmental],
-          char1: [allocations.basicNeeds.name]
+          // char1: [allocations.basicNeeds.name]
         });
       });
   }
 
- checkLogin () {
-   API.test()
-     .then(res => {
-       console.log('loggedin');
-     })
-     .catch(() => {
-       this.setState({ splashRedirect: true });
-     });
- }
+  checkLogin () {
+    API.test()
+      .then(res => {
+        console.log('loggedin');
+      })
+      .catch(() => {
+        this.setState({ splashRedirect: true });
+      });
+  }
 
   handleReview = () => {
     console.log('clicked');
@@ -97,6 +114,9 @@ class Review extends Component {
         {this.renderRedirect()}
         <ThemeContainer text='Review'>
           <ThemeBody>
+            <div>
+              <Doughnut data={dataObject} />
+            </div>
             <Header as='h4' textAlign='center'>
               <p>Great!</p>
               <p>Please review your contribution profile:</p>

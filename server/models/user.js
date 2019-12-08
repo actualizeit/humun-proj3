@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema({
     globalHealth: { type: Number, default: 34 }
   },
   allocations: {
+    userSelected: {},
     pollution: {},
     habitat: {},
     climateChange: {},

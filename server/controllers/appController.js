@@ -124,6 +124,8 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   allocationCalc: function (req, res) {
+    const selectedCharity = req.user.charityName;
+    const selectedPortion = req.user.charityProportion;
     const profileData = req.user.profileData;
     console.log('==================');
     console.log('input', profileData);
@@ -144,6 +146,11 @@ module.exports = {
         portions.push(userArray[i] * (1 - SvERatio));
       }
     }
+    allocationsTemp.push({
+      name: selectedCharity,
+      category: 'userSelected',
+      portion: selectedPortion
+    });
     charities.charities.forEach(element => {
       const tempDiff = Math.abs(element.localVglobal - userArray[1]) + Math.abs(element.shortVlong - userArray[2]);
       if (allocationsTemp.filter(e => e.category === element.category).length === 0) {
@@ -162,37 +169,42 @@ module.exports = {
           }
         }
       }
+      console.log('allocationsTemp: ', allocationsTemp);
       allocationsTemp.forEach(element => {
         switch (element.category) {
           case 'pollution':
-            element.portion = portions[0];
+            element.portion = portions[0] * (100 - selectedPortion) / 100;
             allocationsObj.pollution = element;
             break;
           case 'habitat':
-            element.portion = portions[1];
+            element.portion = portions[1] * (100 - selectedPortion) / 100;
             allocationsObj.habitat = element;
             break;
           case 'climateChange':
-            element.portion = portions[2];
+            element.portion = portions[2] * (100 - selectedPortion) / 100;
             allocationsObj.climateChange = element;
             break;
           case 'basicNeeds':
-            element.portion = portions[3];
+            element.portion = portions[3] * (100 - selectedPortion) / 100;
             allocationsObj.basicNeeds = element;
             break;
           case 'education':
-            element.portion = portions[4];
+            element.portion = portions[4] * (100 - selectedPortion) / 100;
             allocationsObj.education = element;
             break;
           case 'globalHealth':
-            element.portion = portions[5];
+            element.portion = portions[5] * (100 - selectedPortion) / 100;
             allocationsObj.globalHealth = element;
+            break;
+          case 'userSelected':
+            allocationsObj.userSelected = element;
             break;
           default: console.log('Invalid portion operation');
         }
       });
     });
-    console.log('allocationsObj: ' + JSON.stringify(allocationsObj));
+
+    console.log('allocationsObj: ', allocationsObj);
     console.log('userArray[1]: ' + userArray[1]);
     console.log('user: ' + req.user._id);
     console.log('profileData: ' + profileData);
