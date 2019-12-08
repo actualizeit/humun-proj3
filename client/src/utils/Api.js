@@ -32,5 +32,11 @@ export default {
   },
   resetPW: function (obj) {
     return axios.post(`/api/users/resetPW`, obj);
+  },
+  getEmailToken: function (obj) {
+    return axios.post('/api/users/getEmailToken', obj);
+  },
+  confirmEmail: function (obj) {
+    return axios.post(`/api/users/confirmEmail`, obj);
   }
 };
