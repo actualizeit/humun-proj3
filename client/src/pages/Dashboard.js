@@ -26,10 +26,9 @@ class Dashboard extends Component {
           userInfo: res.data.user
         });
         console.log(res.data.user);
-      })
-    }
+      });
+  }
 
-     
   checkLogin () {
     API.test()
       .then(res => {
@@ -100,8 +99,8 @@ class Dashboard extends Component {
               <Message icon='exclamation' header='Finish Account Set Up' info attached='top' />
               <Message info attached='bottom'>
                 <Button.Group fluid>
-                  {!impactsSetUp && <Button basic color='teal' link='/impact'>Set Your Impacts</Button>}
-                  {!causesSetUp && <Button basic color='teal' link='/causes'>Choose Your Causes</Button>}
+                  {!impactsSetUp && <Button basic color='teal' href='/impact'>Set Your Impacts</Button>}
+                  {!causesSetUp && <Button basic color='teal' href='/causes'>Choose Your Causes</Button>}
                 </Button.Group>
               </Message>
             </div>
