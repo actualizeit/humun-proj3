@@ -20,7 +20,8 @@ class Splash2 extends Component {
 
     this.state = {
       text: 'Humun is an app that empowers you to contribute in the most effective ways to the causes you care about, and makes it easier than ever to maintain and enhance your positive impact over time.',
-      profileRedirect: false
+      profileRedirect: false,
+      showMore: true
     };
   }
 
@@ -53,7 +54,8 @@ class Splash2 extends Component {
         break;
       case 4:
         this.setState({
-          text: 'Click "Create an Account" below to get started!'
+          text: 'Click "Create an Account" below to get started!',
+          showMore: false
         });
         counter++;
         break;
@@ -86,7 +88,9 @@ class Splash2 extends Component {
           <Column textAlign='center'>
             <Header as='h1' inverted>humun</Header>
             <p>{this.state.text}</p>
-            <p><Button color='white' fluid type='submit' onClick={this.moreInfo}>More Info</Button></p>
+            {this.state.showMore &&
+            <p><Button basic inverted color='white' onClick={this.moreInfo}>More Info</Button></p>
+            }
             <p><Button color='white' fluid href='/create'>Create an Account</Button></p>
             <p><Button color='blue' fluid href='/login'>Login</Button></p>
           </Column>
