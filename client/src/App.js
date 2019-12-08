@@ -23,9 +23,9 @@ class App extends Component {
     this.state = {
       authenticated: true
     };
-  };
+  }
 
-  ProtectedRoute =  ({ auth, ...props }) => {
+  ProtectedRoute = ({ auth, ...props }) => {
     // API.test()
     //   .then(res => {
     //     this.setState({ authenticated: true });
@@ -35,7 +35,7 @@ class App extends Component {
     //   });
     return this.state.authenticated
       ? (<Route {...props} />)
-      : (<Redirect to="/login" />)
+      : (<Redirect to="/login" />);
   };
 
   render () {
@@ -49,7 +49,6 @@ class App extends Component {
 
             {/* Get rid of route below, uncomment routes above after we create logout ability */}
             <Route exact path="/" component={Splash} />
-
             <Route exact path="/login">
               <Login authHandler={this.authHandler} />
             </Route>
