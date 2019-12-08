@@ -22,6 +22,7 @@ class Review extends Component {
     API.allocation()
       .then(res => {
         const allocations = res.data.user.allocations;
+        console.log('allocations: ', allocations);
         const profileData = res.data.user.profileData;
         this.setState({
           firstName: [res.data.user.firstName],
@@ -36,8 +37,8 @@ class Review extends Component {
           globalHealth: [profileData.globalHealth],
           habitat: [profileData.habitat],
           pollution: [profileData.pollution],
-          socialVenvironmental: [profileData.socialVenvironmental]
-          //  allocations: [allocations]
+          socialVenvironmental: [profileData.socialVenvironmental],
+          char1: [allocations.basicNeeds.name]
         });
       });
   }
@@ -97,7 +98,7 @@ class Review extends Component {
               <p>habitat: {this.state.habitat}</p>
               <p>pollution: {this.state.pollution}</p>
               <p>socialVenvironmental: {this.state.socialVenvironmental}</p>
-              {/* <p>allocations: {this.state.allocations}</p> */}
+              <p>char1: {this.state.char1}</p>
             </Header>
             {/* content here */}
             <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
