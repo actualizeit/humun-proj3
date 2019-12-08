@@ -57,7 +57,7 @@ class Review extends Component {
   handleReview = () => {
     console.log('clicked');
 
-    // if review is approved redirect to matches page
+    // if review is approved redirect to dashboard
     this.setRedirect();
   }
 
@@ -69,7 +69,7 @@ class Review extends Component {
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to='/matches' />;
+      return <Redirect to='/dashboard' />;
     }
   }
 

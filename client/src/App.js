@@ -6,7 +6,6 @@ import CreateAccount from './pages/CreateAccount';
 import Donation from './pages/Donation';
 import Impact from './pages/Impact';
 import Login from './pages/Login';
-import OrgMatches from './pages/OrgMatches';
 import Dashboard from './pages/Dashboard';
 import Review from './pages/Review';
 import Splash from './pages/Splash';
@@ -16,7 +15,6 @@ import PasswordReset from './pages/PasswordReset';
 import GetResetToken from './pages/GetResetToken';
 import Search from './pages/Search';
 import ConfirmEmail from './pages/ConfirmEmail';
-import Splash2 from './pages/Splash2';
 
 class App extends Component {
   constructor (props) {
@@ -51,7 +49,6 @@ class App extends Component {
 
             {/* Get rid of route below, uncomment routes above after we create logout ability */}
             <Route exact path="/" component={Splash} />
-            <Route exact path="/splash2" component={Splash2} />
 
             <Route exact path="/login">
               <Login authHandler={this.authHandler} />
@@ -64,7 +61,6 @@ class App extends Component {
             <Route exact path="/search" component={Search} />
             <Route exact path="/impact" component={Impact} />
             <Route exact path="/donation" component={Donation} />
-            <Route exact path="/matches" component={OrgMatches} />
             <Route exact path="/review" component={Review} />
             <Route exact path="/causes" component={Causes} />
             <Route exact path="/chart" component={Chart} />

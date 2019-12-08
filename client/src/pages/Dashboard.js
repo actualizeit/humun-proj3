@@ -29,9 +29,10 @@ class Dashboard extends Component {
         this.setState({
           userInfo: res.data.user
         });
-        if(!this.state.userInfo.emailSetUp) {
+        if (!this.state.userInfo.emailSetUp) {
           this.setState({ emailConfirmationMessage: true });
         }
+        console.log(res.data.user);
       });
   }
 
@@ -113,8 +114,8 @@ class Dashboard extends Component {
               <Message icon='exclamation' header='Finish Account Set Up' info attached='top' />
               <Message info attached='bottom'>
                 <Button.Group fluid>
-                  {!impactsSetUp && <Button basic color='teal' link='/impact'>Set Your Impacts</Button>}
-                  {!causesSetUp && <Button basic color='teal' link='/causes'>Choose Your Causes</Button>}
+                  {!impactsSetUp && <Button basic color='teal' href='/impact'>Set Your Impacts</Button>}
+                  {!causesSetUp && <Button basic color='teal' href='/causes'>Choose Your Causes</Button>}
                 </Button.Group>
               </Message>
               {this.state.emailConfirmationMessage && <Message info>
