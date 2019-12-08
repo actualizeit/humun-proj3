@@ -63,7 +63,8 @@ class Causes extends Component {
         ...social,
         socialVenvironmental: socialVenvironmental[0],
         impactLoc: impactLoc[0],
-        shortVlongTerm: shortVlongTerm[0]
+        shortVlongTerm: shortVlongTerm[0],
+        causesSetUp: true
       }
     };
     console.log('handleCauses', obj);

@@ -29,5 +29,7 @@ router
 router.post('/getResetToken', appController.getPwResetToken);
 
 router.post('/resetPW', appController.resetPW);
-  
+
+router.post('/getEmailToken', appController.getEmailToken);
+router.post('/confirmEmail', appController.confirmEmail);
 module.exports = router;

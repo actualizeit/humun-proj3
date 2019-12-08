@@ -90,8 +90,8 @@ class Login extends Component {
     );
   }
 
-  redirectToProfile = () => {
-    return <Redirect push to='/profile' />;
+  redirectToDashboard = () => {
+    return <Redirect push to='/dashboard' />;
   }
 
   redirectToImpact = () => {
@@ -101,8 +101,8 @@ class Login extends Component {
   render () {
     return (
       <div>
-        {this.state.profileRedirect && this.redirectToProfile()}
         {this.state.impactRedirect && this.redirectToImpact()}
+        {this.state.profileRedirect && this.redirectToDashboard()}
         <ThemeContainer text='Login'>
           <ThemeBody>
             <Form success>
