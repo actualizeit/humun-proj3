@@ -5,7 +5,6 @@ import CreateAccount from './pages/CreateAccount';
 import Donation from './pages/Donation';
 import Impact from './pages/Impact';
 import Login from './pages/Login';
-import OrgMatches from './pages/OrgMatches';
 import Dashboard from './pages/Dashboard';
 import Review from './pages/Review';
 import Splash from './pages/Splash';
@@ -41,7 +40,6 @@ class App extends Component {
             <Route exact path="/search" component={Search} />
             <Route exact path="/impact" component={Impact} />
             <Route exact path="/donation" component={Donation} />
-            <Route exact path="/matches" component={OrgMatches} />
             <Route exact path="/review" component={Review} />
             <Route exact path="/causes" component={Causes} />
             <Route exact path="/chart" component={Chart} />
