@@ -67,6 +67,7 @@ class App extends Component {
             <Route exact path='/reset' component={GetResetToken} />
             <Route path="/reset/:jsontoken" component={PasswordReset}/>
             <Route path='/emailConfirm/:jsontoken' component={ConfirmEmail} />
+
             <Route component={NoMatch} />
           </Switch>
         </div>
