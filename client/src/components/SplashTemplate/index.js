@@ -51,7 +51,7 @@ class SplashTemplate extends Component {
             {/* Page Content */}
             { this.props.titleSize === 'large' && <Header as='h1' textAlign='center' inverted>{this.props.title}</Header> }
             { this.props.titleSize === 'small' && <Header as='h2' textAlign='center' inverted>{this.props.title}</Header> }
-            <p style={{ color: 'white' }}>{this.props.children}</p>
+            <div style={{ color: 'white' }}>{this.props.children}</div>
           </Column>
         </Row>
       </Grid>
