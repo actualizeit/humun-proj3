@@ -1,18 +1,28 @@
 module.exports = {
   charities: [
     {
-      name: 'pollutionCo',
-      description: 'It does pollution stuff',
+      name: 'Natural Resources Defense Council',
+      link: 'https://www.nrdc.org/',
+      description: 'to safeguard the Earth: its people, its plants and animals and the natural systems on which all life depends',
       category: 'pollution',
       shortVlong: 4,
       localVglobal: 6
     },
     {
-      name: 'habitatCo',
-      description: 'It does habitat stuff',
+      name: 'Wild Animal and Habitat Protection',
+      link: 'https://www.wcs.org/',
+      description: 'to save wildlife and wild places worldwide through science',
+      category: 'habitat',
+      shortVlong: 4,
+      localVglobal: 3
+    },
+    {
+      name: 'World Land Trust',
+      link: 'https://www.worldlandtrust.org/',
+      description: "World Land Trust protects the world's most biologically important and threatened habitats acre by acre",
       category: 'habitat',
       shortVlong: 6,
-      localVglobal: 3
+      localVglobal: 6
     },
     {
       name: 'climateChangeCo',

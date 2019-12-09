@@ -15,6 +15,7 @@ import PasswordReset from './pages/PasswordReset';
 import GetResetToken from './pages/GetResetToken';
 import Search from './pages/Search';
 import ConfirmEmail from './pages/ConfirmEmail';
+import Matches from './pages/OrgMatches';
 
 class App extends Component {
   constructor (props) {
@@ -57,11 +58,12 @@ class App extends Component {
 
             {/* Test authentication before rendering Dashboard */}
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/search" component={Search} />
             <Route exact path="/impact" component={Impact} />
-            <Route exact path="/donation" component={Donation} />
-            <Route exact path="/review" component={Review} />
             <Route exact path="/causes" component={Causes} />
+            <Route exact path="/search" component={Search} />
+            <Route exact path="/matches" component={Matches} />
+            <Route exact path="/review" component={Review} />
+            <Route exact path="/donation" component={Donation} />
             <Route exact path="/chart" component={Chart} />
             <Route exact path='/reset' component={GetResetToken} />
             <Route path="/reset/:jsontoken" component={PasswordReset}/>
