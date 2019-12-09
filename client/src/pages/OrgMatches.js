@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Header, Button } from 'semantic-ui-react';
+import { Input, Button, Message, Modal, Header } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
 import API from './../utils/Api';
+
+let allocations = [];
 
 class OrgMatches extends Component {
   constructor (props) {
@@ -12,12 +14,21 @@ class OrgMatches extends Component {
 
     this.state = {
       redirect: false,
-      redirectLoc: ''
+      redirectLoc: '',
+      isLoaded: false
     };
   }
 
   componentDidMount () {
     this.checkLogin();
+    API.allocation()
+      .then(res => {
+        allocations = Object.values(res.data.user.allocations);
+        console.log('allocations: ', allocations);
+        this.setState({
+          isLoaded: true
+        });
+      });
   }
 
   checkLogin () {
@@ -60,24 +71,32 @@ class OrgMatches extends Component {
             <Header as='h4' textAlign='center'>
                         We’ve matched you to these organizations:
             </Header>
-
-            <ThemeCard image={'https://dummyimage.com/300/000/fff&text=logo'} title='Example Company'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, repudiandae error? Optio quam vero corrupti asperiores ipsum amet voluptates facere! Consequuntur eveniet incidunt dicta vel recusandae ducimus eligendi modi nihil.
-            </ThemeCard>
-            <ThemeCard image={'https://dummyimage.com/300/000/fff&text=company'} title='Example Company 2'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, repudiandae error? Optio quam vero corrupti asperiores ipsum amet voluptates facere! Consequuntur eveniet incidunt dicta vel recusandae ducimus eligendi modi nihil.
-            </ThemeCard>
-            <ThemeCard image={'https://dummyimage.com/300/000/fff&text=lorem'} title='Example Company 3'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, repudiandae error? Optio quam vero corrupti asperiores ipsum amet voluptates facere! Consequuntur eveniet incidunt dicta vel recusandae ducimus eligendi modi nihil.
-            </ThemeCard>
-
+        {/* Map through all of charities in the state and display them onto the page */}
+        <div>
+          {this.state.isLoaded &&
+            allocations.map(charity => (
+              <div key={charity.ein}>
+                <ThemeCard
+                  title={charity.name}
+                  image={charity.cause.image}
+                  link={charity.websiteURL}
+                  tagLine={charity.tagLine}
+                  EIN={charity.ein}
+                  cause={charity.cause.causeName}
+                  city={charity.mailingAddress.city}
+                  state={charity.mailingAddress.stateOrProvince}
+                >
+                </ThemeCard>
+              </div>
+            ))
+          }
+        </div>
             <Header as='h4' textAlign='center'>
                         You can donate one time to this basket of causes now, save your Dashboard and donate later, or you can set up a recurring donation to support these causes over time.
             </Header>
             <Header as='h4' textAlign='center'>
                         In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution Dashboard at any time.
             </Header>
-
 
             <Button onClick={() => this.handleOrgMatches('/dashboard')} primary fluid>To Dashboard</Button>
           </ThemeBody>
