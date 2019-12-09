@@ -50,13 +50,13 @@ class Impact extends Component {
   }
 
   handleImpacts = () => {
-    const { impactLoc, shortVlongTerm } = this.state;
+    const { impactLoc, shortVlongTerm, profileData } = this.state;
     // console.log('svl: ' + shortVlongTerm + ' impact: ' + impactLoc);
     this.state.profileData[0].impactLoc = impactLoc[0];
     this.state.profileData[0].shortVlongTerm = shortVlongTerm[0];
     // console.log('svl: ' + this.state.profileData.shortVlongTerm + ' impact: ' + this.state.profileData.impactLoc);
     console.log(this.state.profileData);
-    const profileData = this.state.profileData;
+    // const profileData = this.state.profileData;
     API
       .post({
         impactLoc: impactLoc[0],
