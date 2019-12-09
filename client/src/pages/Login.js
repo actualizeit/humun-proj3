@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
-import ThemeContainer from './../components/ThemeContainer';
-import ThemeBody from './../components/ThemeBody';
+import { Button, Form, Input, Message, Header } from 'semantic-ui-react';
+import SplashTemplate from './../components/SplashTemplate';
 import API from '../utils/Api';
 import Cookies from 'universal-cookie';
+import bg from './../assets/images/bg-crowd.jpg';
+
 const cookies = new Cookies();
 
 class Login extends Component {
@@ -100,42 +101,43 @@ class Login extends Component {
 
   render () {
     return (
-      <div>
+      <SplashTemplate
+        title='humun'
+        titleSize='large'
+        bgImage={bg}
+        blendMode='soft-light'
+      >
         {this.state.impactRedirect && this.redirectToImpact()}
         {this.state.profileRedirect && this.redirectToDashboard()}
-        <ThemeContainer text='Login'>
-          <ThemeBody>
-            <Form success>
-              <Form.Field
-                id='form-input-control-email'
-                control={Input}
-                label='Email'
-                placeholder='name@example.com'
-                required
-                name='email'
-                value={this.state.email}
-                onChange={this.handleInputChange}
-                error={this.state.emailErr}
-              />
-              <Form.Field
-                id='form-input-control-pw'
-                control={Input}
-                label='Password'
-                placeholder='******'
-                required
-                name='password'
-                type='password'
-                value={this.state.password}
-                onChange={this.handleInputChange}
-                error={this.state.pwErr}
-              />
-              <p>Forgot Password? <a href='/reset'>Reset Password</a></p>
-              <Button type='submit' onClick={this.login} primary fluid>Submit</Button>
-            </Form>
-            {this.state.loginSuccess && this.loginSuccess()}
-          </ThemeBody>
-        </ThemeContainer>
-      </div>
+        <Form success inverted>
+          <Form.Field
+            id='form-input-control-email'
+            control={Input}
+            label='Email'
+            placeholder='name@example.com'
+            required
+            name='email'
+            value={this.state.email}
+            onChange={this.handleInputChange}
+            error={this.state.emailErr}
+          />
+          <Form.Field
+            id='form-input-control-pw'
+            control={Input}
+            label='Password'
+            placeholder='******'
+            required
+            name='password'
+            type='password'
+            value={this.state.password}
+            onChange={this.handleInputChange}
+            error={this.state.pwErr}
+          />
+          <Button inverted basic type='submit' onClick={this.login} fluid>Submit</Button>
+          <Header as='h6' floated='right' inverted style={{ marginTop: '1em' }}><a href='/reset' style={{ color: 'white' }}>Forgot Password? Reset Password →</a></Header>
+        </Form>
+        {this.state.loginSuccess && this.loginSuccess()}
+      </SplashTemplate>
     );
   }
 }

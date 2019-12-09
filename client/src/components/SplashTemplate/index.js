@@ -32,24 +32,26 @@ class SplashTemplate extends Component {
   render () {
     const sectionStyle = {
       backgroundImage: `url(${this.props.bgImage})`,
-      backgroundPosition: 'center',
+      backgroundPosition: 'center center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       backgroundColor: '#179BE8',
-      backgroundBlendMode: 'hard-light'
+      backgroundAttachment: 'fixed',
+      backgroundBlendMode: `${this.props.blendMode}`
     };
 
     return (
-      <Grid verticalAlign="middle" centered stackable columns={3} style={{ height: '100vh', ...sectionStyle }}>
+      <Grid verticalAlign="middle" centered stackable columns={3} style={{ minHeight: '100vh', ...sectionStyle, margin: '0' }}>
         <Row>
-          <Column textAlign='center' inverted style={{ backgroundColor: 'rgba(23, 155, 232, .75)', padding: '2em 2em', borderRadius: '8px' }}>
+          <Column inverted style={{ backgroundColor: 'rgba(23, 155, 232, .75)', padding: '2em 2em', borderRadius: '8px' }}>
 
             {/* Redirect if logged in */}
             {this.state.profileRedirect && <Redirect push to="/dashboard" />}
 
             {/* Page Content */}
-            <Header as='h1' inverted>{this.props.title}</Header>
-            <p>{this.props.children}</p>
+            { this.props.titleSize === 'large' && <Header as='h1' textAlign='center' inverted>{this.props.title}</Header> }
+            { this.props.titleSize === 'small' && <Header as='h2' textAlign='center' inverted>{this.props.title}</Header> }
+            <p style={{ color: 'white' }}>{this.props.children}</p>
           </Column>
         </Row>
       </Grid>

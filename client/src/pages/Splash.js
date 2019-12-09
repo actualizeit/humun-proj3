@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Header, Button, Accordion, Icon, Segment } from 'semantic-ui-react';
+import { Header, Button, Accordion, Icon } from 'semantic-ui-react';
+import bg from './../assets/images/bg.jpeg';
 import SplashTemplate from './../components/SplashTemplate';
 
 let counter = 0;
@@ -64,7 +65,9 @@ class Splash2 extends Component {
     return (
       <SplashTemplate
         title='humun'
-        bgImage='https://images.pexels.com/photos/793166/pexels-photo-793166.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+        titleSize='large'
+        bgImage={bg}
+        blendMode='hard-light'
       >
         <p style={{ color: 'white' }}>{this.state.text}</p>
         {/* {this.state.showMore &&
