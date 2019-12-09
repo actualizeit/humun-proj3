@@ -14,7 +14,8 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      redirect: false,
+      profileRedirect: false,
+      impactRedirect: false,
       emailErr: null,
       pwErr: null,
       loginSuccess: false
@@ -41,8 +42,13 @@ class Login extends Component {
           this.setState({ loginSuccess: true });
           // need to add success alert before redirect
           const that = this;
+          console.log(res.data)
           setTimeout(function () {
-            that.setState({ redirect: true });
+            if (res.data.user.initialSetup) {
+              that.setState({ profileRedirect: true });
+            } else {
+              that.setState({ impactRedirect: true });
+            }
           }, 3000);
         } else {
           // add error alert
@@ -88,10 +94,15 @@ class Login extends Component {
     return <Redirect push to='/dashboard' />;
   }
 
+  redirectToImpact = () => {
+    return <Redirect push to='/impact' />;
+  }
+
   render () {
     return (
       <div>
-        {this.state.redirect && this.redirectToDashboard()}
+        {this.state.impactRedirect && this.redirectToImpact()}
+        {this.state.profileRedirect && this.redirectToDashboard()}
         <ThemeContainer text='Login'>
           <ThemeBody>
             <Form success>

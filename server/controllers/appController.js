@@ -6,7 +6,6 @@ const charities = require('./../controllers/charities');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const { Charities, Transactions, User } = require('../models');
-const pwResetSecret = 'passwordresetsecret';
 
 // Defining methods for the appController
 module.exports = {
@@ -86,7 +85,8 @@ module.exports = {
       bcrypt.compare(password, user.password, (err, isMatch) => {
         if (err) throw err;
         if (isMatch) {
-          const token = jwt.sign(user.toJSON(), config.secret, {
+          console.log(process.env.secret);
+          const token = jwt.sign(user.toJSON(), process.env.secret, {
             expiresIn: 604800
           });
           res.json({
@@ -96,7 +96,8 @@ module.exports = {
               id: user._id,
               firstName: user.firstName,
               lastName: user.lastName,
-              email: user.email
+              email: user.email,
+              initialSetup: user.initialSetup
             }
           });
         } else {
@@ -123,6 +124,8 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   allocationCalc: function (req, res) {
+    const selectedCharity = req.user.charityName;
+    const selectedPortion = req.user.charityProportion;
     const profileData = req.user.profileData;
     console.log('==================');
     console.log('input', profileData);
@@ -143,6 +146,11 @@ module.exports = {
         portions.push(userArray[i] * (1 - SvERatio));
       }
     }
+    allocationsTemp.push({
+      name: selectedCharity,
+      category: 'userSelected',
+      portion: selectedPortion
+    });
     charities.charities.forEach(element => {
       const tempDiff = Math.abs(element.localVglobal - userArray[1]) + Math.abs(element.shortVlong - userArray[2]);
       if (allocationsTemp.filter(e => e.category === element.category).length === 0) {
@@ -161,37 +169,42 @@ module.exports = {
           }
         }
       }
+      console.log('allocationsTemp: ', allocationsTemp);
       allocationsTemp.forEach(element => {
         switch (element.category) {
           case 'pollution':
-            element.portion = portions[0];
+            element.portion = portions[0] * (100 - selectedPortion) / 100;
             allocationsObj.pollution = element;
             break;
           case 'habitat':
-            element.portion = portions[1];
+            element.portion = portions[1] * (100 - selectedPortion) / 100;
             allocationsObj.habitat = element;
             break;
           case 'climateChange':
-            element.portion = portions[2];
+            element.portion = portions[2] * (100 - selectedPortion) / 100;
             allocationsObj.climateChange = element;
             break;
           case 'basicNeeds':
-            element.portion = portions[3];
+            element.portion = portions[3] * (100 - selectedPortion) / 100;
             allocationsObj.basicNeeds = element;
             break;
           case 'education':
-            element.portion = portions[4];
+            element.portion = portions[4] * (100 - selectedPortion) / 100;
             allocationsObj.education = element;
             break;
           case 'globalHealth':
-            element.portion = portions[5];
+            element.portion = portions[5] * (100 - selectedPortion) / 100;
             allocationsObj.globalHealth = element;
+            break;
+          case 'userSelected':
+            allocationsObj.userSelected = element;
             break;
           default: console.log('Invalid portion operation');
         }
       });
     });
-    console.log('allocationsObj: ' + JSON.stringify(allocationsObj));
+
+    console.log('allocationsObj: ', allocationsObj);
     console.log('userArray[1]: ' + userArray[1]);
     console.log('user: ' + req.user._id);
     console.log('profileData: ' + profileData);
@@ -240,7 +253,7 @@ module.exports = {
           bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(password, salt, (err, hash) => {
               if (err) throw err;
-              User.findOneAndUpdate({ email: decoded.email }, { password: hash })
+              User.findOneAndUpdate({ email: decoded.email }, { password: hash, pwResetToken: null })
                 .then(user => {
                   res.json({ success: true });
                 });
@@ -253,7 +266,7 @@ module.exports = {
     const production = 'https://humun.herokuapp.com/reset/';
     const development = 'http://localhost:3000/reset/';
     const url = (process.env.NODE_ENV ? production : development);
-    const token = jwt.sign(req.body, pwResetSecret, {
+    const token = jwt.sign(req.body, process.env.pwResetSecret, {
       expiresIn: 3600
     });
     User.findOneAndUpdate(req.body, { $set: { pwResetToken: token } }, { new: true })
@@ -271,10 +284,10 @@ module.exports = {
 
           // send mail with defined transport object
           const info = await transporter.sendMail({
-            from: 'humun.reset@gmail.com', // sender address
+            from: process.env.humunEmail, // sender address
             to: req.body.email, // list of receivers
             subject: 'Humun Password Reset', // Subject line
-            html: `<b>Click the below link to reset your password</b><p>Link: ${url}${user.pwResetToken}</p>` // html body
+            html: `<p>Hi ${user.firstName},</p><p>Someone, probably you, is having trouble logging in to Humun and has requested help.</p><p>To reset your password, please use this link: ${url}${user.pwResetToken}</p><p>Thanks,</p><p>The Humun Team</p>` // html body
           });
         }
         if (user) {
@@ -286,5 +299,63 @@ module.exports = {
         }
       })
       .catch(err => res.status(422).json(err));
+  },
+  getEmailToken: function (req, res) {
+    const production = 'https://humun.herokuapp.com/emailConfirm/';
+    const development = 'http://localhost:3000/emailConfirm/';
+    const url = (process.env.NODE_ENV ? production : development);
+    const token = jwt.sign(req.body, process.env.pwResetSecret, {
+      expiresIn: 3600
+    });
+    User.findOneAndUpdate(req.body, { $set: { emailToken: token } }, { new: true })
+      .then(user => {
+        // async..await is not allowed in global scope, must use a wrapper
+        async function main () {
+          // create reusable transporter object using the default SMTP transport
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.humunEmail, // generated ethereal user
+              pass: process.env.humunPassword // generated ethereal password
+            }
+          });
+
+          // send mail with defined transport object
+          const info = await transporter.sendMail({
+            from: process.env.humunEmail, // sender address
+            to: req.body.email, // list of receivers
+            subject: 'Humun Email Confirmation', // Subject line
+            html: `<p>Hi ${user.firstName},</p><p>It looks like you have not verified your email yet.</p><p>To confirm your email, please use this link: ${url}${user.emailToken}</p><p>Thanks,</p><p>The Humun Team</p>` // html body
+          });
+        }
+        if (user) {
+          main().catch(console.error).then(res.json({ success: true }));
+        } else {
+          const errors = [];
+          errors.push({ email: 'Account not found.' });
+          return res.json({ success: false, errors });
+        }
+      })
+      .catch(err => res.status(422).json(err));
+  },
+  confirmEmail: function (req, res) {
+    const errors = [];
+    const decoded = jwt.decode(req.body.token);
+    if (!decoded) {
+      errors.push({ token: 'Email confirmation token has expired or is invalid.' });
+      return res.json({ success: false, errors });
+    }
+    User.findOne({ email: decoded.email })
+      .then(user => {
+        const { token } = req.body;
+        if (!user || (token !== user.emailToken)) {
+          errors.push({ token: 'Email confimration token has expired or is invalid. <a href="/reset">Send Reset Email</a>' });
+          return res.json({ success: false, errors });
+        }
+        User.findOneAndUpdate({ email: decoded.email }, { emailSetUp: true, emailToken: null })
+          .then(user => {
+            res.json({ success: true });
+          });
+      });
   }
 };

@@ -4,41 +4,71 @@ import { Redirect } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import API from '../utils/Api';
+import { Doughnut } from 'react-chartjs-2';
+
+const donationsArray = [];
+const colorArray = ['gray', 'black', 'lightgrey', 'green', 'blue', 'indigo'];
+const colorArray2 = [];
+const labelArray = [];
+
+const dataObject = {
+  datasets: [{
+    data: donationsArray,
+    backgroundColor: colorArray2
+  }],
+  labels: labelArray
+};
 
 class Review extends Component {
   constructor (props) {
     super(props);
     this.state = {
       redirect: false,
+      splashRedirect: false,
       firstName: ''
     };
   }
 
-  loadUser = () => {
-
-  }
-
   componentDidMount () {
+    this.checkLogin();
     API.allocation()
       .then(res => {
-        const allocations = res.data.user.allocations;
+        const allocations = Object.values(res.data.user.allocations);
+        console.log('allocations: ', Object.values(allocations));
+        allocations.forEach((charity, i) => {
+          colorArray2.push(colorArray[i]);
+          donationsArray.push(charity.portion.toFixed(1));
+          labelArray.push(charity.name);
+        });
+
+        // console.log('allocations: ', allocations);
         const profileData = res.data.user.profileData;
         this.setState({
-          firstName: [res.data.user.firstName],
-          lastName: [res.data.user.lastName],
-          date: [res.data.user.date],
-          email: [res.data.user.email],
-          impactLoc: [profileData.impactLoc],
-          shortVlongTerm: [profileData.shortVlongTerm],
-          basicNeeds: [profileData.basicNeeds],
-          climateChange: [profileData.climateChange],
-          education: [profileData.education],
-          globalHealth: [profileData.globalHealth],
-          habitat: [profileData.habitat],
-          pollution: [profileData.pollution],
-          socialVenvironmental: [profileData.socialVenvironmental]
-          //  allocations: [allocations]
+          // firstName: [res.data.user.firstName],
+          // lastName: [res.data.user.lastName],
+          // date: [res.data.user.date],
+          // email: [res.data.user.email],
+          // impactLoc: [profileData.impactLoc],
+          // shortVlongTerm: [profileData.shortVlongTerm],
+          // basicNeeds: [profileData.basicNeeds],
+          // climateChange: [profileData.climateChange],
+          // education: [profileData.education],
+          // globalHealth: [profileData.globalHealth],
+          // habitat: [profileData.habitat],
+          // pollution: [profileData.pollution],
+          // socialVenvironmental: [profileData.socialVenvironmental],
+          // char1: [allocations.basicNeeds.name]
         });
+      });
+  }
+
+  checkLogin () {
+    API.test()
+      .then(res => {
+        console.log('loggedin');
+      })
+      .catch(() => {
+        this.setState({ splashRedirect: true });
       });
   }
 
@@ -62,6 +92,9 @@ class Review extends Component {
   }
 
   render () {
+    if (this.state.splashRedirect) {
+      return <Redirect push to="/" />;
+    }
     // const {
     //   firstName,
     //   lastName,
@@ -84,7 +117,20 @@ class Review extends Component {
             <Header as='h4' textAlign='center'>
               <p>Great!</p>
               <p>Please review your contribution profile:</p>
-              <p>firstName: {this.state.firstName}</p>
+              <div>
+                <Doughnut data={dataObject} />
+              </div>
+              <p>If this all looks good, congrats! Your profile is complete! Click "Next" to proceed to your dashboard where you can donate to your causes.</p>
+              <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
+              <p> Or, if you'd like to make adjustments, you can: </p>
+              <Button.Group fluid>
+                {<Button basic color='teal' href='/impact'>Change your allocations</Button>}
+                {<Button basic color='teal' href='/search'>Select a new charity</Button>}
+              </Button.Group>
+
+
+            </Header>
+            {/* <p>firstName: {this.state.firstName}</p>
               <p>lastName: {this.state.lastName}</p>
               <p>date: {this.state.date}</p>
               <p>email: {this.state.email}</p>
@@ -97,10 +143,9 @@ class Review extends Component {
               <p>habitat: {this.state.habitat}</p>
               <p>pollution: {this.state.pollution}</p>
               <p>socialVenvironmental: {this.state.socialVenvironmental}</p>
-              {/* <p>allocations: {this.state.allocations}</p> */}
-            </Header>
+              <p>char1: {this.state.char1}</p> */}
+
             {/* content here */}
-            <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
           </ThemeBody>
         </ThemeContainer>
       </div>

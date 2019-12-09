@@ -12,8 +12,11 @@ class Dashboard extends Component {
   constructor (props) {
     super(props);
     this.logout = this.logout.bind(this);
+    this.confirmationEmail = this.confirmationEmail.bind(this);
     this.state = {
-      redirect: false
+      userInfo: null,
+      splashRedirect: false,
+      emailConfirmationMessage: false
     };
   }
 
@@ -22,9 +25,13 @@ class Dashboard extends Component {
     API
       .get()
       .then(res => {
+        console.log(res.data.user);
         this.setState({
           userInfo: res.data.user
         });
+        if (!this.state.userInfo.emailSetUp) {
+          this.setState({ emailConfirmationMessage: true });
+        }
         console.log(res.data.user);
       });
   }
@@ -35,7 +42,15 @@ class Dashboard extends Component {
         console.log('loggedin');
       })
       .catch(() => {
-        this.setState({ redirect: true });
+        this.setState({ splashRedirect: true });
+      });
+  }
+
+  confirmationEmail () {
+    console.log(this.state.userInfo);
+    API.getEmailToken({ email: this.state.userInfo.email })
+      .then(res => {
+        console.log(res);
       });
   }
 
@@ -62,7 +77,7 @@ class Dashboard extends Component {
       charityName
     } = { ...this.state.userInfo };
 
-    if (this.state.redirect) {
+    if (this.state.splashRedirect) {
       return <Redirect push to="/" />;
     }
 
@@ -103,6 +118,10 @@ class Dashboard extends Component {
                   {!causesSetUp && <Button basic color='teal' href='/causes'>Choose Your Causes</Button>}
                 </Button.Group>
               </Message>
+              {this.state.emailConfirmationMessage && <Message info>
+                <p>You haven't confirmed your email yet.</p>
+                <p><Button basic color='teal' fluid onClick={this.confirmationEmail}>Send Confirmation Email</Button></p>
+              </Message>}
             </div>
           }
 
