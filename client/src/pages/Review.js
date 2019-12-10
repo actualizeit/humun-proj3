@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Header, Button } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
+import { Redirect, Link } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import API from '../utils/Api';
 import { Doughnut } from 'react-chartjs-2';
 
 const donationsArray = [];
-const colorArray = ['gray', 'black', 'lightgrey', 'green', 'blue', 'indigo'];
+const colorArray = ['#F0EE92', '#89C229', '#B5E4FE', '#179BE8', '#30499E', '#FF6A5A', '#FFB325'];
 const colorArray2 = [];
 const labelArray = [];
 
@@ -36,13 +36,14 @@ class Review extends Component {
         const allocations = Object.values(res.data.user.allocations);
         console.log('allocations: ', Object.values(allocations));
         allocations.forEach((charity, i) => {
+          console.log(charity);
           colorArray2.push(colorArray[i]);
-          donationsArray.push(charity.portion.toFixed(1));
+          // donationsArray.push(charity.portion.toFixed(1));
           labelArray.push(charity.name);
         });
 
         // console.log('allocations: ', allocations);
-        const profileData = res.data.user.profileData;
+        // const profileData = res.data.user.profileData;
         this.setState({
           // firstName: [res.data.user.firstName],
           // lastName: [res.data.user.lastName],
@@ -112,24 +113,17 @@ class Review extends Component {
     return (
       <div>
         {this.renderRedirect()}
-        <ThemeContainer text='Review'>
+        <ThemeContainer text='Please review your contribution profile:'>
           <ThemeBody>
-            <Header as='h4' textAlign='center'>
-              <p>Great!</p>
-              <p>Please review your contribution profile:</p>
-              <div>
-                <Doughnut data={dataObject} />
-              </div>
-              <p>If this all looks good, congrats! Your profile is complete! Click "Next" to proceed to your dashboard where you can donate to your causes.</p>
-              <Button type='submit' onClick={this.handleReview} primary fluid>Next</Button>
-              <p> Or, if you'd like to make adjustments, you can: </p>
-              <Button.Group fluid>
-                {<Button basic color='teal' href='/impact'>Change your allocations</Button>}
-                {<Button basic color='teal' href='/search'>Select a new charity</Button>}
-              </Button.Group>
 
+            <Doughnut data={dataObject} options={{ cutoutPercentage: '25' }}/>
+            <p style={{ marginTop: '1em' }} >If this all looks good, congrats! Your profile is complete! Click 'Next' to proceed to your dashboard where you can donate to your causes.</p>
+            <p> Or, if you'd like to make adjustments, you can: </p>
 
-            </Header>
+            <Link to='/impact'><Button basic content='Change your allocations' icon='left arrow' labelPosition='left' fluid style={{ marginTop: '.5em' }} /></Link>
+            <Link to='/search'><Button basic content='Add a specific charity' icon='add' labelPosition='left' fluid style={{ marginTop: '.5em' }} /></Link>
+            <Button basic type='submit' onClick={this.handleReview} content='Finish' icon='right arrow' labelPosition='right' fluid style={{ marginTop: '.5em' }} />
+
             {/* <p>firstName: {this.state.firstName}</p>
               <p>lastName: {this.state.lastName}</p>
               <p>date: {this.state.date}</p>

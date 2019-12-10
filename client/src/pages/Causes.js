@@ -30,12 +30,12 @@ class Causes extends Component {
     API
       .get()
       .then(res => {
-        const { socialVenvironmental, impactLoc, shortVlongTerm } = res.data.user.profileData;
+        const { socialVenvironmental } = res.data.user.profileData;
         this.setState({
           socialVenvironmental: [socialVenvironmental],
-          impactLoc: [impactLoc],
-          shortVlongTerm: [shortVlongTerm]
+          user: res.data.user.profileData
         });
+        console.log(res.data.user.profileData);
       });
   }
 
@@ -55,18 +55,32 @@ class Causes extends Component {
     });
   }
 
+  addToObj = (obj, location, objToAdd) => {
+    const keys = Object.keys(objToAdd);
+    for (const x of keys) {
+      obj[location][x] = objToAdd[x];
+    }
+    console.log(obj);
+    return obj;
+  }
+
   handleCauses = () => {
-    const { environment, social, socialVenvironmental, impactLoc, shortVlongTerm } = this.state;
-    const obj = {
+    const { environment, social, socialVenvironmental, user } = this.state;
+    const dataToAdd = {
+      ...environment,
+      ...social,
+      socialVenvironmental: socialVenvironmental[0]
+    };
+
+    const originalObj = {
       profileData: {
-        ...environment,
-        ...social,
-        socialVenvironmental: socialVenvironmental[0],
-        impactLoc: impactLoc[0],
-        shortVlongTerm: shortVlongTerm[0]
+        ...user
       },
       causesSetUp: true
     };
+
+    const obj = this.addToObj(originalObj, 'profileData', dataToAdd);
+
     console.log('handleCauses', obj);
     // Post to db, if successful redirect to review page
     API
