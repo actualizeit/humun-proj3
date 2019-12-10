@@ -125,7 +125,7 @@ class Dashboard extends Component {
             </div>
           }
 
-          {/* { isSetUp() && 
+          {/* { isSetUp() &&
               Change settings
           } */}
 

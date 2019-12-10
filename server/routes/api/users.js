@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const appController = require('../../controllers/appController');
-const testController = require('../../controllers/testController');
 const passport = require('passport');
 
 // Register
@@ -26,10 +25,11 @@ router
   .get(passport.authenticate('jwt', { session: false }), appController.findUserData)
   .post(passport.authenticate('jwt', { session: false }), appController.saveUserData);
 
+// Routes for resetting password
 router.post('/getResetToken', appController.getPwResetToken);
-
 router.post('/resetPW', appController.resetPW);
 
+// Routes for confirming email
 router.post('/getEmailToken', appController.getEmailToken);
 router.post('/confirmEmail', appController.confirmEmail);
 module.exports = router;

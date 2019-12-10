@@ -1,11 +1,10 @@
 /* eslint-disable handle-callback-err */
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('../config/database');
 const charities = require('./../controllers/charities');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const { Charities, Transactions, User } = require('../models');
+const { User } = require('../models');
 
 // Defining methods for the appController
 module.exports = {
@@ -283,6 +282,7 @@ module.exports = {
           });
 
           // send mail with defined transport object
+          // eslint-disable-next-line no-unused-vars
           const info = await transporter.sendMail({
             from: process.env.humunEmail, // sender address
             to: req.body.email, // list of receivers
@@ -321,6 +321,7 @@ module.exports = {
           });
 
           // send mail with defined transport object
+          // eslint-disable-next-line no-unused-vars
           const info = await transporter.sendMail({
             from: process.env.humunEmail, // sender address
             to: req.body.email, // list of receivers
@@ -349,7 +350,7 @@ module.exports = {
       .then(user => {
         const { token } = req.body;
         if (!user || (token !== user.emailToken)) {
-          errors.push({ token: 'Email confimration token has expired or is invalid. <a href="/reset">Send Reset Email</a>' });
+          errors.push({ token: 'Email confimration token has expired or is invalid.' });
           return res.json({ success: false, errors });
         }
         User.findOneAndUpdate({ email: decoded.email }, { emailSetUp: true, emailToken: null })
