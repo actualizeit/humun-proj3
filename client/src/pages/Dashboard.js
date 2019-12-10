@@ -124,10 +124,19 @@ class Dashboard extends Component {
               </Message>}
             </div>
           }
+
+          {/* { isSetUp() && 
+              Change settings
+          } */}
+
           <ThemeSegment title='Allocations'>
             {charities && <p>You currently have chosen {charityName} to receive a portion of your contribution.</p>}
             {!charities && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
             <p><Link to='/search'>Search Charities</Link></p>
+          </ThemeSegment>
+
+          <ThemeSegment title='Contributions'>
+            Contributions - add paypal button
           </ThemeSegment>
 
         </ThemeBody>

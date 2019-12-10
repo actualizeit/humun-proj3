@@ -33,12 +33,17 @@ const UserSchema = new mongoose.Schema({
     education: {},
     globalHealth: {}
   },
-  userSelected: { type: Object },
-  charities: { type: Array },
+  userSelectedInfo: {
+    charityName: {},
+    charityLink: {},
+    ein: {},
+    charityTagLine: {},
+    charityCity: {},
+    charityState: {},
+    portion: {}
+  },
   causesSetUp: { type: Boolean, default: false },
   impactsSetUp: { type: Boolean, default: false },
-  charityName: { type: String },
-  charityProportion: { type: Number },
   transaction: [
     {
       type: Schema.Types.ObjectId,

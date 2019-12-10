@@ -24,11 +24,11 @@ class Impact extends Component {
       .get()
       .then(res => {
         const { profileData } = res.data.user;
-        console.log(res.data.user.profileData);
+        console.log(profileData);
         this.setState({
           impactLoc: [profileData.impactLoc],
           shortVlongTerm: [profileData.shortVlongTerm],
-          profileData: [profileData]
+          profileData
         });
       });
   }
@@ -50,19 +50,15 @@ class Impact extends Component {
   }
 
   handleImpacts = () => {
-    const { impactLoc, shortVlongTerm } = this.state;
-    // console.log('svl: ' + shortVlongTerm + ' impact: ' + impactLoc);
-    this.state.profileData[0].impactLoc = impactLoc[0];
-    this.state.profileData[0].shortVlongTerm = shortVlongTerm[0];
-    // console.log('svl: ' + this.state.profileData.shortVlongTerm + ' impact: ' + this.state.profileData.impactLoc);
-    console.log(this.state.profileData);
-    const profileData = this.state.profileData;
+    const { impactLoc, shortVlongTerm, profileData } = this.state;
+    const profile = { ...profileData };
+    profile.impactLoc = impactLoc[0];
+    profile.shortVlongTerm = shortVlongTerm[0];
+
     API
       .post({
-        impactLoc: impactLoc[0],
-        shortVlongTerm: shortVlongTerm[0],
         impactsSetUp: true,
-        profileData: profileData[0]
+        profileData: profile
       })
       .then(() => {
         this.setRedirect();
@@ -76,19 +72,11 @@ class Impact extends Component {
     });
   }
 
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/causes' />;
-    }
-  }
-
   render () {
-    if (this.state.splashRedirect) {
-      return <Redirect push to="/" />;
-    }
     return (
       <div>
-        {this.renderRedirect()}
+        {this.state.redirect && <Redirect to='/causes' />}
+        {this.state.splashRedirect && <Redirect push to="/" />}
         <ThemeContainer text='Your Impact'>
           <ThemeBody>
             <Form>
