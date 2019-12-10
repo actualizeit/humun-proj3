@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
     charityTagLine: {},
     charityCity: {},
     charityState: {},
-    portion: {}
+    portion: { type: Number, default: 0 }
   },
   causesSetUp: { type: Boolean, default: false },
   impactsSetUp: { type: Boolean, default: false },
