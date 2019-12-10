@@ -38,7 +38,7 @@ class Review extends Component {
         allocations.forEach((charity, i) => {
           console.log(charity);
           colorArray2.push(colorArray[i]);
-          // donationsArray.push(charity.portion.toFixed(1));
+          donationsArray.push(charity.portion.toFixed(1));
           labelArray.push(charity.name);
         });
 

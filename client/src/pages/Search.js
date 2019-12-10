@@ -13,7 +13,7 @@ function Search () {
   const [ApiKey] = useState('300131a1a6649b667c037cf4136c26bc');
   const [search, setSearch] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [charity, setCharity] = useState(false);
+  const [ein, setEIN] = useState(false);
   const [charityName, setCharityName] = useState(false);
   const [charityLink, setCharityLink] = useState(false);
   const [charityTagLine, setCharityTagLine] = useState(false);
@@ -25,22 +25,26 @@ function Search () {
   const [charityProportion, setCharityProportion] = useState([1]);
 
   // get current charity name if there is one
-  useEffect(() => {
-    API
-      .get()
-      .then(res => {
-        setCharity(res.data.user.charities);
-        return res.data.user.charities[0];
-      })
-      .then(res => {
-        axios
-          .get(`https://api.data.charitynavigator.org/v2/Organizations/${res}?app_id=ba24e24a&app_key=${ApiKey}`)
-          .then(res => {
-            setCharityName(res.data.charityName);
-          })
-          .catch(() => setCharityName(false));
-      });
-  }, [ApiKey]);
+  // useEffect(() => {
+  //   API
+  //     .get()
+  //     .then(res => {
+  //       console.log('useEffect Res: ', res);
+  //       // if (res.data.user.userSelectedInfo.portion !== 0) {
+  //       //   setCharity(res.data.userSelectedInfo.charityName);
+  //       //   return res.data.userSelectedInfo.charities[0];
+  //       // }
+  //     })
+  //     .then(res => {
+  //       console.log('API Res: ', res);
+  //       axios
+  //         .get(`https://api.data.charitynavigator.org/v2/Organizations/${res}?app_id=ba24e24a&app_key=${ApiKey}`)
+  //         .then(res => {
+  //           setCharityName(res.data.charityName);
+  //         })
+  //         .catch(() => setCharityName(false));
+  //     });
+  // }, [ApiKey]);
 
   // capture search from user input update states above
   function handleChange (event) {
@@ -49,6 +53,7 @@ function Search () {
   }
 
   function handleSave (ein, charityName, charityLink, charityTagLine, charityCity, charityState) {
+    console.log('handleSave: ', ein, charityName, charityLink, charityTagLine, charityCity, charityState)
     setUserSelect({ ein, charityName, charityLink, charityTagLine, charityCity, charityState });
     setModal1(true);
   }
@@ -111,8 +116,8 @@ function Search () {
                 onClick={() => {
                   setModal1(false);
                   setModal2(true);
-                  setCharity(userSelect.id);
-                  setCharityName(userSelect.charity);
+                  setEIN(userSelect.ein);
+                  setCharityName(userSelect.charityName);
                   setCharityLink(userSelect.charityLink);
                   setCharityTagLine(userSelect.charityTagLine);
                   setCharityCity(userSelect.charityCity);
@@ -142,7 +147,7 @@ function Search () {
                 labelPosition='right'
                 content='Submit'
                 onClick={() => {
-                  save(charity, charityProportion[0], charityName, charityLink, charityTagLine, charityCity, charityState);
+                  save(ein, charityProportion[0], charityName, charityLink, charityTagLine, charityCity, charityState);
                   setModal2(false);
                 }}
               />
