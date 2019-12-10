@@ -124,9 +124,9 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   allocationCalc: function (req, res) {
-    const selectedCharity = req.user.charityName;
-    const selectedPortion = req.user.charityProportion;
+    const selectedCharity = req.user.userSelectedInfo;
     const profileData = req.user.profileData;
+    const selectedPortion = selectedCharity.portion;
     console.log('==================');
     console.log('input', profileData);
     const userArray = Object.values(profileData);
@@ -147,15 +147,23 @@ module.exports = {
       }
     }
     allocationsTemp.push({
-      name: selectedCharity,
-      category: 'userSelected',
-      portion: selectedPortion
+      name: selectedCharity.charityName,
+      link: selectedCharity.charityLink,
+      ein: selectedCharity.ein,
+      description: selectedCharity.charityTagLine,
+      portion: selectedCharity.portion,
+      city: selectedCharity.charityCity,
+      state: selectedCharity.charityState,
+      category: 'userSelected'
     });
     charities.charities.forEach(element => {
       const tempDiff = Math.abs(element.localVglobal - userArray[1]) + Math.abs(element.shortVlong - userArray[2]);
       if (allocationsTemp.filter(e => e.category === element.category).length === 0) {
         allocationsTemp.push({
           name: element.name,
+          link: element.link,
+          ein: element.ein,
+          description: element.description,
           category: element.category,
           diff: tempDiff
         });
@@ -164,6 +172,11 @@ module.exports = {
         for (let i = 0; i < allocationsTemp.length; i++) {
           if (allocationsTemp[i].category === element.category) {
             allocationsTemp[i].name = element.name;
+            allocationsTemp[i].link = element.link;
+            allocationsTemp[i].ein = element.ein;
+            allocationsTemp[i].description = element.description;
+            allocationsTemp[i].city = element.city;
+            allocationsTemp[i].state = element.state;
             allocationsTemp[i].diff = tempDiff;
             break;
           }
