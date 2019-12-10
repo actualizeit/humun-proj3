@@ -7,16 +7,6 @@ import API from './../../utils/Api';
 const step = 1;
 const min = 1;
 
-// const loader = (isLoaded) => {
-//   if (!isLoaded) {
-//     return (
-//       <div class="ui active inverted dimmer">
-//         <div class="ui text loader">Loading</div>
-//       </div>
-//     );
-//   }
-// }
-
 // dynamically creates state object
 const createState = (arr, max) => {
   const obj = {};
@@ -27,24 +17,28 @@ const createState = (arr, max) => {
   return obj;
 };
 
+// takes user's settings and reinterprets them to set the sliders
 const createInitialState = (user, arr, steps, min) => {
   const obj = {};
   for (const x of arr) {
-    obj[x] = [((user[x] / 100) * steps) + min];
+    obj[x] = [Math.floor(((user[x] / 100) * steps) + min)];
   }
-  return obj;
+  const adjusted = exactCalc(obj, steps, min);
+  return adjusted;
 };
 
+// makes sure final format is out of 100 for saving
 const calculateNum = (result, steps) => {
   const num = ((result) / steps) * 100;
   return num;
 };
 
+// Sets decimals to two places
 const fixNum = (num) => {
   return parseFloat(num.toFixed(2));
 };
 
-// creates initial object to send to parent
+// creates object to send to parent - makes sure it exactly totals 100
 const renderResults = (result, steps, cb) => {
   const obj = {};
   const keys = Object.keys(result);
@@ -70,16 +64,34 @@ const renderResults = (result, steps, cb) => {
   return obj;
 };
 
+// adjusts totals to exactly equal steps + (keys.length * min)
+const exactCalc = (obj, steps, min) => {
+  const adjusted = { ...obj };
+  const keys = Object.keys(obj);
+  const values = keys.map((x) => obj[x][0]);
+  const currentTotal = values.reduce((acc, cur) => acc + cur);
+  const idealTotal = steps;
+  const difference = idealTotal - currentTotal;
+  const toChange = keys[0];
+  adjusted[toChange] = [obj[toChange][0] + difference];
+  for (const x of keys) {
+    adjusted[x] = [adjusted[x][0] + min];
+  }
+  return adjusted;
+}
+
 // Adjusts other thumbs based on thumb being adjusted
 const adjustThumbs = (key, value, state, max, min) => {
+  const adjustedVal = value[0] - min;
+
   // declare return obj
-  const obj = { [key]: value };
+  const obj = { [key]: [adjustedVal] };
 
   // get all sliders
   const keys = Object.keys(state);
 
   // how much of total remains
-  const remaining = max - value + min;
+  const remaining = max - min - adjustedVal;
 
   // keys to be manipulated
   const filtered = keys.filter(x => x !== key);
@@ -92,10 +104,13 @@ const adjustThumbs = (key, value, state, max, min) => {
 
   // take proportion of specific key value * remaining of total.
   for (const x of filtered) {
-    obj[x] = [Math.floor((state[x] / otherValuesTotal) * remaining) + min];
+    const num = Math.floor((state[x] / otherValuesTotal) * remaining) || 0;
+    obj[x] = [num];
   }
 
-  return obj;
+  // adjusts totals to exactly equal steps + (keys.length * min)
+  const adjusted = exactCalc(obj, max - min, min);
+  return adjusted;
 };
 
 class ThemeSliderGroup extends Component {

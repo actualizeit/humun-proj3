@@ -35,6 +35,7 @@ class Causes extends Component {
           socialVenvironmental: [socialVenvironmental],
           user: res.data.user.profileData
         });
+        console.log(res.data.user.profileData);
       });
   }
 
