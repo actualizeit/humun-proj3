@@ -56,8 +56,6 @@ class Impact extends Component {
 
     API
       .post({
-        impactLoc: impactLoc,
-        shortVlongTerm: shortVlongTerm,
         impactsSetUp: true,
         profileData: profile
       })
