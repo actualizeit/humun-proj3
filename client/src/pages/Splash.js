@@ -101,7 +101,7 @@ class Splash2 extends Component {
             </p>
           </Accordion.Content>
         </Accordion>
-        <Button color='white' href='/create' fluid basic inverted>Create an Account</Button>
+        <Button href='/create' fluid basic inverted>Create an Account</Button>
         <Header as='h6' floated='right' style={{ marginTop: '1em' }}>
           <a href='/login' style={{ color: 'white' }}>Already a member? Login →</a>
         </Header>
