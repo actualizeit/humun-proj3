@@ -15,10 +15,13 @@ function Search () {
   const [isLoaded, setIsLoaded] = useState(false);
   const [charity, setCharity] = useState(false);
   const [charityName, setCharityName] = useState(false);
+  const [charityTagLine, setCharityTagLine] = useState(false);
+  const [charityCity, setCharityCity] = useState(false);
+  const [charityState, setCharityState] = useState(false);
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
   const [userSelect, setUserSelect] = useState(false);
-  const [charityProportion, setCharityProportion] = useState([50]);
+  const [charityProportion, setCharityProportion] = useState([1]);
 
   // get current charity name if there is one
   useEffect(() => {
@@ -44,13 +47,15 @@ function Search () {
     setSearch(search);
   }
 
-  function handleSave (id, charity) {
-    setUserSelect({ id, charity });
+  function handleSave (id, charity, charityTagLine, charityCity, charityState) {
+    console.log('handleSave:', id, charity, charityTagLine, charityCity, charityState);
+    setUserSelect({ id, charity, charityTagLine, charityCity, charityState });
     setModal1(true);
   }
 
-  function save (charities, charityProportion, charityName) {
-    const obj = { charities, charityProportion, charityName };
+  function save (charities, charityProportion, charityName, charityTagLine, charityCity, charityState) {
+    console.log('save:', charities, charityProportion, charityName, charityTagLine, charityCity, charityState);
+    const obj = { charities, charityProportion, charityName, charityTagLine, charityCity, charityState };
     API
       .post(obj)
       .then(() => console.log('success'));
@@ -106,6 +111,9 @@ function Search () {
                   setModal2(true);
                   setCharity(userSelect.id);
                   setCharityName(userSelect.charity);
+                  setCharityTagLine(userSelect.charityTagLine);
+                  setCharityCity(userSelect.charityCity);
+                  setCharityState(userSelect.charityState);
                 }}
               />
             </Modal.Actions>
@@ -131,7 +139,7 @@ function Search () {
                 labelPosition='right'
                 content='Submit'
                 onClick={() => {
-                  save([charity], charityProportion[0], charityName);
+                  save([charity], charityProportion[0], charityName, charityTagLine, charityCity, charityState);
                   setModal2(false);
                 }}
               />
@@ -154,7 +162,7 @@ function Search () {
                   city={charity.mailingAddress.city}
                   state={charity.mailingAddress.stateOrProvince}
                 >
-                  <Button fluid basic color='blue' onClick={() => handleSave(charity.ein, charity.charityName)}>Select</Button>
+                  <Button fluid basic color='blue' onClick={() => handleSave(charity.ein, charity.charityName, charity.tagLine, charity.mailingAddress.city, charity.mailingAddress.stateOrProvince)}>Select</Button>
                 </ThemeCard>
               </div>
             ))

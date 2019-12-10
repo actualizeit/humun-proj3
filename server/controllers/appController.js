@@ -156,6 +156,9 @@ module.exports = {
       if (allocationsTemp.filter(e => e.category === element.category).length === 0) {
         allocationsTemp.push({
           name: element.name,
+          link: element.link,
+          ein: element.ein,
+          description: element.description,
           category: element.category,
           diff: tempDiff
         });
@@ -164,6 +167,9 @@ module.exports = {
         for (let i = 0; i < allocationsTemp.length; i++) {
           if (allocationsTemp[i].category === element.category) {
             allocationsTemp[i].name = element.name;
+            allocationsTemp[i].link = element.link;
+            allocationsTemp[i].ein = element.ein;
+            allocationsTemp[i].description = element.description;
             allocationsTemp[i].diff = tempDiff;
             break;
           }

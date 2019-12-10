@@ -39,6 +39,9 @@ const UserSchema = new mongoose.Schema({
   impactsSetUp: { type: Boolean, default: false },
   charityName: { type: String },
   charityProportion: { type: Number },
+  charityTagLine: { type: String },
+  charityCity: { type: String },
+  charityState: { type: String },
   transaction: [
     {
       type: Schema.Types.ObjectId,

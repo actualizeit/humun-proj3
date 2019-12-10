@@ -78,13 +78,10 @@ class OrgMatches extends Component {
               <div key={charity.ein}>
                 <ThemeCard
                   title={charity.name}
-                  image={charity.cause.image}
-                  link={charity.websiteURL}
-                  tagLine={charity.tagLine}
+                  link={charity.link}
+                  tagLine={charity.description}
                   EIN={charity.ein}
-                  cause={charity.cause.causeName}
-                  city={charity.mailingAddress.city}
-                  state={charity.mailingAddress.stateOrProvince}
+                  cause={charity.category}
                 >
                 </ThemeCard>
               </div>
