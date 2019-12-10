@@ -78,7 +78,7 @@ const exactCalc = (obj, steps, min) => {
     adjusted[x] = [adjusted[x][0] + min];
   }
   return adjusted;
-}
+};
 
 // Adjusts other thumbs based on thumb being adjusted
 const adjustThumbs = (key, value, state, max, min) => {

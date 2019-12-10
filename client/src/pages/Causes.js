@@ -55,16 +55,32 @@ class Causes extends Component {
     });
   }
 
+  addToObj = (obj, location, objToAdd) => {
+    const keys = Object.keys(objToAdd);
+    for (const x of keys) {
+      obj[location][x] = objToAdd[x];
+    }
+    console.log(obj);
+    return obj;
+  }
+
   handleCauses = () => {
-    const { environment, social, socialVenvironmental } = this.state;
-    const obj = {
+    const { environment, social, socialVenvironmental, user } = this.state;
+    const dataToAdd = {
+      ...environment,
+      ...social,
+      socialVenvironmental: socialVenvironmental[0]
+    };
+
+    const originalObj = {
       profileData: {
-        ...environment,
-        ...social,
-        socialVenvironmental: socialVenvironmental[0]
+        ...user
       },
       causesSetUp: true
     };
+
+    const obj = this.addToObj(originalObj, 'profileData', dataToAdd);
+
     console.log('handleCauses', obj);
     // Post to db, if successful redirect to review page
     API
