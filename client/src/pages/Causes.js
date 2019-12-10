@@ -30,11 +30,10 @@ class Causes extends Component {
     API
       .get()
       .then(res => {
-        const { socialVenvironmental, impactLoc, shortVlongTerm } = res.data.user.profileData;
+        const { socialVenvironmental } = res.data.user.profileData;
         this.setState({
           socialVenvironmental: [socialVenvironmental],
-          impactLoc: [impactLoc],
-          shortVlongTerm: [shortVlongTerm]
+          user: res.data.user.profileData
         });
       });
   }
@@ -56,14 +55,12 @@ class Causes extends Component {
   }
 
   handleCauses = () => {
-    const { environment, social, socialVenvironmental, impactLoc, shortVlongTerm } = this.state;
+    const { environment, social, socialVenvironmental } = this.state;
     const obj = {
       profileData: {
         ...environment,
         ...social,
-        socialVenvironmental: socialVenvironmental[0],
-        impactLoc: impactLoc[0],
-        shortVlongTerm: shortVlongTerm[0]
+        socialVenvironmental: socialVenvironmental[0]
       },
       causesSetUp: true
     };

@@ -42,7 +42,7 @@ class Review extends Component {
         });
 
         // console.log('allocations: ', allocations);
-        const profileData = res.data.user.profileData;
+        // const profileData = res.data.user.profileData;
         this.setState({
           // firstName: [res.data.user.firstName],
           // lastName: [res.data.user.lastName],
