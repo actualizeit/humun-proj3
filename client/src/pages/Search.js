@@ -25,26 +25,17 @@ function Search () {
   const [charityProportion, setCharityProportion] = useState([1]);
 
   // get current charity name if there is one
-  // useEffect(() => {
-  //   API
-  //     .get()
-  //     .then(res => {
-  //       console.log('useEffect Res: ', res);
-  //       // if (res.data.user.userSelectedInfo.portion !== 0) {
-  //       //   setCharity(res.data.userSelectedInfo.charityName);
-  //       //   return res.data.userSelectedInfo.charities[0];
-  //       // }
-  //     })
-  //     .then(res => {
-  //       console.log('API Res: ', res);
-  //       axios
-  //         .get(`https://api.data.charitynavigator.org/v2/Organizations/${res}?app_id=ba24e24a&app_key=${ApiKey}`)
-  //         .then(res => {
-  //           setCharityName(res.data.charityName);
-  //         })
-  //         .catch(() => setCharityName(false));
-  //     });
-  // }, [ApiKey]);
+  useEffect(() => {
+    API
+      .get()
+      .then(res => {
+        console.log('useEffect Res: ', res);
+        if (res.data.user.userSelectedInfo.portion !== 0) {
+          setCharityName(res.data.userSelectedInfo.charityName);
+          return res.data.userSelectedInfo.charities[0];
+        }
+      });
+  }, [ApiKey]);
 
   // capture search from user input update states above
   function handleChange (event) {
@@ -53,7 +44,7 @@ function Search () {
   }
 
   function handleSave (ein, charityName, charityLink, charityTagLine, charityCity, charityState) {
-    console.log('handleSave: ', ein, charityName, charityLink, charityTagLine, charityCity, charityState)
+    console.log('handleSave: ', ein, charityName, charityLink, charityTagLine, charityCity, charityState);
     setUserSelect({ ein, charityName, charityLink, charityTagLine, charityCity, charityState });
     setModal1(true);
   }

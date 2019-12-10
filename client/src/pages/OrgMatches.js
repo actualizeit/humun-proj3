@@ -23,6 +23,7 @@ class OrgMatches extends Component {
     this.checkLogin();
     API.allocation()
       .then(res => {
+        console.log(res.data.user.allocations);
         allocations = Object.values(res.data.user.allocations);
         console.log('allocations: ', allocations);
         this.setState({
@@ -66,40 +67,41 @@ class OrgMatches extends Component {
       return (
         <div>
           { this.renderRedirect() }
-          <ThemeContainer text='Congratulations!' />
-          <ThemeBody>
-            <Header as='h4' textAlign='center'>
-                        We’ve matched you to these organizations:
-            </Header>
-            {/* Map through all of charities in the state and display them onto the page */}
-            <div>
-              {this.state.isLoaded &&
-            allocations.map(charity => (
-              <div key={charity.ein}>
-                <ThemeCard
-                  title={charity.name}
-                  link={charity.link}
-                  tagLine={charity.description}
-                  EIN={charity.ein}
-                  cause={charity.category}
-                  city={charity.charityCity}
-                  state={charity.charityState}
-                  portion={charity.portion.toFixed(1) + '%' }
-                >
-                </ThemeCard>
+          <ThemeContainer text='Congratulations!'>
+            <ThemeBody>
+              <Header as='h4' textAlign='center'>
+                          We’ve matched you to these organizations:
+              </Header>
+              {/* Map through all of charities in the state and display them onto the page */}
+              <div>
+                {this.state.isLoaded &&
+              allocations.map(charity => (
+                <div key={charity.ein}>
+                  <ThemeCard
+                    title={charity.name}
+                    link={charity.link}
+                    tagLine={charity.description}
+                    EIN={charity.ein}
+                    cause={charity.category}
+                    city={charity.city}
+                    state={charity.state}
+                    portion={charity.portion.toFixed(1) + '%' }
+                  >
+                  </ThemeCard>
+                </div>
+              ))
+                }
               </div>
-            ))
-              }
-            </div>
-            <Header as='h4' textAlign='center'>
-                        You can donate one time to this basket of causes now, save your Dashboard and donate later, or you can set up a recurring donation to support these causes over time.
-            </Header>
-            <Header as='h4' textAlign='center'>
-                        In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution Dashboard at any time.
-            </Header>
+              <Header as='h4' textAlign='center'>
+                          You can donate one time to this basket of causes now, save your Dashboard and donate later, or you can set up a recurring donation to support these causes over time.
+              </Header>
+              <Header as='h4' textAlign='center'>
+                          In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution Dashboard at any time.
+              </Header>
 
-            <Button onClick={() => this.handleOrgMatches('/dashboard')} primary fluid>To Dashboard</Button>
-          </ThemeBody>
+              <Button onClick={() => this.handleOrgMatches('/dashboard')} primary fluid>To Dashboard</Button>
+            </ThemeBody>
+          </ThemeContainer>
         </div>
       );
     }
