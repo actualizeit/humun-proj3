@@ -71,9 +71,9 @@ class OrgMatches extends Component {
             <Header as='h4' textAlign='center'>
                         We’ve matched you to these organizations:
             </Header>
-        {/* Map through all of charities in the state and display them onto the page */}
-        <div>
-          {this.state.isLoaded &&
+            {/* Map through all of charities in the state and display them onto the page */}
+            <div>
+              {this.state.isLoaded &&
             allocations.map(charity => (
               <div key={charity.ein}>
                 <ThemeCard
@@ -82,12 +82,15 @@ class OrgMatches extends Component {
                   tagLine={charity.description}
                   EIN={charity.ein}
                   cause={charity.category}
+                  city={charity.charityCity}
+                  state={charity.charityState}
+                  portion={charity.portion.toFixed(1) + '%' }
                 >
                 </ThemeCard>
               </div>
             ))
-          }
-        </div>
+              }
+            </div>
             <Header as='h4' textAlign='center'>
                         You can donate one time to this basket of causes now, save your Dashboard and donate later, or you can set up a recurring donation to support these causes over time.
             </Header>
