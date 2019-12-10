@@ -146,16 +146,18 @@ module.exports = {
         portions.push(userArray[i] * (1 - SvERatio));
       }
     }
-    allocationsTemp.push({
-      name: selectedCharity.charityName,
-      link: selectedCharity.charityLink,
-      ein: selectedCharity.ein,
-      description: selectedCharity.charityTagLine,
-      portion: selectedCharity.portion,
-      city: selectedCharity.charityCity,
-      state: selectedCharity.charityState,
-      category: 'userSelected'
-    });
+    if (selectedPortion !== 0) {
+      allocationsTemp.push({
+        name: selectedCharity.charityName,
+        link: selectedCharity.charityLink,
+        ein: selectedCharity.ein,
+        description: selectedCharity.charityTagLine,
+        portion: selectedCharity.portion,
+        city: selectedCharity.charityCity,
+        state: selectedCharity.charityState,
+        category: 'userSelected'
+      });
+    }
     charities.charities.forEach(element => {
       const tempDiff = Math.abs(element.localVglobal - userArray[1]) + Math.abs(element.shortVlong - userArray[2]);
       if (allocationsTemp.filter(e => e.category === element.category).length === 0) {
@@ -164,6 +166,8 @@ module.exports = {
           link: element.link,
           ein: element.ein,
           description: element.description,
+          city: element.city,
+          state: element.state,
           category: element.category,
           diff: tempDiff
         });
