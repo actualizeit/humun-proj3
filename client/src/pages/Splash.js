@@ -33,7 +33,7 @@ class Splash2 extends Component {
         break;
       case 2:
         this.setState({
-          text: 'Charities are vetted for efficicacy and will be updated over time if either more effective charities, or charities that better match your prioirities, are added.'
+          text: 'Charities are vetted for efficacy and will be updated over time if either more effective charities, or charities that better match your prioirities, are added.'
         });
         counter++;
         break;

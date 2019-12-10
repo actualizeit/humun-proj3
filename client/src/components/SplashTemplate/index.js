@@ -46,7 +46,7 @@ class SplashTemplate extends Component {
           <Column inverted style={{ backgroundColor: 'rgba(23, 155, 232, .75)', padding: '2em 2em', borderRadius: '8px' }}>
 
             {/* Redirect if logged in */}
-            {this.state.profileRedirect && <Redirect push to="/dashboard" />}
+            {this.state.profileRedirect && <Redirect to="/dashboard" />}
 
             {/* Page Content */}
             { this.props.titleSize === 'large' && <Header as='h1' textAlign='center' inverted>{this.props.title}</Header> }
