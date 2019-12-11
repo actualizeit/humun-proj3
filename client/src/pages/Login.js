@@ -43,7 +43,7 @@ class Login extends Component {
           this.setState({ loginSuccess: true });
           // need to add success alert before redirect
           const that = this;
-          console.log(res.data)
+          console.log(res.data);
           setTimeout(function () {
             if (res.data.user.initialSetup) {
               that.setState({ profileRedirect: true });
@@ -134,6 +134,8 @@ class Login extends Component {
             error={this.state.pwErr}
           />
           <Button inverted basic type='submit' onClick={this.login} fluid>Submit</Button>
+          <Header as='h6' floated='right' inverted style={{ marginTop: '1em' }}><a href='/reset' style={{ color: 'white' }}>Forgot Password? Reset Password →</a></Header>
+          <Header as='h6' floated='left' inverted style={{ marginTop: '1em' }}><a href='/create' style={{ color: 'white' }}>New User? Create Account →</a></Header>
         </Form>
         <Header as='h6' floated='right' inverted style={{ marginTop: '1em' }}><a href='/reset' style={{ color: 'white' }}>Forgot Password? Reset Password →</a></Header>
         {this.state.loginSuccess && this.loginSuccess()}
