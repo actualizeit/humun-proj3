@@ -6,26 +6,14 @@ import ThemeBody from './../components/ThemeBody';
 import API from '../utils/Api';
 import { Doughnut } from 'react-chartjs-2';
 
-const donationsArray = [];
-const colorArray = ['#F0EE92', '#89C229', '#B5E4FE', '#179BE8', '#30499E', '#FF6A5A', '#FFB325'];
-const colorArray2 = [];
-const labelArray = [];
-
-const dataObject = {
-  datasets: [{
-    data: donationsArray,
-    backgroundColor: colorArray2
-  }],
-  labels: labelArray
-};
-
 class Review extends Component {
   constructor (props) {
     super(props);
     this.state = {
       redirect: false,
       splashRedirect: false,
-      firstName: ''
+      firstName: '',
+      dataObject: {}
     };
   }
 
@@ -35,11 +23,22 @@ class Review extends Component {
       .then(res => {
         const allocations = Object.values(res.data.user.allocations);
         console.log('allocations: ', Object.values(allocations));
+        const donationsArray = [];
+        const colorArray = ['#F0EE92', '#89C229', '#B5E4FE', '#179BE8', '#30499E', '#FF6A5A', '#FFB325'];
+        const colorArray2 = [];
+        const labelArray = [];
         allocations.forEach((charity, i) => {
           colorArray2.push(colorArray[i]);
           donationsArray.push(charity.portion.toFixed(1));
           labelArray.push(charity.name);
         });
+        this.setState({ dataObject: {
+          datasets: [{
+            data: donationsArray,
+            backgroundColor: colorArray2
+          }],
+          labels: labelArray
+        } });
 
         // console.log('allocations: ', allocations);
         // const profileData = res.data.user.profileData;
@@ -115,7 +114,7 @@ class Review extends Component {
         <ThemeContainer text='Please review your contribution profile:'>
           <ThemeBody>
 
-            <Doughnut data={dataObject} options={{ cutoutPercentage: '25' }}/>
+            <Doughnut data={this.state.dataObject} options={{ cutoutPercentage: '25' }}/>
             <p style={{ marginTop: '1em' }} >If this all looks good, congrats! Your profile is complete! Click 'Next' to proceed to your dashboard where you can donate to your causes.</p>
             <p> Or, if you'd like to make adjustments, you can: </p>
 
