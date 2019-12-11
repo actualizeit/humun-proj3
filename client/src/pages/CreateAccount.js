@@ -133,7 +133,7 @@ class CreateAccount extends Component {
               label='Email'
               placeholder='name@example.com'
               name='email'
-              value={this.state.email}
+              value={this.state.email.toLowerCase()}
               onChange={this.handleInputChange}
               error={this.state.emailErr}
             // required
