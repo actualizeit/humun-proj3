@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Input, Button, Message, Modal, Header } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
@@ -23,6 +24,7 @@ function Search () {
   const [modal2, setModal2] = useState(false);
   const [userSelect, setUserSelect] = useState(false);
   const [charityProportion, setCharityProportion] = useState([1]);
+  const [redirect, setRedirect] = useState(false);
 
   // get current charity name if there is one
   useEffect(() => {
@@ -31,8 +33,8 @@ function Search () {
       .then(res => {
         console.log('useEffect Res: ', res);
         if (res.data.user.userSelectedInfo.portion !== 0) {
-          setCharityName(res.data.userSelectedInfo.charityName);
-          return res.data.userSelectedInfo.charities[0];
+          setCharityName(res.data.user.userSelectedInfo.charityName);
+          setCharityProportion([res.data.user.userSelectedInfo.portion]);
         }
       });
   }, [ApiKey]);
@@ -56,7 +58,7 @@ function Search () {
       .post({
         userSelectedInfo: obj
       })
-      .then(() => console.log('success'));
+      .then(() => setRedirect(true));
   }
 
   // Rerun API call each time search term is changed
@@ -70,7 +72,7 @@ function Search () {
 
   return (
     <ThemeContainer text='Search for Organizations'>
-
+      { redirect && <Redirect to='/review' />}
       <ThemeBody>
         {/* input section to update search term */}
 
@@ -90,15 +92,17 @@ function Search () {
           <Modal size='tiny' open={modal1} onClose={() => setModal1(false)}>
             <Modal.Header>Please Confirm</Modal.Header>
             <Modal.Content>
-              {charityName &&
-                <p>Your charity selection will be set to {userSelect.charity}. {charityName} will no longer receive a portion of your contribution.</p>
+              {charityName && userSelect.charityName &&
+                <p>Your charity selection will be set to {userSelect.charityName}. {charityName} will no longer receive a portion of your contribution.</p>
               }
-              {!charityName &&
-                <p>Your charity selection will be set to {userSelect.charity}.</p>
+              {!charityName && userSelect.charityName &&
+                <p>Your charity selection will be set to {userSelect.charityName}.</p>
               }
             </Modal.Content>
             <Modal.Actions>
-              <Button negative>Cancel</Button>
+              <Button onClick={() => {
+                setModal1(false);
+              }} negative>Cancel</Button>
               <Button
                 positive
                 icon='checkmark'
@@ -128,10 +132,12 @@ function Search () {
                 Please select the portion of your contribution that will go to this charity:
               </Header>
 
-              <ThemeSliderUseState stateKey='charityProportion' value={charityProportion} stateHandler={setCharityProportion} leftLabel='Your Charity' rightLabel='Your Causes' />
+              <ThemeSliderUseState stateKey='charityProportion' value={charityProportion} stateHandler={setCharityProportion} leftLabel='0%' rightLabel='100%' />
             </Modal.Content>
             <Modal.Actions>
-              <Button negative>Cancel</Button>
+              <Button onClick={() => {
+                setModal2(false);
+              }} negative>Cancel</Button>
               <Button
                 positive
                 icon='checkmark'

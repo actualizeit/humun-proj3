@@ -134,8 +134,8 @@ class Login extends Component {
             error={this.state.pwErr}
           />
           <Button inverted basic type='submit' onClick={this.login} fluid>Submit</Button>
-          <Header as='h6' floated='right' inverted style={{ marginTop: '1em' }}><a href='/reset' style={{ color: 'white' }}>Forgot Password? Reset Password →</a></Header>
         </Form>
+        <Header as='h6' floated='right' inverted style={{ marginTop: '1em' }}><a href='/reset' style={{ color: 'white' }}>Forgot Password? Reset Password →</a></Header>
         {this.state.loginSuccess && this.loginSuccess()}
       </SplashTemplate>
     );
