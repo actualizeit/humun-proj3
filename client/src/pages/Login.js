@@ -117,7 +117,7 @@ class Login extends Component {
             placeholder='name@example.com'
             required
             name='email'
-            value={this.state.email}
+            value={this.state.email.toLowerCase()}
             onChange={this.handleInputChange}
             error={this.state.emailErr}
           />
