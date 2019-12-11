@@ -6,7 +6,7 @@ import ThemeContainer from '../components/ThemeContainer';
 import ThemeSegment from './../components/ThemeSegment';
 import ThemeBody from '../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
-import { Doughnut } from 'react-chartjs-2';
+import AllocationsChart from './../components/AllocationsChart';
 import API from '../utils/Api';
 import Payment from '../components/Paypal/payment';
 const { Row, Column } = Grid;
@@ -20,9 +20,8 @@ class Dashboard extends Component {
       userInfo: null,
       splashRedirect: false,
       emailConfirmationMessage: false,
-      dataObject: {},
       activeIndex: -1,
-      allocations: []
+      allocationsArr: []
     };
   }
 
@@ -31,37 +30,14 @@ class Dashboard extends Component {
     API
       .get()
       .then(res => {
-        console.log(res.data.user);
         this.setState({
-          userInfo: res.data.user
+          userInfo: res.data.user,
+          allocations: res.data.user.allocations,
+          allocationsArr: Object.values(res.data.user.allocations)
         });
         if (!this.state.userInfo.emailSetUp) {
           this.setState({ emailConfirmationMessage: true });
         }
-        console.log(res.data.user);
-      });
-    this.setState({ dataObject: {} });
-    const donationsArray = [];
-    const colorArray = ['#F0EE92', '#89C229', '#B5E4FE', '#179BE8', '#30499E', '#FF6A5A', '#FFB325'];
-    const colorArray2 = [];
-    const labelArray = [];
-    API.allocation()
-      .then(res => {
-        const allocations = Object.values(res.data.user.allocations);
-        this.setState({ allocations: Object.values(res.data.user.allocations) });
-        allocations.forEach((charity, i) => {
-          console.log(charity);
-          colorArray2.push(colorArray[i]);
-          donationsArray.push(charity.portion.toFixed(1));
-          labelArray.push(charity.name);
-        });
-        this.setState({ dataObject: {
-          datasets: [{
-            data: donationsArray,
-            backgroundColor: colorArray2
-          }],
-          labels: labelArray
-        } });
       });
   }
 
@@ -76,7 +52,7 @@ class Dashboard extends Component {
     API.test()
       .then(res => {
         console.log('test')
-        console.log(res);
+        // console.log(res);
       })
       .catch(() => {
         console.log('test')
@@ -85,10 +61,10 @@ class Dashboard extends Component {
   }
 
   confirmationEmail () {
-    console.log(this.state.userInfo);
+    // console.log(this.state.userInfo);
     API.getEmailToken({ email: this.state.userInfo.email })
       .then(res => {
-        console.log(res);
+        // console.log(res);
       });
   }
 
@@ -100,15 +76,6 @@ class Dashboard extends Component {
   render () {
     const {
       firstName,
-      // impact,
-      // shortVlongTerm,
-      // basicNeeds,
-      // climateChange,
-      // education,
-      // globalHealth,
-      // habitat,
-      // pollution,
-      // socialVenvironmental,
       causesSetUp,
       impactsSetUp,
       charities,
@@ -171,7 +138,7 @@ class Dashboard extends Component {
             {charities && <p>You currently have chosen {charityName} to receive a portion of your contribution.</p>}
             {!charities && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
             <p><Link to='/search'>Search Charities</Link></p>
-            <Doughnut data={this.state.dataObject} options={{ cutoutPercentage: '25' }}/>
+            {this.state.allocations && <AllocationsChart allocations={this.state.allocations} />}
           </ThemeSegment>
           <ThemeSegment title='Matched Charities'>
             <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
@@ -185,7 +152,7 @@ class Dashboard extends Component {
               </Accordion.Title>
               <Accordion.Content active={this.state.activeIndex === 0}>
                 <div>
-                  {this.state.allocations.map(charity => (
+                  { this.state.allocationsArr.map(charity => (
                     <div key={charity.ein}>
                       <ThemeCard
                         title={charity.name}
