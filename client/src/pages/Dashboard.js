@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Accordion, Header, Segment, Icon, Grid, Button, Message } from 'semantic-ui-react';
-import { Redirect, Link } from 'react-router-dom';
+import { Header, Segment, Grid, Button, Message } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 import ThemeContainer from '../components/ThemeContainer';
 import ThemeSegment from './../components/ThemeSegment';
 import ThemeBody from '../components/ThemeBody';
-import ThemeCard from './../components/ThemeCard';
+// import ThemeCard from './../components/ThemeCard';
 import AllocationsChart from './../components/AllocationsChart';
+import AllocationsCard from './../components/AllocationsCard';
 import API from '../utils/Api';
 import Payment from '../components/Paypal/payment';
 const { Row, Column } = Grid;
@@ -21,7 +22,8 @@ class Dashboard extends Component {
       splashRedirect: false,
       emailConfirmationMessage: false,
       activeIndex: -1,
-      allocationsArr: []
+      allocationsArr: [],
+      allocations: false
     };
   }
 
@@ -30,11 +32,16 @@ class Dashboard extends Component {
     API
       .get()
       .then(res => {
+        const arr = Object.values(res.data.user.allocations);
+        const allocationsArr = [...arr].sort((a, b) => {
+          return b.portion - a.portion;
+        });
         this.setState({
           userInfo: res.data.user,
           allocations: res.data.user.allocations,
-          allocationsArr: Object.values(res.data.user.allocations)
+          allocationsArr: allocationsArr
         });
+        console.log(res.data.user.allocations);
         if (!this.state.userInfo.emailSetUp) {
           this.setState({ emailConfirmationMessage: true });
         }
@@ -77,9 +84,7 @@ class Dashboard extends Component {
     const {
       firstName,
       causesSetUp,
-      impactsSetUp,
-      charities,
-      charityName
+      impactsSetUp
     } = { ...this.state.userInfo };
 
     if (this.state.splashRedirect) {
@@ -106,8 +111,8 @@ class Dashboard extends Component {
         <ThemeBody>
           <div>
             <Segment vertical>
-              <Header as='h2' icon textAlign='center'>
-                <Icon name='user' circular />
+              <Header as='h2' textAlign='center'>
+                {/* <Icon name='user' circular /> */}
                 <Header.Content>Welcome {firstName}!</Header.Content>
               </Header>
             </Segment>
@@ -135,13 +140,10 @@ class Dashboard extends Component {
           } */}
 
           <ThemeSegment title='Allocations'>
-            {charities && <p>You currently have chosen {charityName} to receive a portion of your contribution.</p>}
-            {!charities && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
-            <p><Link to='/search'>Search Charities</Link></p>
             {this.state.allocations && <AllocationsChart allocations={this.state.allocations} />}
           </ThemeSegment>
           <ThemeSegment title='Matched Charities'>
-            <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
+            {/* <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
               <Accordion.Title
                 active={this.state.activeIndex === 0}
                 index={0}
@@ -169,7 +171,19 @@ class Dashboard extends Component {
                   ))}
                 </div>
               </Accordion.Content>
-            </Accordion>
+            </Accordion> */}
+            {
+              this.state.allocationsArr.map((charity, i) => {
+                return (
+                  <AllocationsCard charity={charity} key={i} />
+                );
+              })
+            }
+            <Message info>
+              {this.state.allocations.userSelected && <p>You currently have chosen {this.state.allocations.userSelected.name} to receive a portion of your contribution. You may select one custom charity at a time. If you would like to change your charity, click the button below:</p>}
+              {!this.state.allocations.userSelected && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
+              <Button basic fluid color='teal' href='/search'>Search Charities</Button>
+            </Message>
           </ThemeSegment>
           <ThemeSegment title='Contributions'>
             <Payment />
