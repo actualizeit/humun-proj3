@@ -102,7 +102,7 @@ class Dashboard extends Component {
       <ThemeContainer>
         <Grid textAlign='center'>
           <Row>
-            <Column color='blue' className={css(styles.pt)}>
+            <Column className={css(styles.pt)}>
               <Header as='h6' className={css(styles.white)}>
               </Header>
             </Column>
@@ -141,6 +141,7 @@ class Dashboard extends Component {
 
           <ThemeSegment title='Allocations'>
             {this.state.allocations && <AllocationsChart allocations={this.state.allocations} />}
+            <Button style={{ marginTop: '1em' }} basic color='blue' fluid href='/impact'>Adjust Allocations</Button>
           </ThemeSegment>
           <ThemeSegment title='Matched Charities'>
             {/* <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
