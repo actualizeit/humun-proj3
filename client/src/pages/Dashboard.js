@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Accordion, Header, Segment, Icon, Grid, Button, Message } from 'semantic-ui-react';
-import { Redirect, Link } from 'react-router-dom';
+import { Header, Segment, Grid, Button, Message } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 import ThemeContainer from '../components/ThemeContainer';
 import ThemeSegment from './../components/ThemeSegment';
 import ThemeBody from '../components/ThemeBody';
-import ThemeCard from './../components/ThemeCard';
-import { Doughnut } from 'react-chartjs-2';
+// import ThemeCard from './../components/ThemeCard';
+import AllocationsChart from './../components/AllocationsChart';
+import AllocationsCard from './../components/AllocationsCard';
 import API from '../utils/Api';
 import Payment from '../components/Paypal/payment';
 const { Row, Column } = Grid;
@@ -20,9 +21,9 @@ class Dashboard extends Component {
       userInfo: null,
       splashRedirect: false,
       emailConfirmationMessage: false,
-      dataObject: {},
       activeIndex: -1,
-      allocations: []
+      allocationsArr: [],
+      allocations: false
     };
   }
 
@@ -31,37 +32,19 @@ class Dashboard extends Component {
     API
       .get()
       .then(res => {
-        console.log(res.data.user);
-        this.setState({
-          userInfo: res.data.user
+        const arr = Object.values(res.data.user.allocations);
+        const allocationsArr = [...arr].sort((a, b) => {
+          return b.portion - a.portion;
         });
+        this.setState({
+          userInfo: res.data.user,
+          allocations: res.data.user.allocations,
+          allocationsArr: allocationsArr
+        });
+        console.log(res.data.user.allocations);
         if (!this.state.userInfo.emailSetUp) {
           this.setState({ emailConfirmationMessage: true });
         }
-        console.log(res.data.user);
-      });
-    this.setState({ dataObject: {} });
-    const donationsArray = [];
-    const colorArray = ['#F0EE92', '#89C229', '#B5E4FE', '#179BE8', '#30499E', '#FF6A5A', '#FFB325'];
-    const colorArray2 = [];
-    const labelArray = [];
-    API.allocation()
-      .then(res => {
-        const allocations = Object.values(res.data.user.allocations);
-        this.setState({ allocations: Object.values(res.data.user.allocations) });
-        allocations.forEach((charity, i) => {
-          console.log(charity);
-          colorArray2.push(colorArray[i]);
-          donationsArray.push(charity.portion.toFixed(1));
-          labelArray.push(charity.name);
-        });
-        this.setState({ dataObject: {
-          datasets: [{
-            data: donationsArray,
-            backgroundColor: colorArray2
-          }],
-          labels: labelArray
-        } });
       });
   }
 
@@ -76,7 +59,7 @@ class Dashboard extends Component {
     API.test()
       .then(res => {
         console.log('test')
-        console.log(res);
+        // console.log(res);
       })
       .catch(() => {
         console.log('test')
@@ -85,10 +68,10 @@ class Dashboard extends Component {
   }
 
   confirmationEmail () {
-    console.log(this.state.userInfo);
+    // console.log(this.state.userInfo);
     API.getEmailToken({ email: this.state.userInfo.email })
       .then(res => {
-        console.log(res);
+        // console.log(res);
       });
   }
 
@@ -100,19 +83,8 @@ class Dashboard extends Component {
   render () {
     const {
       firstName,
-      // impact,
-      // shortVlongTerm,
-      // basicNeeds,
-      // climateChange,
-      // education,
-      // globalHealth,
-      // habitat,
-      // pollution,
-      // socialVenvironmental,
       causesSetUp,
-      impactsSetUp,
-      charities,
-      charityName
+      impactsSetUp
     } = { ...this.state.userInfo };
 
     if (this.state.splashRedirect) {
@@ -139,8 +111,8 @@ class Dashboard extends Component {
         <ThemeBody>
           <div>
             <Segment vertical>
-              <Header as='h2' icon textAlign='center'>
-                <Icon name='user' circular />
+              <Header as='h2' textAlign='center'>
+                {/* <Icon name='user' circular /> */}
                 <Header.Content>Welcome {firstName}!</Header.Content>
               </Header>
             </Segment>
@@ -168,13 +140,10 @@ class Dashboard extends Component {
           } */}
 
           <ThemeSegment title='Allocations'>
-            {charities && <p>You currently have chosen {charityName} to receive a portion of your contribution.</p>}
-            {!charities && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
-            <p><Link to='/search'>Search Charities</Link></p>
-            <Doughnut data={this.state.dataObject} options={{ cutoutPercentage: '25' }}/>
+            {this.state.allocations && <AllocationsChart allocations={this.state.allocations} />}
           </ThemeSegment>
           <ThemeSegment title='Matched Charities'>
-            <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
+            {/* <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
               <Accordion.Title
                 active={this.state.activeIndex === 0}
                 index={0}
@@ -185,7 +154,7 @@ class Dashboard extends Component {
               </Accordion.Title>
               <Accordion.Content active={this.state.activeIndex === 0}>
                 <div>
-                  {this.state.allocations.map(charity => (
+                  { this.state.allocationsArr.map(charity => (
                     <div key={charity.ein}>
                       <ThemeCard
                         title={charity.name}
@@ -202,7 +171,19 @@ class Dashboard extends Component {
                   ))}
                 </div>
               </Accordion.Content>
-            </Accordion>
+            </Accordion> */}
+            {
+              this.state.allocationsArr.map((charity, i) => {
+                return (
+                  <AllocationsCard charity={charity} key={i} />
+                );
+              })
+            }
+            <Message info>
+              {this.state.allocations.userSelected && <p>You currently have chosen {this.state.allocations.userSelected.name} to receive a portion of your contribution. You may select one custom charity at a time. If you would like to change your charity, click the button below:</p>}
+              {!this.state.allocations.userSelected && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
+              <Button basic fluid color='teal' href='/search'>Search Charities</Button>
+            </Message>
           </ThemeSegment>
           <ThemeSegment title='Contributions'>
             <Payment />
