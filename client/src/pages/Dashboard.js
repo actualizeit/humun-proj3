@@ -11,7 +11,6 @@ import API from '../utils/Api';
 import Payment from '../components/Paypal/payment';
 const { Row, Column } = Grid;
 
-
 class Dashboard extends Component {
   constructor (props) {
     super(props);
@@ -41,11 +40,11 @@ class Dashboard extends Component {
         }
         console.log(res.data.user);
       });
-      this.setState({ dataObject: {} });
-      const donationsArray = [];
-      const colorArray = ['#F0EE92', '#89C229', '#B5E4FE', '#179BE8', '#30499E', '#FF6A5A', '#FFB325'];
-      const colorArray2 = [];
-      const labelArray = [];
+    this.setState({ dataObject: {} });
+    const donationsArray = [];
+    const colorArray = ['#F0EE92', '#89C229', '#B5E4FE', '#179BE8', '#30499E', '#FF6A5A', '#FFB325'];
+    const colorArray2 = [];
+    const labelArray = [];
     API.allocation()
       .then(res => {
         const allocations = Object.values(res.data.user.allocations);
@@ -76,9 +75,11 @@ class Dashboard extends Component {
   checkLogin () {
     API.test()
       .then(res => {
-        console.log('loggedin');
+        console.log('test')
+        console.log(res);
       })
       .catch(() => {
+        console.log('test')
         this.setState({ splashRedirect: true });
       });
   }
