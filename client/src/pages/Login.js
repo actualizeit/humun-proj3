@@ -43,9 +43,8 @@ class Login extends Component {
           this.setState({ loginSuccess: true });
           // need to add success alert before redirect
           const that = this;
-          console.log(res.data);
           setTimeout(function () {
-            if (res.data.user.initialSetup) {
+            if (res.data.user.causesSetUp) {
               that.setState({ profileRedirect: true });
             } else {
               that.setState({ impactRedirect: true });

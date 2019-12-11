@@ -23,29 +23,41 @@ class Dashboard extends Component {
       emailConfirmationMessage: false,
       activeIndex: -1,
       allocationsArr: [],
-      allocations: false
+      allocations: false,
+      emailButton: true,
+      emailButtonText: "Send Confirmation Email"
     };
   }
 
   componentDidMount () {
+    window.addEventListener('resize', this.updateWindowDimensions);
+    console.log(window.innerWidth);
     this.checkLogin();
     API
       .get()
       .then(res => {
-        const arr = Object.values(res.data.user.allocations);
-        const allocationsArr = [...arr].sort((a, b) => {
-          return b.portion - a.portion;
-        });
+        if (res.data.user.allocations) {
+          const arr = Object.values(res.data.user.allocations);
+          const allocationsArr = [...arr].sort((a, b) => {
+            return b.portion - a.portion;
+          });
+          this.setState({
+            userInfo: res.data.user,
+            allocations: res.data.user.allocations,
+            allocationsArr: allocationsArr
+          });
+        }
         this.setState({
-          userInfo: res.data.user,
-          allocations: res.data.user.allocations,
-          allocationsArr: allocationsArr
+          userInfo: res.data.user
         });
-        console.log(res.data.user.allocations);
         if (!this.state.userInfo.emailSetUp) {
           this.setState({ emailConfirmationMessage: true });
         }
       });
+  }
+
+  updateWindowDimensions () {
+    console.log(window.innerWidth);
   }
 
   handleAccordion = (e, titleProps) => {
@@ -58,11 +70,10 @@ class Dashboard extends Component {
   checkLogin () {
     API.test()
       .then(res => {
-        console.log('test')
         // console.log(res);
       })
       .catch(() => {
-        console.log('test')
+        console.log('test');
         this.setState({ splashRedirect: true });
       });
   }
@@ -71,7 +82,9 @@ class Dashboard extends Component {
     // console.log(this.state.userInfo);
     API.getEmailToken({ email: this.state.userInfo.email })
       .then(res => {
-        // console.log(res);
+        if (res.data.success) {
+          this.setState({ emailButton: false, emailButtonText: 'Email Sent! Check your inbox.' });
+        }
       });
   }
 
@@ -128,13 +141,12 @@ class Dashboard extends Component {
                   {!causesSetUp && <Button basic color='teal' href='/causes'>Choose Your Causes</Button>}
                 </Button.Group>
               </Message>
-              {this.state.emailConfirmationMessage && <Message info>
-                <p>You haven't confirmed your email yet.</p>
-                <p><Button basic color='teal' fluid onClick={this.confirmationEmail}>Send Confirmation Email</Button></p>
-              </Message>}
             </div>
           }
-
+          {this.state.emailConfirmationMessage && <Message info>
+            <p>You haven't confirmed your email yet.</p>
+            <p><Button basic={this.state.emailButton} color='teal' fluid onClick={this.confirmationEmail}>{this.state.emailButtonText}</Button></p>
+          </Message>}
           {/* { isSetUp() &&
               Change settings
           } */}
