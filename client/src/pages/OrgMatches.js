@@ -70,7 +70,7 @@ class OrgMatches extends Component {
           <ThemeContainer text='Congratulations!'>
             <ThemeBody>
               <Header as='h4' textAlign='center'>
-                          We’ve matched you to these organizations:
+                We’ve matched you to these organizations:
               </Header>
               {/* Map through all of charities in the state and display them onto the page */}
               <div>
