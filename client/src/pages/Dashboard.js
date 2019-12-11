@@ -26,7 +26,7 @@ class Dashboard extends Component {
       emailConfirmationMessage: false,
       dataObject: {},
       activeIndex: -1,
-      allocations: {}
+      allocations: []
     };
   }
 
@@ -47,8 +47,7 @@ class Dashboard extends Component {
     API.allocation()
       .then(res => {
         const allocations = Object.values(res.data.user.allocations);
-        this.setState({ aloocations: Object.values(res.data.user.allocations) });
-        console.log('allocations: ', Object.values(allocations));
+        this.setState({ allocations: Object.values(res.data.user.allocations) });
         allocations.forEach((charity, i) => {
           console.log(charity);
           colorArray2.push(colorArray[i]);
@@ -171,15 +170,15 @@ class Dashboard extends Component {
             <p><Link to='/search'>Search Charities</Link></p>
             <Doughnut data={this.state.dataObject} options={{ cutoutPercentage: '25' }}/>
           </ThemeSegment>
-          <ThemeSegment title='Allocations'>
-            <Accordion fluid inverted style={{ marginBottom: '1em', color: 'black' }}>
+          <ThemeSegment title='Matched Charities'>
+            <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
               <Accordion.Title
                 active={this.state.activeIndex === 0}
                 index={0}
                 onClick={this.handleAccordion}
               >
                 <Icon name='dropdown' />
-            About Humun
+                Show Charities
               </Accordion.Title>
               <Accordion.Content active={this.state.activeIndex === 0}>
                 <div>
