@@ -98,8 +98,7 @@ class OrgMatches extends Component {
               <Header as='h4' textAlign='center'>
                           In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution Dashboard at any time.
               </Header>
-
-              <Button onClick={() => this.handleOrgMatches('/dashboard')} primary fluid>To Dashboard</Button>
+              <Button basic type='submit' onClick={() => this.handleOrgMatches('/dashboard')} content='To Dashboard' icon='right arrow' labelPosition='right' fluid />
             </ThemeBody>
           </ThemeContainer>
         </div>

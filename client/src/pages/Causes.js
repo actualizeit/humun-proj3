@@ -99,7 +99,7 @@ class Causes extends Component {
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to='/review' />;
+      return <Redirect to='/matches' />;
     }
   }
 
@@ -128,7 +128,7 @@ class Causes extends Component {
                   <ThemeSliderGroup values={['basicNeeds', 'education', 'globalHealth']} userValues={this.state.user} titles={['Basic Needs (Nutrition, Shelter, Safety, Water)', 'Education & Opportunity', 'Global Health']} stateKey='social' stateHandler={this.handleChange} steps={sliderSteps}/>
                 </ThemeSliderGroupContainer>
               </ThemeSegment>
-              <Button basic type='submit' onClick={this.handleCauses} content='Review' icon='right arrow' labelPosition='right' fluid />
+              <Button basic type='submit' onClick={this.handleCauses} content='View Your Matches' icon='right arrow' labelPosition='right' fluid />
             </Form>
           </ThemeBody>
         </ThemeContainer>

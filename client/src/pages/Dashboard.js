@@ -206,7 +206,6 @@ class Dashboard extends Component {
           </ThemeSegment>
           <ThemeSegment title='Contributions'>
             <Payment />
-            Contributions - add paypal button
           </ThemeSegment>
 
         </ThemeBody>
