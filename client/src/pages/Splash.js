@@ -88,7 +88,7 @@ class Splash2 extends Component {
               By automating the process of finding and donating to quaility charities that match your values, you can ensure you are doing the most good that you can, while saving time and effort.
             </p>
             <p>
-              After answering some basic questions about your values, you will be paired with charities in differeent impact areas that match your priorities.
+              After answering some basic questions about your values, you will be paired with charities in different impact areas that match your priorities.
             </p>
             <p>
               Charities are vetted for efficicacy and will be updated over time if either more effective charities, or charities that better match your prioirities, are added.
