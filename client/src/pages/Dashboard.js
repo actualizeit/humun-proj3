@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Header, Segment, Icon, Grid, Button, Message } from 'semantic-ui-react';
+import { Accordion, Header, Segment, Icon, Grid, Button, Message } from 'semantic-ui-react';
 import { Redirect, Link } from 'react-router-dom';
 import ThemeContainer from '../components/ThemeContainer';
 import ThemeSegment from './../components/ThemeSegment';
 import ThemeBody from '../components/ThemeBody';
+import ThemeCard from './../components/ThemeCard';
+import { Doughnut } from 'react-chartjs-2';
 import API from '../utils/Api';
 const { Row, Column } = Grid;
+
+const donationsArray = [];
+const colorArray = ['#F0EE92', '#89C229', '#B5E4FE', '#179BE8', '#30499E', '#FF6A5A', '#FFB325'];
+const colorArray2 = [];
+const labelArray = [];
 
 class Dashboard extends Component {
   constructor (props) {
@@ -16,7 +23,10 @@ class Dashboard extends Component {
     this.state = {
       userInfo: null,
       splashRedirect: false,
-      emailConfirmationMessage: false
+      emailConfirmationMessage: false,
+      dataObject: {},
+      activeIndex: -1,
+      allocations: {}
     };
   }
 
@@ -34,6 +44,32 @@ class Dashboard extends Component {
         }
         console.log(res.data.user);
       });
+    API.allocation()
+      .then(res => {
+        const allocations = Object.values(res.data.user.allocations);
+        this.setState({ aloocations: Object.values(res.data.user.allocations) });
+        console.log('allocations: ', Object.values(allocations));
+        allocations.forEach((charity, i) => {
+          console.log(charity);
+          colorArray2.push(colorArray[i]);
+          donationsArray.push(charity.portion.toFixed(1));
+          labelArray.push(charity.name);
+        });
+        this.setState({ dataObject: {
+          datasets: [{
+            data: donationsArray,
+            backgroundColor: colorArray2
+          }],
+          labels: labelArray
+        } });
+      });
+  }
+
+  handleAccordion = (e, titleProps) => {
+    const { index } = titleProps;
+    const { activeIndex } = this.state;
+    const newIndex = activeIndex === index ? -1 : index;
+    this.setState({ activeIndex: newIndex });
   }
 
   checkLogin () {
@@ -125,7 +161,7 @@ class Dashboard extends Component {
             </div>
           }
 
-          {/* { isSetUp() && 
+          {/* { isSetUp() &&
               Change settings
           } */}
 
@@ -133,8 +169,39 @@ class Dashboard extends Component {
             {charities && <p>You currently have chosen {charityName} to receive a portion of your contribution.</p>}
             {!charities && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
             <p><Link to='/search'>Search Charities</Link></p>
+            <Doughnut data={this.state.dataObject} options={{ cutoutPercentage: '25' }}/>
           </ThemeSegment>
-
+          <ThemeSegment title='Allocations'>
+            <Accordion fluid inverted style={{ marginBottom: '1em', color: 'black' }}>
+              <Accordion.Title
+                active={this.state.activeIndex === 0}
+                index={0}
+                onClick={this.handleAccordion}
+              >
+                <Icon name='dropdown' />
+            About Humun
+              </Accordion.Title>
+              <Accordion.Content active={this.state.activeIndex === 0}>
+                <div>
+                  {this.state.allocations.map(charity => (
+                    <div key={charity.ein}>
+                      <ThemeCard
+                        title={charity.name}
+                        link={charity.link}
+                        tagLine={charity.description}
+                        EIN={charity.ein}
+                        cause={charity.category}
+                        city={charity.charityCity}
+                        state={charity.charityState}
+                        portion={charity.portion.toFixed(1) + '%' }
+                      >
+                      </ThemeCard>
+                    </div>
+                  ))}
+                </div>
+              </Accordion.Content>
+            </Accordion>
+          </ThemeSegment>
           <ThemeSegment title='Contributions'>
             Contributions - add paypal button
           </ThemeSegment>
