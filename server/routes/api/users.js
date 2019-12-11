@@ -15,7 +15,8 @@ router
   .post(passport.authenticate('jwt', { session: false }), appController.allocationCalc);
 
 // Test Json Web Token not expired
-router.get('/test', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/test', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  console.log(req);
   res.json({ success: true });
 });
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Message } from 'semantic-ui-react';
+import { Header, Button, Form, Input, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import SplashTemplate from './../components/SplashTemplate';
 import bg from './../assets/images/bg.jpeg';
@@ -165,6 +165,9 @@ class CreateAccount extends Component {
             {createAccountSuccess}
             <Button type='submit' onClick={this.handleCreate} basic inverted fluid>Submit</Button>
           </Form>
+          <Header as='h6' floated='right' style={{ marginTop: '1em' }}>
+            <a href='/login' style={{ color: 'white' }}>Already a member? Login →</a>
+          </Header>
         </SplashTemplate>
       );
     }

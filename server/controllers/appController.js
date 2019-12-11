@@ -69,6 +69,7 @@ module.exports = {
     }
   },
   login: function (req, res) {
+    console.log(req);
     const email = req.body.email;
     const password = req.body.password;
     const errors = [];
@@ -85,7 +86,8 @@ module.exports = {
         if (err) throw err;
         if (isMatch) {
           console.log(process.env.secret);
-          const token = jwt.sign(user.toJSON(), process.env.secret, {
+          console.log(user);
+          const token = jwt.sign({ email: user.email, _id: user._id }, process.env.secret, {
             expiresIn: 604800
           });
           res.json({
