@@ -36,7 +36,6 @@ class Review extends Component {
         const allocations = Object.values(res.data.user.allocations);
         console.log('allocations: ', Object.values(allocations));
         allocations.forEach((charity, i) => {
-          console.log(charity);
           colorArray2.push(colorArray[i]);
           donationsArray.push(charity.portion.toFixed(1));
           labelArray.push(charity.name);

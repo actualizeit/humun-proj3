@@ -1,5 +1,5 @@
 const charities = require('./../controllers/charities');
-const { Transactions, User } = require('../models');
+const { User } = require('../models');
 
 // console.log(charities.charities);
 
