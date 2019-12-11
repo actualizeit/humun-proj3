@@ -29,7 +29,7 @@ function AllocationsCard (props) {
 
   return (
     <Card
-      href={props.charity.link}
+      link
       key={props.charity.ein}
       color={cardColor}
       fluid
@@ -52,7 +52,8 @@ function AllocationsCard (props) {
             </List.Item>
             <List.Item>
               <List.Icon name='external' />
-              <List.Content>{props.charity.link}
+              <List.Content>
+                <a href={props.charity.link} target='_blank' rel="noopener noreferrer">{props.charity.link}</a>
               </List.Content>
             </List.Item>
             <List.Item>
