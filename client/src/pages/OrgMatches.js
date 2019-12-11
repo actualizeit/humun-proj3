@@ -3,10 +3,10 @@ import { Button, Header, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
-import ThemeCard from './../components/ThemeCard';
+// import ThemeCard from './../components/ThemeCard';
 import AllocationsCard from './../components/AllocationsCard';
 import API from './../utils/Api';
-import AllocationsChart from '../components/AllocationsChart';
+// import AllocationsChart from '../components/AllocationsChart';
 
 class OrgMatches extends Component {
   constructor (props) {

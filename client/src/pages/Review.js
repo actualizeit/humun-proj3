@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Header } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { Redirect, Link } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
