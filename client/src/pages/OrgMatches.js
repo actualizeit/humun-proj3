@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Input, Button, Message, Modal, Header } from 'semantic-ui-react';
+import { Button, Header, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
 import ThemeCard from './../components/ThemeCard';
+import AllocationsCard from './../components/AllocationsCard';
 import API from './../utils/Api';
-
-let allocations = [];
+import AllocationsChart from '../components/AllocationsChart';
 
 class OrgMatches extends Component {
   constructor (props) {
@@ -15,25 +15,28 @@ class OrgMatches extends Component {
     this.state = {
       redirect: false,
       redirectLoc: '',
-      isLoaded: false
+      allocationsArr: false,
+      allocations: false
     };
   }
 
   componentDidMount () {
     this.checkLogin();
-    API.allocation()
+    API
+      .allocation()
       .then(res => {
-        console.log(res.data.user.allocations);
-        allocations = Object.values(res.data.user.allocations);
-        console.log('allocations: ', allocations);
+        const allocationsArr = Object.values(res.data.user.allocations).filter((x) => x.category !== 'userSelected');
+        console.log(allocationsArr);
         this.setState({
-          isLoaded: true
+          allocations: res.data.user.allocations,
+          allocationsArr
         });
       });
   }
 
   checkLogin () {
-    API.test()
+    API
+      .test()
       .then(res => {
         console.log('loggedin');
       })
@@ -68,37 +71,41 @@ class OrgMatches extends Component {
         <div>
           { this.renderRedirect() }
           <ThemeContainer text='Congratulations!'>
+
             <ThemeBody>
-              <Header as='h4' textAlign='center'>
+              <Header as='h3' dividing>
                 We’ve matched you to these organizations:
               </Header>
               {/* Map through all of charities in the state and display them onto the page */}
               <div>
-                {this.state.isLoaded &&
-              allocations.map(charity => (
-                <div key={charity.ein}>
-                  <ThemeCard
-                    title={charity.name}
-                    link={charity.link}
-                    tagLine={charity.description}
-                    EIN={charity.ein}
-                    cause={charity.category}
-                    city={charity.city}
-                    state={charity.state}
-                    portion={charity.portion.toFixed(1) + '%' }
-                  >
-                  </ThemeCard>
-                </div>
-              ))
+                {
+                  this.state.allocationsArr &&
+                  this.state.allocationsArr.map((charity, i) => {
+                    return (
+                      <AllocationsCard charity={charity} key={i} />
+                    );
+                  })
                 }
               </div>
-              <Header as='h4' textAlign='center'>
-                          You can donate one time to this basket of causes now, save your Dashboard and donate later, or you can set up a recurring donation to support these causes over time.
+              <Header as='h3' dividing>
+                Custom Charity Allocation
               </Header>
-              <Header as='h4' textAlign='center'>
-                          In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution Dashboard at any time.
-              </Header>
-              <Button basic type='submit' onClick={() => this.handleOrgMatches('/dashboard')} content='To Dashboard' icon='right arrow' labelPosition='right' fluid />
+              {
+                this.state.allocations.userSelected &&
+                <AllocationsCard charity={this.state.allocations.userSelected} key={this.state.allocations.userSelected.ein} />
+              }
+              <Message info>
+                {this.state.allocations.userSelected && <p>You currently have chosen {this.state.allocations.userSelected.name} to receive a portion of your contribution. You may select one custom charity at a time. If you would like to change your charity, click the button below:</p>}
+                {!this.state.allocations.userSelected && <p>If you would like, you can specify one charity to receive a portion of your contribution.</p>}
+                <Button basic fluid color='teal' href='/search'>Search Charities</Button>
+              </Message>
+              {/* <p style={{ marginTop: '1em' }} >
+                You can donate one time to this basket of causes now, save your Dashboard and donate later, or you can set up a recurring donation to support these causes over time.
+              </p> */}
+              {/* <p>
+                In all cases Humun will adjust the target organizations as data becomes available and you can update your contribution Dashboard at any time.
+              </p> */}
+              <Button basic type='submit' onClick={() => this.handleOrgMatches('/review')} content='To Review' icon='right arrow' labelPosition='right' fluid />
             </ThemeBody>
           </ThemeContainer>
         </div>

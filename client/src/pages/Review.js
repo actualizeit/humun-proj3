@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 import { Redirect, Link } from 'react-router-dom';
 import ThemeContainer from './../components/ThemeContainer';
 import ThemeBody from './../components/ThemeBody';
@@ -69,9 +69,12 @@ class Review extends Component {
         <ThemeContainer text='Please review your contribution profile:'>
           <ThemeBody>
             {this.state.allocations && <AllocationsChart allocations={this.state.allocations} />}
-            <p style={{ marginTop: '1em' }} >If this all looks good, congrats! Your profile is complete! Click 'Next' to proceed to your dashboard where you can donate to your causes.</p>
-            <p> Or, if you'd like to make adjustments, you can: </p>
-
+            <p style={{ marginTop: '1em' }}>
+              If this all looks good, congrats! Your profile is complete! Click 'Next' to proceed to your dashboard where you can donate to your causes.
+            </p>
+            <p>
+              Or, if you'd like to make adjustments, you can:
+            </p>
             <Link to='/impact'><Button basic content='Change your allocations' icon='left arrow' labelPosition='left' fluid style={{ marginTop: '.5em' }} /></Link>
             <Link to='/search'><Button basic content='Add a specific charity' icon='add' labelPosition='left' fluid style={{ marginTop: '.5em' }} /></Link>
             <Button basic type='submit' onClick={this.handleReview} content='Finish' icon='right arrow' labelPosition='right' fluid style={{ marginTop: '.5em' }} />
