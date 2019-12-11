@@ -190,8 +190,8 @@ class Dashboard extends Component {
                         tagLine={charity.description}
                         EIN={charity.ein}
                         cause={charity.category}
-                        city={charity.charityCity}
-                        state={charity.charityState}
+                        city={charity.city}
+                        state={charity.state}
                         portion={charity.portion.toFixed(1) + '%' }
                       >
                       </ThemeCard>

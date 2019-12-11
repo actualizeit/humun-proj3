@@ -6,7 +6,7 @@ function ThemeCard (props) {
     <div>
       <Segment style={{ marginTop: '1em', border: 'none' }} attached='top' raised inverted color='blue'>
         <Header as='h4' style={{ letterSpacing: '.5px' }}>
-          <Image circular src={props.image} style={{ border: '2px solid black' }} /> {props.title}
+          {props.image && <Image circular src={props.image} style={{ border: '2px solid black' }} />} {props.title}
         </Header>
       </Segment>
       <Segment attached='bottom' raised>
@@ -25,12 +25,15 @@ function ThemeCard (props) {
               <a href={props.link} target='_blank' rel="noopener noreferrer">{props.link}</a>
             </List.Content>
           </List.Item>
-          <List.Item>
-            <List.Icon name='info circle' />
-            <List.Content>
-              {props.cause}
-            </List.Content>
-          </List.Item>
+          {props.cause &&
+            <List.Item>
+              <List.Icon name='info circle' />
+              <List.Content>
+                {props.cause}
+              </List.Content>
+            </List.Item>
+          }
+
         </List>
         {props.children}
       </Segment>
