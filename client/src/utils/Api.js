@@ -12,6 +12,9 @@ export default {
   allocation: function (user) {
     return axios.post('/api/users/allocation', user, { 'headers': { 'Authorization': cookies.get('jwt') } });
   },
+  saveTransaction: function (transaction) {
+    return axios.post('/api/users/saveTransaction', transaction, { 'headers': { 'Authorization': cookies.get('jwt') } });
+  },
   logout: function () {
     cookies.set('jwt', '', { path: '/' });
   },

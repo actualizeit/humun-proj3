@@ -22,7 +22,9 @@ class AllocationsChart extends Component {
 
   render () {
     return (
-      <Doughnut data={this.state.dataObject} options={{ cutoutPercentage: '25' }} />
+      <div>
+        <Doughnut width={100} height={400} data={this.state.dataObject} options={{ cutoutPercentage: '25', maintainAspectRatio: false }} />
+      </div>
     );
   }
 }

@@ -9,25 +9,61 @@ class ThankYou extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      donation: false,
+      transactions: false,
       redirect: false,
       splashRedirect: false
     };
   }
 
+  handleChange = (event) => {
+    const donation = event.target.value.trim();
+    this.state.donation = donation;
+    console.log(this.state.donation);
+  }
+
   componentDidMount = () => {
+    this.checkLogin();
     API
-      .test()
+      .get()
+      .then(res => {
+        console.log('==================');
+        console.log('APIget: ', res.data.user.transactions);
+        this.state.transactions = res.data.user.transactions;
+        // const { allocations } = res.data.user;
+        // this.setState({
+        //   allocations
+        // });
+      });
+  }
+
+  checkLogin () {
+    API.test()
+      .then(res => {
+        console.log('loggedin');
+      })
       .catch(() => {
-        console.log('test')
         this.setState({ splashRedirect: true });
       });
   }
 
   handleSubmit = () => {
-    console.log('clicked');
-    // this.setState({
-    //   redirect: true
-    // });
+    API
+      .get()
+      .then(res => {
+        const oldTransactions = res.data.user.transactions;
+        const newTrans = {
+          date: new Date(),
+          donation: this.state.donation
+        };
+        oldTransactions.push(newTrans);
+        API.post({
+          transactions: oldTransactions
+        });
+      });
+    this.setState({
+      redirect: true
+    });
   }
 
   render () {
@@ -43,9 +79,10 @@ class ThankYou extends Component {
               label='Donation Amount'
               placeholder='Enter Donation Amount'
               type='number'
-              max={5}
+              max={1000}
+              onChange={this.handleChange}
             />
-            <Button type='submit' basic fluid content='Submit' icon='right arrow' labelPosition='right' />
+            <Button type='submit' basic fluid content='Submit' onClick={this.handleSubmit} icon='right arrow' labelPosition='right' />
           </Form>
         </ThemeBody>
       </ThemeContainer>
