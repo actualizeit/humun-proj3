@@ -68,7 +68,7 @@ class Login extends Component {
     event.preventDefault();
     API.getdata()
       .then(res => {
-        console.log(res);
+        // console.log(res);
       });
   }
 
@@ -76,7 +76,7 @@ class Login extends Component {
     event.preventDefault();
     API.savedata()
       .then(res => {
-        console.log(res);
+        // console.log(res);
       });
   }
 

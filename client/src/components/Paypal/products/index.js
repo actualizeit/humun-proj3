@@ -7,26 +7,14 @@ function Products() {
 
   // set states for products and search term. 
   const [products, setProducts] = useState([''])
-  const [ApiKey] = useState("300131a1a6649b667c037cf4136c26bc")
+  const ApiKey = process.env.REACT_APP_CHARITY_API_KEY;
   const [search, setSearch] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
 
   // capture search from user input update states above
-  function handleChange(event) {
+  function handleChange (event) {
     const search = event.target.value.trim() || "Humane Society";
-    console.log(search)
     setSearch(search)
-  }
-
-  // Run API call based on search term
-  function charitySearch() {
-    axios.get('https://api.data.charitynavigator.org/v2/Organizations?app_id=ba24e24a&app_key=' + ApiKey + '&pageSize=20&search=' + search + '&searchType=name_only&rated=true&sort=Rating')
-      .then(res => {
-        console.log(res.data)
-        setProducts(res.data)
-        setIsLoaded(true)
-        return products;
-      })
   }
 
   // function handleSave(){
@@ -34,8 +22,14 @@ function Products() {
   // }
   // Rerun API call each time search term is changed
   useEffect(() => {
-    charitySearch()
-  }, [search])
+    axios
+      .get('https://api.data.charitynavigator.org/v2/Organizations?app_id=ba24e24a&app_key=' + ApiKey + '&pageSize=20&search=' + search + '&searchType=name_only&rated=true&sort=Rating')
+      .then(res => {
+        setProducts(res.data);
+        setIsLoaded(true);
+        return products;
+      });
+  }, [search, ApiKey, products]);
 
   return (
     <div>

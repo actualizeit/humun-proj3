@@ -16,7 +16,7 @@ class Review extends Component {
   }
 
   componentDidMount () {
-    console.log(this.props.match.params.jsontoken);
+    // console.log(this.props.match.params.jsontoken);
   }
 
   handleInputChange = event => {
@@ -30,7 +30,7 @@ class Review extends Component {
     this.setState({ resetSuccess: false, emailErr: null });
     API.getResetToken({ email: this.state.email })
       .then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.data.success) {
           this.setState({ resetSuccess: true });
           // need to add success alert before redirect

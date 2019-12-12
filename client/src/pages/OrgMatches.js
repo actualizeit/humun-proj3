@@ -26,7 +26,6 @@ class OrgMatches extends Component {
       .allocation()
       .then(res => {
         const allocationsArr = Object.values(res.data.user.allocations).filter((x) => x.category !== 'userSelected');
-        console.log(allocationsArr);
         this.setState({
           allocations: res.data.user.allocations,
           allocationsArr
@@ -38,7 +37,6 @@ class OrgMatches extends Component {
     API
       .test()
       .then(res => {
-        console.log('loggedin');
       })
       .catch(() => {
         this.setState({ splashRedirect: true });

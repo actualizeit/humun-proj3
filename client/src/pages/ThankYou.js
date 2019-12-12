@@ -18,8 +18,9 @@ class ThankYou extends Component {
 
   handleChange = (event) => {
     const donation = event.target.value.trim();
-    this.state.donation = donation;
-    console.log(this.state.donation);
+    this.setState({
+      donation
+    });
   }
 
   componentDidMount = () => {
@@ -27,9 +28,12 @@ class ThankYou extends Component {
     API
       .get()
       .then(res => {
-        console.log('==================');
-        console.log('APIget: ', res.data.user.transactions);
-        this.state.transactions = res.data.user.transactions;
+        // console.log('==================');
+        // console.log('APIget: ', res.data.user.transactions);
+        // this.state.transactions = res.data.user.transactions;
+        this.setState({
+          transactions: res.data.user.transactions
+        });
         // const { allocations } = res.data.user;
         // this.setState({
         //   allocations
@@ -40,7 +44,7 @@ class ThankYou extends Component {
   checkLogin () {
     API.test()
       .then(res => {
-        console.log('loggedin');
+        // console.log('loggedin');
       })
       .catch(() => {
         this.setState({ splashRedirect: true });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Header, Segment, Grid, Button, Message, Icon } from 'semantic-ui-react';
+import { Header, Segment, Grid, Button, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import ThemeContainer from '../components/ThemeContainer';
 import ThemeSegment from './../components/ThemeSegment';
@@ -67,7 +67,7 @@ class Dashboard extends Component {
         // console.log(res);
       })
       .catch(() => {
-        console.log('test');
+        // console.log('test');
         this.setState({ splashRedirect: true });
       });
   }
@@ -109,7 +109,7 @@ class Dashboard extends Component {
       <ThemeContainer>
         <Grid textAlign='center'>
           <Row>
-            <Column color='blue' className={css(styles.pt)}>
+            <Column className={css(styles.pt)}>
               <Header as='h6' className={css(styles.white)}>
               </Header>
             </Column>
@@ -147,8 +147,9 @@ class Dashboard extends Component {
 
           <ThemeSegment title='Allocations'>
             {this.state.allocations && <AllocationsChart allocations={this.state.allocations} />}
+            <Button style={{ marginTop: '1em' }} basic color='blue' fluid href='/impact'>Adjust Allocations</Button>
           </ThemeSegment>
-          <ThemeSegment title='Matched Charities'>
+          <ThemeSegment title='Your Charities'>
             {/* <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
               <Accordion.Title
                 active={this.state.activeIndex === 0}
@@ -193,12 +194,6 @@ class Dashboard extends Component {
           </ThemeSegment>
           <ThemeSegment title='Contributions'>
             <Payment />
-            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-              <input type="hidden" name="cmd" value="_s-xclick" />
-              <input type="hidden" name="hosted_button_id" value="EDE9PRLKP23VE" />
-              <Button type="submit" value='Donate' fluid color='facebook' border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" ><Icon name='paypal' /> Donate</Button>
-              <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-            </form>
           </ThemeSegment>
 
         </ThemeBody>
