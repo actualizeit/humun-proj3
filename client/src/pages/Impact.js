@@ -24,7 +24,7 @@ class Impact extends Component {
       .get()
       .then(res => {
         const { profileData } = res.data.user;
-        console.log(profileData);
+        // console.log(profileData);
         this.setState({
           impactLoc: [profileData.impactLoc],
           shortVlongTerm: [profileData.shortVlongTerm],
@@ -36,7 +36,7 @@ class Impact extends Component {
   checkLogin () {
     API.test()
       .then(res => {
-        console.log('loggedin');
+        // console.log('loggedin');
       })
       .catch(() => {
         this.setState({ splashRedirect: true });

@@ -28,8 +28,8 @@ class ThankYou extends Component {
     API
       .get()
       .then(res => {
-        console.log('==================');
-        console.log('APIget: ', res.data.user.transactions);
+        // console.log('==================');
+        // console.log('APIget: ', res.data.user.transactions);
         // this.state.transactions = res.data.user.transactions;
         this.setState({
           transactions: res.data.user.transactions
@@ -44,7 +44,7 @@ class ThankYou extends Component {
   checkLogin () {
     API.test()
       .then(res => {
-        console.log('loggedin');
+        // console.log('loggedin');
       })
       .catch(() => {
         this.setState({ splashRedirect: true });

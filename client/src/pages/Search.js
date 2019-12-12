@@ -9,7 +9,6 @@ import ThemeSliderUseState from './../components/ThemeSliderUseState';
 import API from './../utils/Api';
 
 function Search () {
-  // set states for products and search term.
   const [products, setProducts] = useState(['']);
   const ApiKey = process.env.REACT_APP_CHARITY_API_KEY;
   const [search, setSearch] = useState('');
@@ -25,40 +24,18 @@ function Search () {
   const [userSelect, setUserSelect] = useState(false);
   const [charityProportion, setCharityProportion] = useState([1]);
   const [redirect, setRedirect] = useState(false);
+
   // get current charity name if there is one
   useEffect(() => {
     API
       .get()
       .then(res => {
-        console.log('useEffect Res: ', res);
         if (res.data.user.userSelectedInfo.portion !== 0) {
           setCharityName(res.data.user.userSelectedInfo.charityName);
           setCharityProportion([res.data.user.userSelectedInfo.portion]);
         }
       });
   }, []);
-
-  // capture search from user input update states above
-  function handleChange (event) {
-    const search = event.target.value.trim() || 'Humane Society';
-    setSearch(search);
-  }
-
-  function handleSave (ein, charityName, charityLink, charityTagLine, charityCity, charityState) {
-    console.log('handleSave: ', ein, charityName, charityLink, charityTagLine, charityCity, charityState);
-    setUserSelect({ ein, charityName, charityLink, charityTagLine, charityCity, charityState });
-    setModal1(true);
-  }
-
-  function save (ein, portion, charityName, charityLink, charityTagLine, charityCity, charityState) {
-    const obj = { ein, portion, charityName, charityLink, charityTagLine, charityCity, charityState };
-    console.log('obj: ', obj);
-    API
-      .post({
-        userSelectedInfo: obj
-      })
-      .then(() => setRedirect(true));
-  }
 
   // Rerun API call each time search term is changed
   useEffect(() => {
@@ -69,12 +46,34 @@ function Search () {
       });
   }, [search, ApiKey]);
 
+  // capture search from user input update states above
+  function handleChange (event) {
+    const search = event.target.value.trim() || 'Humane Society';
+    setSearch(search);
+  }
+
+  function handleSave (ein, charityName, charityLink, charityTagLine, charityCity, charityState) {
+    // console.log('handleSave: ', ein, charityName, charityLink, charityTagLine, charityCity, charityState);
+    setUserSelect({ ein, charityName, charityLink, charityTagLine, charityCity, charityState });
+    setModal1(true);
+  }
+
+  function save (ein, portion, charityName, charityLink, charityTagLine, charityCity, charityState) {
+    const obj = { ein, portion, charityName, charityLink, charityTagLine, charityCity, charityState };
+    // console.log('obj: ', obj);
+    API
+      .post({
+        userSelectedInfo: obj
+      })
+      .then(() => setRedirect(true));
+  }
+
   return (
     <ThemeContainer text='Search for Organizations'>
       { redirect && <Redirect to='/review' />}
       <ThemeBody>
-        {/* input section to update search term */}
 
+        {/* input section to update search term */}
         <Input icon='search' placeholder='Search...' onChange={handleChange} fluid />
 
         {/* Message warning users if they have already selected a charity */}

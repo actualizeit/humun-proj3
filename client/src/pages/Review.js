@@ -32,7 +32,7 @@ class Review extends Component {
   checkLogin () {
     API.test()
       .then(res => {
-        console.log('loggedin');
+        // console.log('loggedin');
       })
       .catch(() => {
         this.setState({ splashRedirect: true });
@@ -40,7 +40,7 @@ class Review extends Component {
   }
 
   handleReview = () => {
-    console.log('clicked');
+    // console.log('clicked');
 
     // if review is approved redirect to dashboard
     this.setRedirect();

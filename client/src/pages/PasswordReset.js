@@ -21,7 +21,7 @@ class Review extends Component {
   }
 
   componentDidMount () {
-    console.log(this.props.match.params.jsontoken);
+    // console.log(this.props.match.params.jsontoken);
   }
 
   resetPW = () => {

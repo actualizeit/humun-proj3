@@ -67,7 +67,7 @@ class Dashboard extends Component {
         // console.log(res);
       })
       .catch(() => {
-        console.log('test');
+        // console.log('test');
         this.setState({ splashRedirect: true });
       });
   }

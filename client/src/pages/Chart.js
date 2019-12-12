@@ -50,7 +50,7 @@ class Chart extends Component {
     API
       .get()
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({
           userInfo: res.data.user
         });
