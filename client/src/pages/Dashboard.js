@@ -25,7 +25,7 @@ class Dashboard extends Component {
       allocationsArr: [],
       allocations: false,
       emailButton: true,
-      emailButtonText: "Send Confirmation Email"
+      emailButtonText: 'Send Confirmation Email'
     };
   }
 
