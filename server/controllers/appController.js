@@ -98,7 +98,7 @@ module.exports = {
               firstName: user.firstName,
               lastName: user.lastName,
               email: user.email,
-              initialSetup: user.initialSetup
+              causesSetUp: user.causesSetUp
             }
           });
         } else {
