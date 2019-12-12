@@ -11,7 +11,7 @@ import API from './../utils/Api';
 function Search () {
   // set states for products and search term.
   const [products, setProducts] = useState(['']);
-  const ApiKey = `${process.env.REACT_APP_CHARITY_API_KEY}`;
+  const ApiKey = process.env.REACT_APP_CHARITY_API_KEY;
   const [search, setSearch] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [ein, setEIN] = useState(false);
@@ -25,7 +25,6 @@ function Search () {
   const [userSelect, setUserSelect] = useState(false);
   const [charityProportion, setCharityProportion] = useState([1]);
   const [redirect, setRedirect] = useState(false);
-  console.log(ApiKey);
   // get current charity name if there is one
   useEffect(() => {
     API
@@ -37,7 +36,7 @@ function Search () {
           setCharityProportion([res.data.user.userSelectedInfo.portion]);
         }
       });
-  }, [ApiKey]);
+  }, []);
 
   // capture search from user input update states above
   function handleChange (event) {
