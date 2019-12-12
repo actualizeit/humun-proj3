@@ -143,7 +143,7 @@ class Dashboard extends Component {
             {this.state.allocations && <AllocationsChart allocations={this.state.allocations} />}
             <Button style={{ marginTop: '1em' }} basic color='blue' fluid href='/impact'>Adjust Allocations</Button>
           </ThemeSegment>
-          <ThemeSegment title='Matched Charities'>
+          <ThemeSegment title='Your Charities'>
             {/* <Accordion fluid style={{ marginBottom: '1em', color: 'black' }}>
               <Accordion.Title
                 active={this.state.activeIndex === 0}
