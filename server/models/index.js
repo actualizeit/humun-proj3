@@ -1,5 +1,5 @@
 module.exports = {
   User: require('./user'),
-  Transactions: require('./transactions'),
-  Cbarities: require('./charities')
+  Transactions: require('./transactionData'),
+  Charities: require('./charities')
 };

@@ -124,10 +124,20 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
+  saveTransaction: function (req, res) {
+    User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body }, { new: true })
+      .then(user => {
+        user.password = undefined;
+        res.json({ success: true, user });
+      })
+      .catch(err => res.status(422).json(err));
+  },
   allocationCalc: function (req, res) {
     const selectedCharity = req.user.userSelectedInfo;
     const profileData = req.user.profileData;
     const selectedPortion = selectedCharity.portion;
+    const curTransactions = req.user.transactions;
+    const curAllocations = Object.values(req.user.allocations);
     console.log('==================');
     console.log('input', profileData);
     const userArray = Object.values(profileData);
@@ -140,6 +150,7 @@ module.exports = {
     const portions = [];
     const allocationsTemp = [];
     const allocationsObj = {};
+    const newTransactions = [];
     for (let i = 4; i < userArray.length; i++) {
       if (i < 7) {
         portions.push(userArray[i] * SvERatio);
@@ -187,7 +198,7 @@ module.exports = {
           }
         }
       }
-      console.log('allocationsTemp: ', allocationsTemp);
+      // console.log('allocationsTemp: ', allocationsTemp);
       allocationsTemp.forEach(element => {
         switch (element.category) {
           case 'pollution':
@@ -221,17 +232,43 @@ module.exports = {
         }
       });
     });
-
-    console.log('allocationsObj: ', allocationsObj);
-    console.log('userArray[1]: ' + userArray[1]);
-    console.log('user: ' + req.user._id);
-    console.log('profileData: ' + profileData);
+    for (let i = 0; i < curTransactions.length; i++) {
+      const transaction = curTransactions[i];
+      const donation = curTransactions[i].donation;
+      console.log('testy: ', !curTransactions[i].allocations);
+      if (!curTransactions[i].allocations) {
+        transaction.allocations = [];
+        curAllocations.forEach(element => {
+          // console.log('elementfull: ', element);
+          if (element.portion) {
+            const amountPaid = (element.portion / 100 * donation).toFixed(2);
+            // console.log('amnt paid: ' + amountPaid);
+            transaction.allocations.push(
+              {
+                name: element.name,
+                ein: element.ein,
+                amount: amountPaid
+              }
+            );
+          }
+        });
+      }
+      newTransactions.push(transaction);
+    }
+    console.log('curTransactions: ', curTransactions);
+    console.log('curAllocations: ', curAllocations);
+    console.log('newTransactions: ', JSON.stringify(newTransactions));
+    // console.log('allocationsObj: ', allocationsObj);
+    // console.log('userArray[1]: ' + userArray[1]);
+    // console.log('user: ' + req.user._id);
+    // console.log('profileData: ' + profileData);
     User.findOneAndUpdate(
       { _id: req.user._id },
       { $set:
             {
               profileData: profileData,
-              allocations: allocationsObj
+              allocations: allocationsObj,
+              transactions: newTransactions
             }
       },
       { new: true }
