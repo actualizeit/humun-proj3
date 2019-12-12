@@ -30,8 +30,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount () {
-    window.addEventListener('resize', this.updateWindowDimensions);
-    console.log(window.innerWidth);
     this.checkLogin();
     API
       .get()
@@ -54,10 +52,6 @@ class Dashboard extends Component {
           this.setState({ emailConfirmationMessage: true });
         }
       });
-  }
-
-  updateWindowDimensions () {
-    console.log(window.innerWidth);
   }
 
   handleAccordion = (e, titleProps) => {
