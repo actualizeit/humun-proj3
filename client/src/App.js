@@ -17,7 +17,7 @@ import Search from './pages/Search';
 import ConfirmEmail from './pages/ConfirmEmail';
 import Matches from './pages/OrgMatches';
 import ThankYou from './pages/ThankYou';
-
+console.log(`${process.env.REACT_APP_CHARITY_API_KEY}`);
 class App extends Component {
   constructor (props) {
     super(props);
@@ -26,7 +26,6 @@ class App extends Component {
       authenticated: true
     };
   }
-
   ProtectedRoute = ({ auth, ...props }) => {
     // API.test()
     //   .then(res => {
