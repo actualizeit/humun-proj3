@@ -17,7 +17,6 @@ import Search from './pages/Search';
 import ConfirmEmail from './pages/ConfirmEmail';
 import Matches from './pages/OrgMatches';
 import ThankYou from './pages/ThankYou';
-
 class App extends Component {
   constructor (props) {
     super(props);
@@ -26,7 +25,6 @@ class App extends Component {
       authenticated: true
     };
   }
-
   ProtectedRoute = ({ auth, ...props }) => {
     // API.test()
     //   .then(res => {
