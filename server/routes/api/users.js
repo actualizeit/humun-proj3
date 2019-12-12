@@ -14,6 +14,11 @@ router
   .route('/allocation')
   .post(passport.authenticate('jwt', { session: false }), appController.allocationCalc);
 
+// Save a transaction
+router
+  .route('/saveTransaction')
+  .post(passport.authenticate('jwt', { session: false }), appController.saveTransaction);
+
 // Test Json Web Token not expired
 router.get('/test', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   console.log(req);

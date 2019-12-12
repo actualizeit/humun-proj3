@@ -44,12 +44,13 @@ const UserSchema = new mongoose.Schema({
   },
   causesSetUp: { type: Boolean, default: false },
   impactsSetUp: { type: Boolean, default: false },
-  transaction: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Transactions'
-    }
-  ]
+  transactions: []
+  // transaction: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: 'Transactions'
+  //   }
+  // ]
 });
 
 const User = mongoose.model('User', UserSchema);
